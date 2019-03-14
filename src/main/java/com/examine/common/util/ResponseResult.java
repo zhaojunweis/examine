@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-public class ResultUtil {
+public class ResponseResult {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private Integer status;
@@ -15,31 +15,31 @@ public class ResultUtil {
 
     private Object data;
 
-    public ResultUtil() {
+    public ResponseResult() {
     }
 
-    public ResultUtil(Object data) {
+    public ResponseResult(Object data) {
         this.status = 200;
         this.message = "OK";
         this.data = data;
     }
 
-    public ResultUtil(Integer status, String message, Object data) {
+    public ResponseResult(Integer status, String message, Object data) {
         this.status = status;
         this.message = message;
         this.data = data;
     }
 
-    public static ResultUtil build(Integer status, String message, Object data){
-        return new ResultUtil(status,message,data);
+    public static ResponseResult build(Integer status, String message, Object data){
+        return new ResponseResult(status,message,data);
     }
 
-    public static ResultUtil ok(Object data){
-        return new ResultUtil(data);
+    public static ResponseResult ok(Object data){
+        return new ResponseResult(data);
     }
 
-    public static ResultUtil ok(){
-        return new ResultUtil(null);
+    public static ResponseResult ok(){
+        return new ResponseResult(null);
     }
 
     public Integer getStatus() {
@@ -66,10 +66,10 @@ public class ResultUtil {
         this.data = data;
     }
 
-    public static ResultUtil formatToPojo(String jsonData,Class<?> clazz){
+    public static ResponseResult formatToPojo(String jsonData, Class<?> clazz){
         try {
             if(clazz == null){
-                return  MAPPER.readValue(jsonData,ResultUtil.class);
+                return  MAPPER.readValue(jsonData,ResponseResult.class);
             }
             JsonNode jsonNode = MAPPER.readTree(jsonData);
             JsonNode data = jsonNode.get("data");
@@ -88,16 +88,16 @@ public class ResultUtil {
         }
     }
 
-    public static ResultUtil format(String json) {
+    public static ResponseResult format(String json) {
         try {
-            return MAPPER.readValue(json, ResultUtil.class);
+            return MAPPER.readValue(json, ResponseResult.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static ResultUtil formatToList(String jsonData, Class<?> clazz) {
+    public static ResponseResult formatToList(String jsonData, Class<?> clazz) {
         try {
             JsonNode jsonNode = MAPPER.readTree(jsonData);
             JsonNode data = jsonNode.get("data");
