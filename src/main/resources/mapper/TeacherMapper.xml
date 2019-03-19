@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.examine.dao.UserMapperTest" >
+
+    <resultMap id="teacherBaseMap" type="com.examine.domain.TTeacher">
+        <id property="id" column="id"/>
+        <result property="tName" column="t_name"/>
+        <result property="tPass" column="t_pass"/>
+        <result property="tIsAdmin" column="t_is_admin"/>
+        <result property="tIsDelete" column="t_is_delete"/>
+    </resultMap>
+
+    <select id = "selectTeacherPasswordByUsername" parameterType="String">
+        select s_pass from t_student where s_sno=#{tName}
+    </select>
+
+</mapper>

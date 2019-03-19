@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.examine.dao.UserMapperTest" >
+
+    <resultMap id="studentBaseMap" type="com.examine.domain.TStudent">
+        <id property="id" column="id"/>
+        <result property="sSno" column="s_sno"/>
+        <result property="sName" column="s_name"/>
+        <result property="sPass" column="s_pass"/>
+        <result property="sClassId" column="s_class_id"/>
+        <result property="sScoreName" column="s_score_name"/>
+        <result property="sIsDelete" column="s_is_delete"/>
+    </resultMap>
+
+    <select id = "selectStudentPasswordByUsername" parameterType="String">
+        select s_pass from t_student where s_sno=#{sSno}
+    </select>
+
+</mapper>

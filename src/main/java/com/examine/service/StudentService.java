@@ -1,9 +1,9 @@
 package com.examine.service;
 
-import com.examine.domain.User;
+import com.examine.domain.TTeacher;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> selectAllUser();
+    List<TTeacher> selectAllUser();
 }
