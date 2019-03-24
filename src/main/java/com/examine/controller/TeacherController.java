@@ -1,13 +1,13 @@
 package com.examine.controller;
 
-import com.examine.service.StudentService;
+import com.examine.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class StudentController {
+public class TeacherController {
 
   @Autowired
-  public StudentService studentService;
+  public TeacherService teacherService;
 
 }

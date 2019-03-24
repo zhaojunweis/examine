@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.examine.dao.UserMapperTest" >
+<mapper namespace="com.examine.dao.StudentMapper" >
 
     <resultMap id="studentBaseMap" type="com.examine.domain.TStudent">
         <id property="id" column="id"/>

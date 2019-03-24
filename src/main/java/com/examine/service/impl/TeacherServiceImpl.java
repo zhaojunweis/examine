@@ -1,22 +1,19 @@
 package com.examine.service.impl;
 
-import com.examine.dao.StudentMapper;
-import com.examine.domain.TTeacher;
-import com.examine.service.StudentService;
+import com.examine.dao.TeacherMapper;
+import com.examine.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class StudentServiceImpl implements StudentService {
+public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
-    private StudentMapper studentMapper;
+    private TeacherMapper teacherMapper;
 
 
     @Override
-    public List<TTeacher> selectAllUser() {
+    public String selectTeacherPasswordByUsername(String tName) {
         return null;
     }
 }
