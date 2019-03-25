@@ -6,10 +6,10 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<!--<form method="post" action="savePaper" enctype="multipart/form-data">
+<form method="post" action="/savePaper" enctype="multipart/form-data">
     <input value="" name="multipartFile" type="file"/>
-    <input value="提交" name="提交" type="button"/>
-</form>-->
+    <input value="提交" name="提交" type="submit"/>
+</form>
 
 <!--学生登陆-->
 <!--<form method="post" action="/submitStudentLogin">
@@ -35,7 +35,7 @@
 
 <!--管理员登陆-->
 
-<form method="post" action="/submitAdminLogin">
+<!--<form method="post" action="/submitAdminLogin">
     <label>
         <input value="" name="tName" type="text"/>
     </label>
@@ -43,9 +43,22 @@
         <input value="" name="tPass" type="text"/>
     </label>
     <input value="" name="submit" type="submit"/>
+</form>-->
+
+<form method="post" action="/saveTeacher">
+    <label>
+        <input value="" name="tName" type="text"/>
+    </label>
+    <label>
+        <input value="" name="tPass" type="text"/>
+    </label>
+
+    <label>
+        <input value="1" name="tIsAdmin" type="text"/>
+    </label>
+
+    <input value="" name="submit" type="submit"/>
 </form>
-
-
 
 </body>
 </html>

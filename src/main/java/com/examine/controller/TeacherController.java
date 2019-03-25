@@ -17,8 +17,12 @@ import java.util.Map;
 @Controller
 public class TeacherController extends BaseController {
 
+    private final TeacherService teacherService;
+
     @Autowired
-    public TeacherService teacherService;
+    public TeacherController(TeacherService teacherService) {
+        this.teacherService = teacherService;
+    }
 
     @RequestMapping("/submitTeacherLogin")
     @ResponseBody
@@ -39,32 +43,4 @@ public class TeacherController extends BaseController {
         }
         return resultMap;
     }
-
-    @RequestMapping("/submitAdminLogin")
-    @ResponseBody
-    public Map<String, Object> submitAdminLogin(
-            @RequestParam(defaultValue = "admin") String tName,
-            @RequestParam(defaultValue = "admin") String tPass,
-            HttpSession session) {
-        if ("admin".equals(tName)) {
-            if ("admin".equals(tPass)) {
-                resultMap.put("status", 200);
-                resultMap.put("url", "admin_page");
-                resultMap.put("message", "login success");
-            }
-        } else {
-            String password = teacherService.selectAdminByLoginMessage(tName);
-            if (tPass.equals(password)) {
-                resultMap.put("status", 200);
-                resultMap.put("url", "admin_page");
-                resultMap.put("message", "login success");
-            } else {
-                resultMap.put("message", "wrong password");
-            }
-        }
-        session.setAttribute("tName", tName);
-        return resultMap;
-    }
-
-
 }

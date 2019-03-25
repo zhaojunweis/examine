@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.examine.dao.TeacherMapper" >
+<mapper namespace="com.examine.dao.TeacherMapper">
 
     <resultMap id="teacherBaseMap" type="com.examine.domain.TTeacher">
         <id property="id" column="id"/>
@@ -10,11 +10,45 @@
         <result property="tIsDelete" column="t_is_delete"/>
     </resultMap>
 
-    <select id = "selectTeacherPasswordByUsername" parameterType="String" resultType="String">
+    <select id="selectTeacherPasswordByUsername" parameterType="String" resultType="String">
         select t_pass from t_teacher where t_name=#{tName}
     </select>
 
-    <select id = "selectAdminByLoginMessage" parameterType="String" resultType="String">
+    <select id="selectAdminByLoginMessage" parameterType="String" resultType="String">
         select t_pass from t_teacher where t_name=#{tName} and t_is_admin = 1
+    </select>
+
+    <update id="updateAccountByUsername" parameterType="Map">
+        update
+        t_teacher
+        <set>
+            <if test="tPass != null">
+                t_pass = #{tPass}
+            </if>
+        </set>
+        where
+        t_name = #{tName}
+    </update>
+
+    <insert id="saveTeacher" parameterType="com.examine.domain.TTeacher"
+            useGeneratedKeys="true" keyProperty="id">
+        insert
+        into t_teacher(
+           t_name,
+           t_pass,
+           t_is_admin
+        ) values (
+           #{tName},
+           #{tPass},
+           #{tIsAdmin}
+        )
+    </insert>
+
+    <delete id="removeTeacher" parameterType="String">
+        delete from t_teacher where t_name = #{tName}
+    </delete>
+
+    <select id="selectAllTeacher" resultMap="teacherBaseMap">
+        select * from t_teacher where t_is_delete = 0
     </select>
 </mapper>
