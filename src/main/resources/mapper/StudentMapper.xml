@@ -12,8 +12,16 @@
         <result property="sIsDelete" column="s_is_delete"/>
     </resultMap>
 
-    <select id = "selectStudentPasswordByUsername" parameterType="String">
+    <select id = "selectStudentPasswordByUsername" parameterType="String" resultType = "String">
         select s_pass from t_student where s_sno=#{sSno}
+    </select>
+
+    <select id = "selectIpAddressByUsername" parameterType="String" resultType="String">
+        select s_login_address from t_submit where s_sno = #{sSno}
+    </select>
+
+    <select id = "selectStudentEntityByUsername" parameterType="String" resultMap="studentBaseMap">
+        select * from t_student where s_sno = #{sSno}
     </select>
 
 </mapper>

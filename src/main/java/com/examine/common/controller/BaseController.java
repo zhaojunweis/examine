@@ -2,7 +2,10 @@ package com.examine.common.controller;
 
 import org.springframework.stereotype.Controller;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @Controller
 public class BaseController {
-    //protected final static Logger logger = Logger.getLogger(BaseController.class);
+   protected Map<String,Object> resultMap = new LinkedHashMap<>();
 }

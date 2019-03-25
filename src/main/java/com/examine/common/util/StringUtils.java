@@ -1,10 +1,5 @@
 package com.examine.common.util;
 
-import sun.misc.BASE64Decoder;
-
-import java.util.Random;
-
-
 public class StringUtils{
 
 	public static boolean isEmpty(final CharSequence s) {

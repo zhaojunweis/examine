@@ -14,6 +14,13 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public String selectTeacherPasswordByUsername(String tName) {
-        return null;
+
+        return teacherMapper.selectTeacherPasswordByUsername(tName);
+    }
+
+    @Override
+    public String selectAdminByLoginMessage(String tName) {
+
+        return teacherMapper.selectAdminByLoginMessage(tName);
     }
 }

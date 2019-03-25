@@ -18,10 +18,18 @@
     <properties>
         <java.version>1.8</java.version>
         <mysql.version>8.0.11</mysql.version>
+        <junit.version>4.12</junit.version>
         <org.mybatis.spring.boot.version>2.0.0</org.mybatis.spring.boot.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-integration</artifactId>
@@ -78,27 +86,27 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
 
-    <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <filtering>true</filtering>
-            <includes>
-                <include>**/*</include>
-            </includes>
-        </resource>
-        <resource>
-            <directory>src/main/java</directory>
-            <includes>
-                <include>**/*.xml</include>
-            </includes>
-        </resource>
-        <resource>
-            <directory>src/test/</directory>
-            <excludes>
-                <exclude>**/*</exclude>
-            </excludes>
-        </resource>
-    </resources>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/test/</directory>
+                <excludes>
+                    <exclude>**/*</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
 </project>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.examine.dao.SubmitMapper" >
+
+    <resultMap id="teacherBaseMap" type="com.examine.domain.TTeacher">
+        <id property="id" column="id"/>
+        <result property="sName" column="s_name"/>
+        <result property="createTime" column="g_gmt_create"/>
+        <result property="examPaper" column="s_exam_paper"/>
+        <result property="ipAddress" column="s_login_address"/>
+        <result property="sIsDelete" column="s_is_delete"/>
+    </resultMap>
+
+    <insert id = "insertStudentLoginMessage" parameterType="Map">
+          insert
+            into t_submit(
+               s_sno,
+               g_gmt_create,
+               s_login_address
+            )
+          values (
+               #{sName},
+               now(),
+               #{ipAddress}
+          )
+    </insert>
+</mapper>

@@ -10,8 +10,11 @@
         <result property="tIsDelete" column="t_is_delete"/>
     </resultMap>
 
-    <select id = "selectTeacherPasswordByUsername" parameterType="String">
-        select s_pass from t_student where s_sno=#{tName}
+    <select id = "selectTeacherPasswordByUsername" parameterType="String" resultType="String">
+        select t_pass from t_teacher where t_name=#{tName}
     </select>
 
+    <select id = "selectAdminByLoginMessage" parameterType="String" resultType="String">
+        select t_pass from t_teacher where t_name=#{tName} and t_is_admin = 1
+    </select>
 </mapper>
