@@ -26,7 +26,7 @@ public class SavePaperServiceImpl extends BaseService implements SavePaperServic
             try {
                 targetFilePath = new File(
                         new File(ResourceUtils.getURL("src/main/resources/static").getPath())
-                                .getAbsolutePath() + "/image", originalFileName);
+                                .getAbsolutePath() + "/upload", originalFileName);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

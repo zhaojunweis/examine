@@ -14,4 +14,10 @@
                #{ipAddress}
           )
     </insert>
+    
+    <update id="nonphysicalDeleteAllSubmit">
+         update
+         t_submit
+         set s_is_delete = 1
+    </update>
 </mapper>

@@ -20,9 +20,19 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public void insertStudentLoginMessage(String sName, String ipAddress) {
-        Map<String,String> loginMessage = new HashMap<>();
-        loginMessage.put("sName",sName);
-        loginMessage.put("ipAddress",ipAddress);
+        Map<String, String> loginMessage = new HashMap<>();
+        loginMessage.put("sName", sName);
+        loginMessage.put("ipAddress", ipAddress);
         submitMapper.insertStudentLoginMessage(loginMessage);
+    }
+
+    @Override
+    public boolean nonphysicalDeleteAllSubmit() {
+        boolean flag = false;
+        Integer affectCount = submitMapper.nonphysicalDeleteAllSubmit();
+        if (affectCount >= 1) {
+            flag = true;
+        }
+        return flag;
     }
 }

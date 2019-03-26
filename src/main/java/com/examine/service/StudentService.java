@@ -9,4 +9,6 @@ public interface StudentService {
     String selectIpAddressByUsername(String sSno);
 
     TStudent selectStudentEntityByUsername(String sSno);
+
+    boolean nonphysicalDeleteStudents();
 }

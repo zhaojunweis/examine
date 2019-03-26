@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.examine.dao.SystemMapper">
+    <resultMap id="systemBaseMap" type="com.examine.domain.TSystem">
+        <id property="id" column="id"/>
+        <result property="sExamTime" column="s_exam_time"/>
+        <result property="sPageCount" column="s_page_count"/>
+        <result property="maxUploadSize" column="max_upload_size"/>
+        <result property="minUploadSize" column="min_upload_size"/>
+        <result property="manualOpenTime" column="manual_open_time"/>
+        <result property="sCanDelete" column="s_can_delete"/>
+    </resultMap>
+
+    <insert id="insertSystemConfigure" parameterType="com.examine.domain.TSystem">
+         insert
+           into
+           t_system(
+                s_exam_time,
+                s_page_count,
+                max_upload_size,
+                min_upload_size,
+                manual_open_time,
+                s_can_delete
+           )values (
+               #{sExamTime},
+               #{sPageCount},
+               #{maxUploadSize},
+               #{minUploadSize},
+               #{manualOpenTime},
+               #{sCanDelete}
+           )
+    </insert>
+</mapper>

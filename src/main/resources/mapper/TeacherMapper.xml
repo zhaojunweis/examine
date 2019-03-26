@@ -57,4 +57,8 @@
     <select id="selectAllTeacher" resultMap="teacherBaseMap">
         select * from t_teacher where t_is_delete = 0
     </select>
+
+    <select id = "selectIsPigeonhole" parameterType="String" resultType="Integer">
+        select is_pigeonhole from t_exam where exam_name = #{examName}
+    </select>
 </mapper>

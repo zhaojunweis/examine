@@ -24,4 +24,8 @@
         select * from t_student where s_sno = #{sSno}
     </select>
 
+    <update id="nonphysicalDeleteStudents">
+        update t_student set s_is_delete = 1
+    </update>
+
 </mapper>

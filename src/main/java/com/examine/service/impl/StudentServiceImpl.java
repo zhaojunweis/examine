@@ -29,4 +29,14 @@ public class StudentServiceImpl implements StudentService {
 
         return studentMapper.selectStudentEntityByUsername(sSno);
     }
+
+    @Override
+    public boolean nonphysicalDeleteStudents() {
+        boolean flag = false;
+        Integer affectCount = studentMapper.nonphysicalDeleteStudents();
+        if(affectCount >= 1){
+            flag = true;
+        }
+        return flag;
+    }
 }

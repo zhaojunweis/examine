@@ -81,10 +81,14 @@ public class AdministratorController extends BaseController {
         parameters.put("tName", teacher.gettName());
         parameters.put("tPass", teacher.gettPass());
         parameters.put("tIsAdmin", teacher.gettIsAdmin());
-        //修改，返回记录的条数
-        teacherService.updateAccountByUsername(parameters);
-        resultMap.put("status", 200);
-        resultMap.put("message", "alter success");
+        Integer affectCount = teacherService.updateAccountByUsername(parameters);
+        if(affectCount == 1){
+            resultMap.put("status", 200);
+            resultMap.put("message", "alter success");
+        }else{
+            resultMap.put("status",500);
+            resultMap.put("message","alter failed");
+        }
         return resultMap;
     }
 }
