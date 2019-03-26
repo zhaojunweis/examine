@@ -14,16 +14,19 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String selectStudentPasswordByUsername(String sSno) {
+
         return studentMapper.selectStudentPasswordByUsername(sSno);
     }
 
     @Override
     public String selectIpAddressByUsername(String sSno) {
+
         return studentMapper.selectIpAddressByUsername(sSno);
     }
 
     @Override
     public TStudent selectStudentEntityByUsername(String sSno) {
+
         return studentMapper.selectStudentEntityByUsername(sSno);
     }
 }

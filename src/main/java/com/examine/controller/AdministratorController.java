@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,16 +22,10 @@ public class AdministratorController extends BaseController {
 
     @Autowired
     public AdministratorController(TeacherService teacherService) {
+
         this.teacherService = teacherService;
     }
 
-    /**
-     * admin login
-     * @param tName
-     * @param tPass
-     * @param session
-     * @return
-     */
     @RequestMapping("/submitAdminLogin")
     @ResponseBody
     public Map<String, Object> submitAdminLogin(
@@ -57,11 +52,6 @@ public class AdministratorController extends BaseController {
         return resultMap;
     }
 
-    /**
-     * add teacher
-     * @param tTeacher
-     * @return
-     */
     @RequestMapping("/saveTeacher")
     @ResponseBody
     public Map<String, Object> saveTeacher(TTeacher tTeacher) {
@@ -75,11 +65,6 @@ public class AdministratorController extends BaseController {
         return resultMap;
     }
 
-    /**
-     * return add teacher viewName
-     * @param tName
-     * @return
-     */
     @RequestMapping("/removeTeacher")
     public ModelAndView removeTeacher(String tName) {
         ModelAndView mv = new ModelAndView();
@@ -87,5 +72,19 @@ public class AdministratorController extends BaseController {
         List<TTeacher> teachers = teacherService.selectAllTeacher();
         mv.addObject("teachers", teachers);
         return new ModelAndView("");
+    }
+
+    @RequestMapping("/updateUserAccount")
+    @ResponseBody
+    public Map<String, Object> updateUserAccount(TTeacher teacher) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("tName", teacher.gettName());
+        parameters.put("tPass", teacher.gettPass());
+        parameters.put("tIsAdmin", teacher.gettIsAdmin());
+        //修改，返回记录的条数
+        teacherService.updateAccountByUsername(parameters);
+        resultMap.put("status", 200);
+        resultMap.put("message", "alter success");
+        return resultMap;
     }
 }

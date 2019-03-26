@@ -22,8 +22,14 @@
         update
         t_teacher
         <set>
+            <if test="tName != null">
+                t_name = #{tName},
+            </if>
             <if test="tPass != null">
-                t_pass = #{tPass}
+                t_pass = #{tPass},
+            </if>
+            <if test="tIsAdmin != null">
+                t_is_admin = #{tIsAdmin}
             </if>
         </set>
         where

@@ -14,25 +14,19 @@ import java.util.Map;
 @Controller
 public class CommonController extends BaseController {
 
+    private final TeacherService teacherService;
+
     @Autowired
-    private TeacherService teacherService;
-    /**
-     * logout
-     * @param session
-     * @return
-     */
+    public CommonController(TeacherService teacherService) {
+        this.teacherService = teacherService;
+    }
+
     @RequestMapping("/logout")
     public ModelAndView logout(HttpSession session){
        session.invalidate();
        return new ModelAndView("redirect:/index");
     }
 
-
-    /**
-     * change password
-     * @param tTeacher
-     * @return
-     */
     @RequestMapping("/editPassword")
     public Map<String,Object> editPassword(TTeacher tTeacher){
         Map<String,Object> parameterMap = new HashMap<>();
@@ -43,5 +37,4 @@ public class CommonController extends BaseController {
         resultMap.put("message","update success");
         return resultMap;
     }
-
 }

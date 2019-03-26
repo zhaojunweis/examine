@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>上机考试系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- le styles -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
+<link href="css/exam.css" rel="stylesheet">
+<style>
+body {
+	padding-top: 60px;
+	/* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<span class="brand"><strong>上机考试系统</strong></span>
+
+				<ul class="nav navbar-nav">
+					<li><a href="teacher_main"><i class="icon-home icon-white"></i>首页</a></li>
+					<li><a href="teacher_exam_before"><i class="icon-cog icon-white"></i>考前操作</a></li>
+					<li class="dropdown"><a class="dropdown-toggle" role="button"
+						aria-expanded="false" aria-haspopup="true" href="#"
+						data-toggle="dropdown"><i class="icon-time icon-white"></i>考中管理<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="teacher_manage_summary"><i class="icon-align-justify"></i>考试概况</a></li>
+							<li><a href="teacher_manage_student"><i class="icon-list"></i>学生信息</a></li>
+							<li><a href="teacher_manage_unlock"><i class="icon-lock"></i>解除锁定</a></li>
+							<li><a href="teacher_manage_notify"><i class="icon-bell"></i>通知管理</a></li>
+						</ul>
+					</li>
+					<li><a href="teacher_exam_after"><i class="icon-check icon-white"></i>考后操作</a></li>
+				</ul>
+				<ul class="nav navbar-nav pull-right">
+					<li><span class="brand"><small>欢迎，ae</small></span></li>
+					<li><a href="#" data-toggle="modal"
+		data-target=".bs-example-modal-sm"><i class="icon-pencil icon-white"></i>修改口令</a></li>
+					<li><a href="admin_logout"><i class="icon-share icon-white"></i>退出</a></li>
+				</ul>
+
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade bs-example-modal-sm span3" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">修改口令</h4>
+				</div>
+				<div class="modal-body">
+				<form class="exam-form" action="teacher_passwd" method="post">
+					<p>
+						<input type="password" name="oldpass" placeholder="原口令" style="width:100%"/>
+						<br/>
+						<input type="password" name="newpass1" placeholder="新口令" style="width:100%"/>
+						<br/>
+						<input type="password" name="newpass2" placeholder="重输新口令" style="width:100%"/>
+						<br/>
+						<input type="submit" class="btn btn-primary" value="修改" style="width:100%"/>
+					</p>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<h1>
+			<img src="img/exam-teacher.png" /> 上机考试管理
+		</h1>
+
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span4 exam-desc">
+			<strong>考前操作</strong>
+			<br/>
+			<br/>
+			<ul>
+				<li>可以新建考试：指定考试名称、开始时间等</li>
+				<li>可以编辑自己创建的、未开始的考试，除了修改考试信息，还可以：
+					<ul>
+						<li>上传试卷</li>
+						<li>学生名单导入</li>
+						<li>开启考试</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="span4 exam-desc">
+			<strong>考中管理</strong>
+			<br/>
+			<br/>
+			<ul>
+				<li>可以查看考试情况</li>
+				<li>可以管理学生信息，手工添加个别学生信息</li>
+				<li>可以解除学生登录锁定</li>
+				<li>可以添加或删除通知消息</li>
+			</ul>
+		</div>
+		<div class="span4 exam-desc">
+			<strong>考后操作</strong>
+			<br/>
+			<br/>
+			<ul>
+				<li>主考教师（考试创建者）可以结束考试</li>
+				<li>主考教师可以打包下载学生提交文件</li>
+				<li>主考教师可以导出提交信息</li>
+				<li>如果管理员设置，主考教师可以清理和删除考试</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+	</div>
+	<!-- /container -->
+	<!-- placed at the end of the document so the pages load faster -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-datetimepicker.js"></script>
+	<script src="js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+</body>
+</html>
+

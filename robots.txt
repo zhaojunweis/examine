@@ -1,0 +1,7 @@
+# this robots.txt file not allow all web crawler to crawl
+# the public parts of this site but no other robots
+
+Disallow: /examine/src/main
+
+User-Agent:*
+Disallow:

@@ -10,7 +10,7 @@ public interface TeacherService {
 
     String selectAdminByLoginMessage(String tName);
 
-    void updateAccountByUsername(Map<String,Object> map);
+    Integer updateAccountByUsername(Map<String,Object> map);
 
     boolean saveTeacher(TTeacher tTeacher);
 

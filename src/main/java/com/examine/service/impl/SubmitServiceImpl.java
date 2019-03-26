@@ -11,8 +11,12 @@ import java.util.Map;
 @Service
 public class SubmitServiceImpl implements SubmitService {
 
+    private final SubmitMapper submitMapper;
+
     @Autowired
-    private SubmitMapper submitMapper;
+    public SubmitServiceImpl(SubmitMapper submitMapper) {
+        this.submitMapper = submitMapper;
+    }
 
     @Override
     public void insertStudentLoginMessage(String sName, String ipAddress) {

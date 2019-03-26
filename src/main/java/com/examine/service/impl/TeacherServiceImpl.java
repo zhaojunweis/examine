@@ -29,9 +29,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void updateAccountByUsername(Map<String, Object> map) {
+    public Integer updateAccountByUsername(Map<String, Object> map) {
 
-        teacherMapper.updateAccountByUsername(map);
+       return teacherMapper.updateAccountByUsername(map);
     }
 
     @Override
@@ -43,8 +43,6 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return flag;
     }
-
-
 
     @Override
     public List<TTeacher> selectAllTeacher() {
