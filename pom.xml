@@ -23,7 +23,7 @@
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
         <log4j.version>1.2.17</log4j.version>
-        <jxl.version>2.6.12</jxl.version>
+        <poi.version>3.14</poi.version>
         <org.mybatis.spring.boot.version>2.0.0</org.mybatis.spring.boot.version>
     </properties>
 
@@ -103,9 +103,14 @@
         </dependency>
 
         <dependency>
-            <groupId>net.sourceforge.jexcelapi</groupId>
-            <artifactId>jxl</artifactId>
-            <version>${jxl.version}</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
         </dependency>
     </dependencies>
 
