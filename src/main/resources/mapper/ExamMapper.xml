@@ -21,4 +21,14 @@
          where
          exam_name = #{examName}
     </update>
+
+   <!-- <insert id = "saveExamInformation" parameterType="com.examine.domain.TExam">
+        insert
+        into t_exam(
+           exam_name,
+           exam_start_time,
+           t_name,
+           exam_paper_url
+        )
+    </insert>-->
 </mapper>
