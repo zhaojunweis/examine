@@ -1,7 +1,6 @@
 package com.examine.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class TExam implements Serializable {
 
@@ -9,7 +8,7 @@ public class TExam implements Serializable {
 
     private String examName;
 
-    private Date examStartTime;
+    private String examStartTime;
 
     private String tName;
 
@@ -39,11 +38,11 @@ public class TExam implements Serializable {
         this.examName = examName;
     }
 
-    public Date getExamStartTime() {
+    public String getExamStartTime() {
         return examStartTime;
     }
 
-    public void setExamStartTime(Date examStartTime) {
+    public void setExamStartTime(String examStartTime) {
         this.examStartTime = examStartTime;
     }
 

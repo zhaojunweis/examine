@@ -1,5 +1,6 @@
 package com.examine.service;
 
+import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface TeacherService {
     void removeTeacher(String tName);
 
     boolean clearExamInfo(String examName);
+
+    List<TStudent> exportSubmitInfo();
 }

@@ -1,6 +1,8 @@
 package com.examine.service.impl;
 
+import com.examine.dao.SubmitMapper;
 import com.examine.dao.TeacherMapper;
+import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 import com.examine.service.ExamService;
 import com.examine.service.StudentService;
@@ -23,12 +25,15 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final SubmitService submitService;
 
+    private final SubmitMapper submitMapper;
+
     @Autowired
-    public TeacherServiceImpl(TeacherMapper teacherMapper, ExamService examService, StudentService studentService, SubmitService submitService) {
+    public TeacherServiceImpl(TeacherMapper teacherMapper, ExamService examService, StudentService studentService, SubmitService submitService, SubmitMapper submitMapper) {
         this.teacherMapper = teacherMapper;
         this.examService = examService;
         this.studentService = studentService;
         this.submitService = submitService;
+        this.submitMapper = submitMapper;
     }
 
     @Override
@@ -49,6 +54,12 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherMapper.updateAccountByUsername(map);
     }
 
+    /**
+     * 添加教师信息
+     *
+     * @param tTeacher
+     * @return
+     */
     @Override
     public boolean saveTeacher(TTeacher tTeacher) {
         boolean flag = false;
@@ -59,18 +70,34 @@ public class TeacherServiceImpl implements TeacherService {
         return flag;
     }
 
+    /**
+     * 查询所有教师
+     *
+     * @return
+     */
     @Override
     public List<TTeacher> selectAllTeacher() {
 
         return teacherMapper.selectAllTeacher();
     }
 
+    /**
+     * 删除教师
+     *
+     * @param tName
+     */
     @Override
     public void removeTeacher(String tName) {
 
         teacherMapper.removeTeacher(tName);
     }
 
+    /**
+     * 清除考试信息
+     *
+     * @param examName
+     * @return
+     */
     @Override
     public boolean clearExamInfo(String examName) {
         boolean flag = false;
@@ -89,5 +116,16 @@ public class TeacherServiceImpl implements TeacherService {
             }
         }
         return flag;
+    }
+
+    /**
+     * 导出学生提交信息
+     *
+     * @return
+     */
+    @Override
+    public List<TStudent> exportSubmitInfo() {
+
+        return submitMapper.studentSubmitInfo();
     }
 }

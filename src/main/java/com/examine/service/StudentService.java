@@ -11,4 +11,6 @@ public interface StudentService {
     TStudent selectStudentEntityByUsername(String sSno);
 
     boolean nonphysicalDeleteStudents();
+
+    boolean importStudentInfo(String localExcelPath);
 }

@@ -16,6 +16,12 @@ public class SystemServiceImpl implements SystemService {
         this.systemMapper = systemMapper;
     }
 
+    /**
+     * 插入系统配置
+     *
+     * @param system
+     * @return
+     */
     @Override
     public boolean insertSystemConfigure(TSystem system) {
         boolean flag = false;

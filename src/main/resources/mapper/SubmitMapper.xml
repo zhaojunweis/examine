@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.examine.dao.SubmitMapper" >
-    <insert id = "insertStudentLoginMessage" parameterType="Map">
+<mapper namespace="com.examine.dao.SubmitMapper">
+
+    <resultMap id="submitBaseMap" type="com.examine.domain.TStudent">
+        <id property="id" column="id"/>
+        <result property="sSno" column="s_sno"/>
+        <result property="sName" column="s_name"/>
+        <result property="sPass" column="s_pass"/>
+        <result property="sClassId" column="s_class_id"/>
+        <result property="sScoreName" column="s_score_name"/>
+        <result property="sIsDelete" column="s_is_delete"/>
+        <result property="lastSubmit" column="g_gmt_create"/>
+    </resultMap>
+
+    <insert id="insertStudentLoginMessage" parameterType="Map">
           insert
             into t_submit(
                s_sno,
@@ -14,10 +26,26 @@
                #{ipAddress}
           )
     </insert>
-    
+
     <update id="nonphysicalDeleteAllSubmit">
          update
          t_submit
          set s_is_delete = 1
     </update>
+
+    <select id="studentSubmitInfo" resultMap="submitBaseMap">
+        select
+          tst.s_class_id,
+          tst.s_sno,
+          tst.s_name,
+          tsu.g_gmt_create
+        from
+          t_student as tst
+        left join
+          t_submit as tsu
+        on
+          tst.s_sno = tsu.s_sno
+        where
+        tst.s_is_delete = 0
+    </select>
 </mapper>

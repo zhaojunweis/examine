@@ -1,6 +1,7 @@
 package com.examine.controller;
 
 import com.examine.common.util.ResponseResult;
+import com.examine.service.ExamService;
 import com.examine.service.SavePaperService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,12 @@ public class PaperController {
 
     private final SavePaperService savePaperService;
 
+    private final ExamService examService;
+
     @Autowired
-    public PaperController(SavePaperService savePaperService) {
+    public PaperController(SavePaperService savePaperService, ExamService examService) {
         this.savePaperService = savePaperService;
+        this.examService = examService;
     }
 
     @RequestMapping("/savePaper")

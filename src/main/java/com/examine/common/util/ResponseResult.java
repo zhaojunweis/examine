@@ -30,15 +30,15 @@ public class ResponseResult {
         this.data = data;
     }
 
-    public static ResponseResult build(Integer status, String message, Object data){
-        return new ResponseResult(status,message,data);
+    public static ResponseResult build(Integer status, String message, Object data) {
+        return new ResponseResult(status, message, data);
     }
 
-    public static ResponseResult ok(Object data){
+    public static ResponseResult ok(Object data) {
         return new ResponseResult(data);
     }
 
-    public static ResponseResult ok(){
+    public static ResponseResult ok() {
         return new ResponseResult(null);
     }
 
@@ -66,21 +66,21 @@ public class ResponseResult {
         this.data = data;
     }
 
-    public static ResponseResult formatToPojo(String jsonData, Class<?> clazz){
+    public static ResponseResult formatToPojo(String jsonData, Class<?> clazz) {
         try {
-            if(clazz == null){
-                return  MAPPER.readValue(jsonData,ResponseResult.class);
+            if (clazz == null) {
+                return MAPPER.readValue(jsonData, ResponseResult.class);
             }
             JsonNode jsonNode = MAPPER.readTree(jsonData);
             JsonNode data = jsonNode.get("data");
             Object obj = null;
-            if(clazz != null){
-                if(data.isObject()){
-                    obj = MAPPER.readValue(data.traverse(),clazz);
-                }else if(data.isTextual()){
-                    obj = MAPPER.readValue(data.asText(),clazz);
-                }
+
+            if (data.isObject()) {
+                obj = MAPPER.readValue(data.traverse(), clazz);
+            } else if (data.isTextual()) {
+                obj = MAPPER.readValue(data.asText(), clazz);
             }
+
             return build(jsonNode.get("status").intValue(), jsonNode.get("message").asText(), obj);
         } catch (IOException e) {
             e.printStackTrace();

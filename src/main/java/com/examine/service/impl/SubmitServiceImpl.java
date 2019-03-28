@@ -18,6 +18,12 @@ public class SubmitServiceImpl implements SubmitService {
         this.submitMapper = submitMapper;
     }
 
+    /**
+     * 插入登陆学生登陆信息到t_submit
+     *
+     * @param sName
+     * @param ipAddress
+     */
     @Override
     public void insertStudentLoginMessage(String sName, String ipAddress) {
         Map<String, String> loginMessage = new HashMap<>();
@@ -26,6 +32,11 @@ public class SubmitServiceImpl implements SubmitService {
         submitMapper.insertStudentLoginMessage(loginMessage);
     }
 
+    /**
+     * 非物理删除所有提交
+     *
+     * @return
+     */
     @Override
     public boolean nonphysicalDeleteAllSubmit() {
         boolean flag = false;
