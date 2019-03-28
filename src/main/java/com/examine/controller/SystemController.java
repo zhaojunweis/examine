@@ -24,9 +24,9 @@ public class SystemController extends BaseController {
     @ResponseBody
     public Map<String,Object> insertSystemConfigure(TSystem system){
         boolean flag = systemService.insertSystemConfigure(system);
-        if(flag){
-            resultMap.put("status",200);
-            resultMap.put("message","insert success");
+        if(!flag){
+            resultMap.put("status",500);
+            resultMap.put("message","insert system configure failed");
         }
         resultMap.put("status",200);
         resultMap.put("message","insert system configure success");

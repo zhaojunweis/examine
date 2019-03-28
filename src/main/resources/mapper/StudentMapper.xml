@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.examine.dao.StudentMapper" >
+<mapper namespace="com.examine.dao.StudentMapper">
 
     <resultMap id="studentBaseMap" type="com.examine.domain.TStudent">
         <id property="id" column="id"/>
@@ -12,20 +12,55 @@
         <result property="sIsDelete" column="s_is_delete"/>
     </resultMap>
 
-    <select id = "selectStudentPasswordByUsername" parameterType="String" resultType = "String">
+    <select id="selectStudentPasswordByUsername" parameterType="String" resultType="String">
         select s_pass from t_student where s_sno=#{sSno}
     </select>
 
-    <select id = "selectIpAddressByUsername" parameterType="String" resultType="String">
+    <select id="selectIpAddressByUsername" parameterType="String" resultType="String">
         select s_login_address from t_submit where s_sno = #{sSno}
     </select>
 
-    <select id = "selectStudentEntityByUsername" parameterType="String" resultMap="studentBaseMap">
+    <select id="selectStudentEntityByUsername" parameterType="String" resultMap="studentBaseMap">
         select * from t_student where s_sno = #{sSno}
     </select>
 
     <update id="nonphysicalDeleteStudents">
         update t_student set s_is_delete = 1
     </update>
+
+    <insert id="saveStudentOneByOne" parameterType="com.examine.domain.TStudent">
+        insert
+        into t_student(
+           s_sno,
+           s_name,
+           s_pass,
+           s_class_id
+        )values (
+           #{sSno},
+           #{sName},
+           #{sPass},
+           #{sClassId}
+        )
+    </insert>
+
+    <select id = "examineesCount" resultType="Integer">
+        select count(*) from t_student where s_is_delete = 0
+    </select>
+
+    <select id = "examineesWhoSubmitCount" resultType="Integer">
+        select count(*) from t_submit where s_is_submit = 1
+    </select>
+
+    <select id = "examineesWhoNoLogin" resultMap="studentBaseMap">
+        select * from t_student where s_sno not in (
+           select s_sno from t_submit where t_submit.s_is_delete = 0
+        ) and t_student.s_is_delete = 0
+    </select>
+
+    <select id = "examineesWhoHasLogin" resultMap="studentBaseMap">
+         select * from t_student where s_sno in (
+           select s_sno from t_submit where t_submit.s_is_delete = 0
+        ) and t_student.s_is_delete = 0
+    </select>
 
 </mapper>

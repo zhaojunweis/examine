@@ -26,6 +26,20 @@ public class AdministratorController extends BaseController {
         this.teacherService = teacherService;
     }
 
+    @RequestMapping("/admin_main")
+    public ModelAndView EnterAdminMain(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("admin_main");
+        return  mv;
+    }
+
+    @RequestMapping("/admin_config")
+    public ModelAndView EnterSystemConfig(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("admin_config");
+        return mv;
+    }
+
     @RequestMapping("/submitAdminLogin")
     @ResponseBody
     public Map<String, Object> submitAdminLogin(

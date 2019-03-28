@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.examine.dao.ExamMapper">
-    <resultMap id="studentBaseMap" type="com.examine.domain.TStudent">
+
+    <resultMap id="examBaseMapper" type="com.examine.domain.TExam">
         <id property="id" column="id"/>
         <result property="examName" column="exam_name"/>
         <result property="examStartTime" column="exam_start_time"/>
@@ -22,13 +23,27 @@
          exam_name = #{examName}
     </update>
 
-   <!-- <insert id = "saveExamInformation" parameterType="com.examine.domain.TExam">
+    <insert id = "saveExaminationInfo" parameterType="com.examine.domain.TExam"
+            useGeneratedKeys="true" keyProperty="id">
         insert
         into t_exam(
            exam_name,
            exam_start_time,
            t_name,
-           exam_paper_url
+           is_auto_start
+        )values (
+           #{examName},
+           #{examStartTime},
+           #{tName},
+           #{isAutoStart}
         )
-    </insert>-->
+    </insert>
+
+    <update id="uploadExamPaper" parameterType="Map">
+        update
+        t_exam
+        set exam_paper_url = #{examPaperUrl}
+        where
+        exam_name = #{examName}
+    </update>
 </mapper>

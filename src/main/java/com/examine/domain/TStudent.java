@@ -16,6 +16,8 @@ public class TStudent {
 
     private int sIsDelete;
 
+    private String lastSubmit;
+
     public TStudent() {
     }
 
@@ -73,5 +75,13 @@ public class TStudent {
 
     public void setsIsDelete(int sIsDelete) {
         this.sIsDelete = sIsDelete;
+    }
+
+    public String getLastSubmit() {
+        return lastSubmit;
+    }
+
+    public void setLastSubmit(String lastSubmit) {
+        this.lastSubmit = lastSubmit;
     }
 }

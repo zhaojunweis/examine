@@ -1,7 +1,9 @@
 package com.examine.dao;
 
+import com.examine.domain.TStudent;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -19,4 +21,11 @@ public interface SubmitMapper {
      * @return
      */
     Integer nonphysicalDeleteAllSubmit();
+
+    /**
+     * 学生提交信息
+     *
+     * @return
+     */
+    List<TStudent> studentSubmitInfo();
 }
