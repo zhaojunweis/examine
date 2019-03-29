@@ -31,7 +31,7 @@ body {
 					<li><a href="admin_main"><i class="icon-home icon-white"></i>首页</a></li>
 					<li><a href="admin_teacher"><i class="icon-user icon-white"></i>教师管理</a></li>
 					<li><a href="admin_exam"><i class="icon-remove-circle icon-white"></i>考试清理</a></li>
-					<li><a href="admin_config"><i class="icon-wrench icon-white"></i>系统配置</a></li>
+					<li><a href="@{'/admin_config'}"><i class="icon-wrench icon-white"></i>系统配置</a></li>
 				</ul>
 				<ul class="nav navbar-nav pull-right">
 					<li><span class="brand"><small>欢迎，admin</small></span></li>
@@ -57,7 +57,7 @@ body {
 					<h4 class="modal-title">修改口令</h4>
 				</div>
 				<div class="modal-body">
-				<form class="exam-form" action="admin_passwd" method="post">
+				<form id="form_changepd" class="exam-form" action="admin_passwd" method="post">
 					<p>
 						<input type="password" name="oldpass" placeholder="原口令" style="width:100%"/>
 						<br/>
@@ -65,7 +65,7 @@ body {
 						<br/>
 						<input type="password" name="newpass2" placeholder="重输新口令" style="width:100%"/>
 						<br/>
-						<input type="submit" class="btn btn-primary" value="修改" style="width:100%"/>
+						<input id="btn_changepd" type="button" class="btn btn-primary" value="修改" style="width:100%"/>
 					</p>
 				</form>
 				</div>
@@ -85,7 +85,7 @@ body {
 		
 
 
-<form class="exam-form form-horizontal" action="admin_config_update"
+<form  id="form_config" class="exam-form form-horizontal" action="admin_config_update"
 	method="post">
 	<h4>修改系统配置</h4>
 	<div class="control-group">
@@ -135,7 +135,7 @@ body {
 	</div>
 	<div class="control-group">
 		<div class="controls">
-			<input type="submit" name="action" class="btn btn-primary" value="修改" />
+			<input id="btn_config" type="button" name="action" class="btn btn-primary" value="修改" />
 		</div>
 	</div>
 </form>
@@ -146,5 +146,27 @@ body {
 	<!-- placed at the end of the document so the pages load faster -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#btn_config").click(function () {
+				$.ajax({
+					type: 'post',
+					url:"/insertSystemConfigure",
+					data:$("#form_config").serialize(),
+					success:function (data) {
+						if(data.message == "true"){
+						    alert("修改配置成功");
+						}else{
+						    alert("修改配置失败，请重试");
+						}
+                    },
+					error:function (data) {
+						alert("访问失败");
+                    }
+				});
+            })
+        });
+	</script>
 </body>
 </html>
