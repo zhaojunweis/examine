@@ -28,4 +28,11 @@ public interface SubmitMapper {
      * @return
      */
     List<TStudent> studentSubmitInfo();
+
+    /**
+     * 下载所有学生提交的答案
+     *
+     * @return
+     */
+    List<String> downloadSubmitZip();
 }

@@ -48,4 +48,8 @@
         where
         tst.s_is_delete = 0
     </select>
+
+    <select id = "downloadSubmitZip" resultType="String">
+        select s_exam_paper from t_submit where s_is_delete = 0
+    </select>
 </mapper>

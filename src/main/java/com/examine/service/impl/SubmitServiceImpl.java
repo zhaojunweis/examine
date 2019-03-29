@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -45,5 +46,10 @@ public class SubmitServiceImpl implements SubmitService {
             flag = true;
         }
         return flag;
+    }
+
+    @Override
+    public List<String> downloadSubmitZip() {
+        return submitMapper.downloadSubmitZip();
     }
 }

@@ -63,4 +63,39 @@
         ) and t_student.s_is_delete = 0
     </select>
 
+    <insert id = "insertStudent" parameterType="com.examine.domain.TStudent">
+        insert
+        into t_student(
+           s_sno,
+           s_name,
+           s_pass,
+           s_class_id
+        )values (
+           #{sSno},
+           #{sName},
+           #{sPass},
+           #{sClassId}
+        )
+    </insert>
+
+    <insert id = "updateDirtyData" parameterType="com.examine.domain.TStudent">
+          update t_student
+          <set>
+              <if test="sSno != null">
+                  set s_sno = #{sSno},
+              </if>
+              <if test="sName != null">
+                  set s_name = #{sName},
+              </if>
+              <if test="sPass != null">
+                  set s_pass = #{sPass},
+              </if>
+              <if test="sClassId != null">
+                  set s_class_id = #{sClassId}
+              </if>
+          </set>
+        where
+         s_sno = #{sSno}
+    </insert>
+
 </mapper>

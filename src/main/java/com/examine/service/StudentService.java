@@ -13,4 +13,8 @@ public interface StudentService {
     boolean nonphysicalDeleteStudents();
 
     boolean importStudentInfo(String localExcelPath);
+
+    boolean insertStudent(TStudent student);
+
+    boolean updateDirtyData();
 }
