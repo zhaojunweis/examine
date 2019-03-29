@@ -152,14 +152,31 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/updateDirtyData")
     @ResponseBody
-    public Map<String,Object> updateDirtyData(TStudent student){
-        boolean flag = studentService.updateDirtyData();
-        if(!flag){
+    public Map<String, Object> updateDirtyData(TStudent student) {
+        boolean flag = studentService.updateDirtyData(student);
+        if (!flag) {
             resultMap.put("status", 500);
             resultMap.put("message", "update failed");
         }
         resultMap.put("status", 200);
         resultMap.put("message", "update success");
+        return resultMap;
+    }
+
+    /**
+     * 学生信息解绑与IP
+     *
+     * @param sSno
+     * @return
+     */
+    @RequestMapping("/doUnbinding")
+    @ResponseBody
+    public Map<String, Object> doUnbinding(String sSno) {
+        Integer integer = submitService.doUnbinding(sSno);
+        if (integer != 1) {
+            resultMap.put("status", 500);
+        }
+        resultMap.put("status", 200);
         return resultMap;
     }
 

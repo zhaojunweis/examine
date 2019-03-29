@@ -62,4 +62,15 @@ public class ExamController extends BaseController {
             e.printStackTrace();
         }
     }
+
+    @RequestMapping("/stopExam")
+    public Map<String,Object> stopExam(String examName){
+        boolean status = examService.stopExam(examName);
+
+        if(!status){
+            resultMap.put("status",500);
+        }
+        resultMap.put("status",200);
+        return resultMap;
+    }
 }

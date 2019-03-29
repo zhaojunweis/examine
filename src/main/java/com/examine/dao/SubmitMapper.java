@@ -35,4 +35,13 @@ public interface SubmitMapper {
      * @return
      */
     List<String> downloadSubmitZip();
+
+
+    /**
+     * 解除绑定
+     *
+     * @param sSno
+     * @return
+     */
+    Integer doUnbinding(String sSno);
 }

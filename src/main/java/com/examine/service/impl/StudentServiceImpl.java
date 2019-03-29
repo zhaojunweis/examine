@@ -86,6 +86,12 @@ public class StudentServiceImpl implements StudentService {
         return insertFlag;
     }
 
+    /**
+     * 插入学生信息
+     *
+     * @param student
+     * @return
+     */
     @Override
     public boolean insertStudent(TStudent student) {
         boolean insertResult = false;
@@ -96,10 +102,16 @@ public class StudentServiceImpl implements StudentService {
         return insertResult;
     }
 
+    /**
+     * 更新脏数据
+     *
+     * @param student
+     * @return
+     */
     @Override
-    public boolean updateDirtyData() {
+    public boolean updateDirtyData(TStudent student) {
         boolean updateResult = false;
-        Integer updateCount = studentMapper.updateDirtyData();
+        Integer updateCount = studentMapper.updateDirtyData(student);
         if (updateCount == 1) {
             updateResult = true;
         }

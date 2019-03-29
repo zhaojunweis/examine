@@ -28,4 +28,12 @@ public interface ExamMapper {
      * @return
      */
     Integer uploadExamPaper(Map<String,String> map);
+
+    /**
+     * 停止考试
+     *
+     * @param examName
+     */
+    Integer stopExam(String examName);
+
 }

@@ -48,8 +48,26 @@ public class SubmitServiceImpl implements SubmitService {
         return flag;
     }
 
+    /**
+     * 下载所有提交的数据的压缩包
+     *
+     * @return
+     */
     @Override
     public List<String> downloadSubmitZip() {
+
         return submitMapper.downloadSubmitZip();
+    }
+
+    /**
+     * 学生与IP解绑
+     *
+     * @param sSno
+     * @return
+     */
+    @Override
+    public Integer doUnbinding(String sSno) {
+
+        return submitMapper.doUnbinding(sSno);
     }
 }

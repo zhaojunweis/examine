@@ -16,5 +16,5 @@ public interface StudentService {
 
     boolean insertStudent(TStudent student);
 
-    boolean updateDirtyData();
+    boolean updateDirtyData(TStudent student);
 }

@@ -87,5 +87,10 @@ public interface StudentMapper {
      *
      * @return
      */
-    Integer updateDirtyData();
+    Integer updateDirtyData(TStudent student);
+
+    /**
+     *
+     *
+     */
 }

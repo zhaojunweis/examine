@@ -8,4 +8,6 @@ public interface SubmitService {
     boolean nonphysicalDeleteAllSubmit();
 
     List<String> downloadSubmitZip();
+
+    Integer doUnbinding(String sSno);
 }
