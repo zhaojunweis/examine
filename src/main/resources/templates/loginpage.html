@@ -68,8 +68,8 @@
 
 							<form id="form_administrator"  class="exam-form" action="admin_login" method="post">
 								<p>
-									<input type="text" name="name" placeholder="用户名" /> <br /> <input
-										type="password" name="pass" placeholder="口令" />
+									<input id="name" type="text" name="name" placeholder="用户名" /> <br />
+									<input id="pass"	type="password" name="pass" placeholder="口令" />
 								</p>
 								<p>
 									<input id="btn_admin" type="button" class="btn btn-primary" value="登录"
@@ -120,8 +120,15 @@
 
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<!--<script src="js/dist/jquery.validate.min.js"></script>
+		<script src="js/dist/localization/messages_zh.js"></script>-->
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
 		<script type="text/javascript">
             $(document).ready(function () {
+
+
                 var path = "[[@{/}]]";
                 $("#btn_admin").click(function(){
                     $.ajax({
@@ -129,19 +136,59 @@
                         url: path+"submitAdminLogin",
                         data: $("#form_administrator").serialize(),
                         success: function(data) {
-                          var str = data.message;
-                        if(str == "true"){
-                            alert("登录成功");
-                            window.location.href = path+"admin_main";
-						}else{
-                            alert("登录失败");
-						}
+                            var str = data.status;
+                            if(str == 200){
+                                alert(data.message);
+                                window.location.href = path+"admin_main";
+                            }else{
+                                alert("登录失败");
+                            }
 
                         },
                         error:function (data) {
-                           alert("未知错误，请稍后再试");
+                            alert("未知错误，请稍后再试");
                         }
                     });
+                   /* $("#admin_login").validate({
+                        rules:{
+                            name:{
+                                required:true
+							},
+                            pass:{
+                                required:true
+							},
+                        },
+                        messages:{
+                            name:{
+                                required:"用户名不能为空",
+                            },
+                            pass:{
+                                required:"口令不能为空",
+                            },
+                        }
+					});*/
+
+					/*if($("#admin_login").valid()){
+                        $.ajax({
+                            type: 'post',
+                            url: path+"submitAdminLogin",
+                            data: $("#form_administrator").serialize(),
+                            success: function(data) {
+                                var str = data.status;
+                                if(str == 200){
+                                    alert(data.message);
+                                    window.location.href = path+"admin_main";
+                                }else{
+                                    alert("登录失败");
+                                }
+
+                            },
+                            error:function (data) {
+                                alert("未知错误，请稍后再试");
+                            }
+                        });
+					}*/
+
                 });
 
 

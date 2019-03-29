@@ -43,8 +43,8 @@ public class AdministratorController extends BaseController {
     @RequestMapping("/submitAdminLogin")
     @ResponseBody
     public Map<String, Object> submitAdminLogin(
-            @RequestParam(defaultValue = "admin") String tName,
-            @RequestParam(defaultValue = "admin") String tPass,
+            @RequestParam(value = "adminname",defaultValue = "admin") String tName,
+            @RequestParam(value = "adminpass",defaultValue = "admin") String tPass,
             HttpSession session) {
         if ("admin".equals(tName)) {
             if ("admin".equals(tPass)) {
