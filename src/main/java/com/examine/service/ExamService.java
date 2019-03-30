@@ -10,4 +10,7 @@ public interface ExamService {
     void saveExaminationInfo(TExam exam);
 
     Integer uploadExamPaper(Map<String,String> map);
+
+    boolean stopExam(String examName);
+
 }

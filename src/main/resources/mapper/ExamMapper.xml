@@ -46,4 +46,12 @@
         where
         exam_name = #{examName}
     </update>
+
+    <update id="stopExam" parameterType="String">
+        update t_exam set is_start = 0 where exam_name = #{examName}
+    </update>
+
+    <update id="clearExam">
+        update t_exam set is_delete = 1 where is_delete = 0 and is_start = 0
+    </update>
 </mapper>

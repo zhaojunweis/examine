@@ -73,4 +73,24 @@ public interface StudentMapper {
      * @return
      */
     List<TStudent> examineesWhoHasLogin();
+
+    /**
+     * 教师手动添加学生信息
+     *
+     * @param student
+     * @return
+     */
+    Integer insertStudent(TStudent student);
+
+    /**
+     * 教师更改学生信息中的脏数据
+     *
+     * @return
+     */
+    Integer updateDirtyData(TStudent student);
+
+    /**
+     *
+     *
+     */
 }

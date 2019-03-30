@@ -48,4 +48,12 @@
         where
         tst.s_is_delete = 0
     </select>
+
+    <select id = "downloadSubmitZip" resultType="String">
+        select s_exam_paper from t_submit where s_is_delete = 0
+    </select>
+
+    <delete id = "doUnbinding" parameterType="String">
+        delete from t_submit where s_sno = #{sSno}
+    </delete>
 </mapper>

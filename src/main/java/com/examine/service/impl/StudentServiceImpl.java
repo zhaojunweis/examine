@@ -77,12 +77,44 @@ public class StudentServiceImpl implements StudentService {
     public boolean importStudentInfo(String localExcelPath) {
         boolean insertFlag = false;
         List<TStudent> students = ExcelUtils.importExcelToSQL(localExcelPath);
-        if(students.size() > 0){
+        if (students.size() > 0) {
             for (TStudent student : students) {
                 studentMapper.saveStudentOneByOne(student);
             }
             insertFlag = true;
         }
         return insertFlag;
+    }
+
+    /**
+     * 插入学生信息
+     *
+     * @param student
+     * @return
+     */
+    @Override
+    public boolean insertStudent(TStudent student) {
+        boolean insertResult = false;
+        Integer insertCount = studentMapper.insertStudent(student);
+        if (insertCount == 1) {
+            insertResult = true;
+        }
+        return insertResult;
+    }
+
+    /**
+     * 更新脏数据
+     *
+     * @param student
+     * @return
+     */
+    @Override
+    public boolean updateDirtyData(TStudent student) {
+        boolean updateResult = false;
+        Integer updateCount = studentMapper.updateDirtyData(student);
+        if (updateCount == 1) {
+            updateResult = true;
+        }
+        return updateResult;
     }
 }

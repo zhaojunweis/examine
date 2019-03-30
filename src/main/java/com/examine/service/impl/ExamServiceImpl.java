@@ -57,5 +57,20 @@ public class ExamServiceImpl implements ExamService {
         return examMapper.uploadExamPaper(map);
     }
 
+    /**
+     * 停止考试
+     *
+     * @param examName
+     */
+    @Override
+    public boolean stopExam(String examName) {
+       boolean flag = false;
+       Integer stopFlag = examMapper.stopExam(examName);
+       if(stopFlag == 1){
+           flag = true;
+       }
+       return flag;
+    }
+
 
 }

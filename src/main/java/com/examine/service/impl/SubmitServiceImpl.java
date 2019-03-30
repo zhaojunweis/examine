@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -45,5 +46,28 @@ public class SubmitServiceImpl implements SubmitService {
             flag = true;
         }
         return flag;
+    }
+
+    /**
+     * 下载所有提交的数据的压缩包
+     *
+     * @return
+     */
+    @Override
+    public List<String> downloadSubmitZip() {
+
+        return submitMapper.downloadSubmitZip();
+    }
+
+    /**
+     * 学生与IP解绑
+     *
+     * @param sSno
+     * @return
+     */
+    @Override
+    public Integer doUnbinding(String sSno) {
+
+        return submitMapper.doUnbinding(sSno);
     }
 }
