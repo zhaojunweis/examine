@@ -1,6 +1,7 @@
 package com.examine.controller;
 
 import com.examine.common.controller.BaseController;
+import com.examine.domain.TSystem;
 import com.examine.domain.TTeacher;
 import com.examine.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+//@RequestMapping("/AdministratorController")
 public class AdministratorController extends BaseController {
 
     private final TeacherService teacherService;
@@ -25,7 +27,34 @@ public class AdministratorController extends BaseController {
 
         this.teacherService = teacherService;
     }
-
+    /*
+    * 登录
+    * */
+    @RequestMapping("/login")
+    public ModelAndView showLoginPage(){
+        return new ModelAndView("/loginpage");
+    }
+    /*
+    * 考试清理界面初始化
+    */
+    @RequestMapping(value="/admin_exam")
+    public ModelAndView admin_exam(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/admin_exam");
+        return mv;
+    }
+    /*
+     * 考试清理界面初始化
+     * */
+    @RequestMapping(value="/admin_teacher")
+    public ModelAndView admin_teacher(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/admin_teacher");
+        return mv;
+    }
+    /*
+    * 管理员界面初始化
+    * */
     @RequestMapping("/admin_main")
     public ModelAndView EnterAdminMain(){
         ModelAndView mv = new ModelAndView();
@@ -33,6 +62,9 @@ public class AdministratorController extends BaseController {
         return  mv;
     }
 
+    /*
+    * 系统配置界面初始化
+    * */
     @RequestMapping("/admin_config")
     public ModelAndView EnterSystemConfig(){
         ModelAndView mv = new ModelAndView();
@@ -40,6 +72,9 @@ public class AdministratorController extends BaseController {
         return mv;
     }
 
+    /*
+    * 管理员登录验证初始化
+    * */
     @RequestMapping("/submitAdminLogin")
     @ResponseBody
     public Map<String, Object> submitAdminLogin(

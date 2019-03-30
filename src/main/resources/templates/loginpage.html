@@ -68,8 +68,8 @@
 
 							<form id="form_administrator"  class="exam-form" action="admin_login" method="post">
 								<p>
-									<input id="name" type="text" name="name" placeholder="用户名" /> <br />
-									<input id="pass"	type="password" name="pass" placeholder="口令" />
+									<input id="adminname" type="text" name="adminname" placeholder="用户名" /> <br />
+									<input id="adminpass"	type="password" name="adminpass" placeholder="口令" />
 								</p>
 								<p>
 									<input id="btn_admin" type="button" class="btn btn-primary" value="登录"
@@ -131,24 +131,33 @@
 
                 var path = "[[@{/}]]";
                 $("#btn_admin").click(function(){
-                    $.ajax({
-                        type: 'post',
-                        url: path+"submitAdminLogin",
-                        data: $("#form_administrator").serialize(),
-                        success: function(data) {
-                            var str = data.status;
-                            if(str == 200){
-                                alert(data.message);
-                                window.location.href = path+"admin_main";
-                            }else{
-                                alert("登录失败");
+                    debugger;
+                    var name = $("#adminname").val() ;
+                    var pass = $("#adminpass").val();
+                    debugger;
+                    if((name!="")&&(pass!="")){
+                        $.ajax({
+                            type: 'post',
+                            url: path+"submitAdminLogin",
+                            data: $("#form_administrator").serialize(),
+                            success: function(data) {
+                                var str = data.status;
+                                if(str == 200){
+                                    alert(data.message);
+                                    debugger;
+                                    window.location.href = path+"admin_main";
+                                }else{
+                                    alert("登录失败");
+                                }
+                            },
+                            error:function (data) {
+                                alert("未知错误，请稍后再试");
                             }
+                        });
+					}else{
+                        alert("账号密码不能为空");
+					}
 
-                        },
-                        error:function (data) {
-                            alert("未知错误，请稍后再试");
-                        }
-                    });
                    /* $("#admin_login").validate({
                         rules:{
                             name:{
