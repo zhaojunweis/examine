@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
 <title>上机考试系统</title>
@@ -28,16 +28,15 @@ body {
 				<span class="brand"><strong>上机考试系统</strong></span>
 
 				<ul class="nav navbar-nav">
-					<li><a href="admin_main"><i class="icon-home icon-white"></i>首页</a></li>
-					<li><a href="admin_teacher"><i class="icon-user icon-white"></i>教师管理</a></li>
-					<li><a href="admin_exam"><i class="icon-remove-circle icon-white"></i>考试清理</a></li>
-					<li><a href="admin_config"><i class="icon-wrench icon-white"></i>系统配置</a></li>
+					<li><a href="/admin_main"><i class="icon-home icon-white"></i>首页</a></li>
+					<li><a href="/admin_teacher"><i class="icon-user icon-white"></i>教师管理</a></li>
+					<li><a href="/admin_exam"><i class="icon-remove-circle icon-white"></i>考试清理</a></li>
+					<li><a href="/admin_config"><i class="icon-wrench icon-white"></i>系统配置</a></li>
 				</ul>
 				<ul class="nav navbar-nav pull-right">
-					<li><span class="brand"><small>欢迎，admin</small></span></li>
-					<li><a href="#" data-toggle="modal"
-		data-target=".bs-example-modal-sm"><i class="icon-pencil icon-white"></i>修改口令</a></li>
-					<li><a href="admin_logout"><i class="icon-share icon-white"></i>退出</a></li>
+					<li><span  class="brand">欢迎您,</span><span class="brand" th:text="${session.tName}"><small></small></span></li>
+					<li th:if="${session.tName!='admin'}"><a href="#" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="icon-pencil icon-white"></i>修改口令</a></li>
+					<li id="admin_logout"><a href="/logout"><i class="icon-share icon-white"></i>退出</a></li>
 				</ul>
 
 				<!--/.nav-collapse -->

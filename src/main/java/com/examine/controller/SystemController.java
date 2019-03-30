@@ -20,9 +20,17 @@ public class SystemController extends BaseController {
         this.systemService = systemService;
     }
 
-    @RequestMapping("/insertSystemConfigure")
+    @RequestMapping("/systemconfig")
     @ResponseBody
     public Map<String,Object> insertSystemConfigure(TSystem system){
+
+        system.setId(12);
+        system.setManualOpenTime("123");
+        system.setMaxUploadSize(153);
+        system.setMinUploadSize(23);
+        system.setsCanDelete(1);
+        system.setsExamTime("123");
+        system.setsPageCount(12);
         boolean flag = systemService.insertSystemConfigure(system);
         if(!flag){
             resultMap.put("status",500);
