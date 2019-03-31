@@ -44,11 +44,13 @@ public class AdministratorController extends BaseController {
         return mv;
     }
     /*
-     * 考试清理界面初始化
+     * 教师管理界面初始化
      * */
     @RequestMapping(value="/admin_teacher")
     public ModelAndView admin_teacher(){
         ModelAndView mv = new ModelAndView();
+        List<TTeacher> teachers = teacherService.selectAllTeacher();
+        mv.addObject("t_list",teachers);
         mv.setViewName("/admin_teacher");
         return mv;
     }
@@ -101,15 +103,21 @@ public class AdministratorController extends BaseController {
         return resultMap;
     }
 
+    /*
+    * 添加教师功能
+    * */
     @RequestMapping("/saveTeacher")
     @ResponseBody
     public Map<String, Object> saveTeacher(TTeacher tTeacher) {
         boolean flag = teacherService.saveTeacher(tTeacher);
         if (flag) {
             List<TTeacher> teachers = teacherService.selectAllTeacher();
-            resultMap.put("message", teachers);
+            resultMap.put("t_list", teachers);
+            resultMap.put("status","200");
+            resultMap.put("message","添加教师成功!");
         } else {
-            resultMap.put("message", "save teacher failed!");
+            resultMap.put("status","500");
+            resultMap.put("message", "服务器错误，添加教师失败");
         }
         return resultMap;
     }

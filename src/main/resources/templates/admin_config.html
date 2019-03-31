@@ -89,35 +89,35 @@ body {
 	<div class="control-group">
 		<label class="control-label" for="interval">后台任务间隔时间</label>
 		<div class="controls">
-			<input type="text" id="interval" name="sExamTime" value="30" />
+			<input type="text"   id="interval" name="sExamTime" value="30" onkeyup="value=value.replace(/[^\d]/g,'')"minlength="1" maxlength="4"  required/>
 			<p class="help-block">指定扫描考试信息的间隔时间，单位为 分钟。</p>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="pagesize">分页查询记录条数</label>
 		<div class="controls">
-			<input type="text" id="pagesize" name="sPageCount" value="30" />
+			<input type="text" id="pagesize" name="sPageCount" value="30"  onkeyup="value=value.replace(/[^\d]/g,'')" minlength="1" maxlength="3"  required/>
 			<p class="help-block">指定分页查询时每页显示记录数的默认值（查询页面中可以更改）。</p>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="timegap">手动开启考试时间阈值</label>
 		<div class="controls">
-			<input type="text" id="timegap" name="manualOpenTime" value="15" />
+			<input type="text" id="timegap" name="manualOpenTime" value="15" onkeyup="value=value.replace(/[^\d]/g,'')" minlength="1" maxlength="4"  required/>
 			<p class="help-block">指定手工开启考试时允许的最大提前量，单位为分钟</p>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="minfilesize">上传文件字节数下限</label>
 		<div class="controls">
-			<input type="text" id="minfilesize" name="minUploadSize" value="512" />
+			<input type="text" id="minfilesize" name="minUploadSize" value="512" onkeyup="value=value.replace(/[^\d]/g,'')"minlength="1" maxlength="10"  required />
 			<p class="help-block">指定上传文件的长度下限（字节），低于此值发出警告</p>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="maxfilesize">上传文件字节数上限</label>
 		<div class="controls">
-			<input type="text" id="maxfilesize" name="maxUploadSize" value="131072" />
+			<input type="text" id="maxfilesize" name="maxUploadSize" value="131072"  onkeyup="value=value.replace(/[^\d]/g,'')" minlength="1" maxlength="10"  required/>
 			<p class="help-block">指定上传文件的长度上限（字节），高于此值发出警告</p>
 		</div>
 	</div>
@@ -144,42 +144,104 @@ body {
 	<!-- placed at the end of the document so the pages load faster -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-
+	<script src="js/jquery_validate/lib/jquery.js"></script>
+	<script src="js/jquery_validate/dist/jquery.validate.min.js"></script>
+	<script src="js/jquery_validate/dist/localization/messages_zh.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
+
 			$("#btn_config").click(function () {
-                var path = "[[@{/}]]";
-			    var data = $("#form_config").serialize();
-                $.ajax({
-                    type: 'post',
-                    url: path+"insertsystemconfigure",
-                    data: data,
-                    success: function(data) {
-                        var str = data.status;
-                        if(str == 200){
-                            alert(data.message);
-                            debugger;
-                            window.location.href = path+"admin_main";
-                        }else{
-                            alert("登录失败");
+			    debugger;
+                /*$("#form_config").validate({
+                    rules:{
+                        sExamTime:{
+                            required:true,
+                        },
+                        sPageCount:{
+                            required:true,
+                        },
+                        manualOpenTime:{
+                            required:true,
+                        },
+                        minUploadSize:{
+                            required:true,
+                        },
+                        maxUploadSize:{
+                            required:true,
+                        },
+                        sCanDelete:{
+                            required:true,
                         }
                     },
-                    error:function (data) {
-                        alert("未知错误，请稍后再试");
+                    messages:{
+                        sExamTime:{
+                            required:"请输入时间",
+                        },
+                        sPageCount:{
+                            required:"请输入时间",
+                        },
+                        manualOpenTime:{
+                            required:"请输入时间",
+                        },
+                        minUploadSize:{
+                            required:"请输入时间",
+                        },
+                        maxUploadSize: {
+                            required: "请输入时间",
+                        },
+                        sCanDelete:{
+                            required:"请输入时间",
+                        }
                     }
-                });
-               /* $.ajax({
-					type:"post",
-					url:path+"insertsystemconfigure",
-					data:data,
-					success:function (data) {
-						alert("success")
-                    },
-					error:function (data) {
-						alert("error")
-                    }
+                });*/
 
-				});*/
+                debugger;
+                var path = "[[@{/}]]";
+			    var data = $("#form_config").serialize();
+			  	var status = $("input[name='sCanDelete']").val();
+			  	var sCandelete;
+			  	if(status=="true"){
+			  	    sCandelete = 1;
+				}else{
+			  	    sCandelete = 0;
+				}
+				var sExamTime = $("input[name='sExamTime']").val();
+                var sPageCount = $("input[name='sPageCount']").val();
+                var manualOpenTime = $("input[name='manualOpenTime']").val();
+                var minUploadSize = $("input[name='minUploadSize']").val();
+                var maxUploadSize = $("input[name='maxUploadSize']").val();
+                if((sExamTime=="")||(sPageCount=="")||(manualOpenTime=="")||(minUploadSize=="")||(maxUploadSize=="")){
+                    alert("请完善设置信息");
+				}else{
+                    $.ajax({
+                        type: 'post',
+                        url: path+"systemconfig",
+                        data:{
+                            sExamTime:sExamTime,
+                            sPageCount:sPageCount,
+                            manualOpenTime:manualOpenTime,
+                            minUploadSize:minUploadSize,
+                            maxUploadSize:maxUploadSize,
+                            sCanDelete:sCandelete,
+                        },
+                        success: function(data) {
+                            var str = data.status;
+                            if(str == 200){
+                                alert(data.message);
+                                debugger;
+                                window.location.href = path+"admin_main";
+                            }else{
+                                alert("登录失败");
+                            }
+                        },
+                        error:function (data) {
+                            alert("未知错误，请稍后再试");
+                        }
+                    });
+
+                }
+				debugger;
+
             });
         });
 	</script>
