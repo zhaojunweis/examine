@@ -40,6 +40,82 @@ public class TeacherController extends BaseController {
         this.submitService = submitService;
     }
 
+
+/**
+  * 考前操作初始化
+  * @parame:
+  * @return
+ */
+@RequestMapping("/teacher_exam_before")
+public ModelAndView exam_Befor(){
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("/teacher_exam_before");
+    return mv;
+}
+/**
+  * 靠后操作初始化
+  * @parame:
+  * @return
+ */
+@RequestMapping("/teacher_exam_after")
+public ModelAndView exam_after(){
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("/teacher_exam_after");
+    return mv;
+}
+/**
+  * 考试概况初始化
+  * @parame:
+  * @return
+ */
+@RequestMapping("/teacher_manage_summary")
+public ModelAndView manage_summary(){
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("/teacher_manage_summary");
+    return mv;
+}
+/**
+  * 学生信息初始化
+  * @parame:
+  * @return
+ */
+@RequestMapping("/teacher_manage_student")
+public ModelAndView manage_student() {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("/teacher_manage_student");
+    return mv;
+}
+/**
+  * 解锁绑定初始化
+  * @parame:
+  * @return
+ */
+@RequestMapping("/teacher_manage_unlock")
+public ModelAndView manage_unlock() {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("/teacher_manage_unlock");
+    return mv;
+}
+/**
+  * 通知管理初始化
+  * @parame:
+  * @return
+ */
+
+@RequestMapping("/teacher_manage_notify")
+public ModelAndView manage_notify() {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("/teacher_manage_notify");
+    return mv;
+}
+
+
+
+
+
+
+
+
     /**
      * 教师登陆
      *
@@ -66,6 +142,11 @@ public class TeacherController extends BaseController {
         }
         return resultMap;
     }
+    /**
+      * 教师首页初始化
+      * @parame:
+      * @return
+     */
     @RequestMapping("/teacher_main")
     public ModelAndView teacher_main(){
         ModelAndView mv = new ModelAndView();
