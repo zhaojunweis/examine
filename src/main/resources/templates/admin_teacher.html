@@ -88,7 +88,7 @@ body {
 	<input type="text" name="name" placeholder="用户名*" size="20"  required/>
 	<input type="text" name="pass" placeholder="初始口令*" size="20" required/>
 	<input type="text" name="fullname" placeholder="真实姓名" size="20" required/>
-	<input type="checkbox" name="admin"/> 管理员&nbsp;
+	<input id="input_check" type="checkbox" name="admin"/> 管理员&nbsp;
 	<input id="btn_addteacher" type="button" name="action" class="btn btn-primary" value="添加" />
 </form>
 
@@ -104,7 +104,7 @@ body {
 			<th class="span4" th:text="${user.tName}"></th>
 			<th class="span4">无</th>
 			<th class="span3" th:if="${user.tIsAdmin}==1">是</th>
-			<th class="span3" th:if="${user.tIsAdmin}!=1">否</th>
+			<th class="span3" th:if="${user.tIsAdmin}==0">否</th>
 			<th>&nbsp;</th>
 		</tr>
 
@@ -127,12 +127,14 @@ body {
                 var pass = $("input[name='pass']").val();
                 var fullname = $("input[name='fullname']").val();
                 var admin ;
+                var tatus = $("#input_check").prop("checked");
                 debugger;
-                if($("input[name='admin']").val()=="true"){
+                if(tatus==true){
                     admin = 1;
 				}else{
                     admin = 0;
 				}
+				debugger
                 if((name=="")||(pass=="")||(fullname=="")){
                     alert("请完善添加信息");
 				}else{
