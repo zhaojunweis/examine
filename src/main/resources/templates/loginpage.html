@@ -120,11 +120,8 @@
 
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-		<!--<script src="js/dist/jquery.validate.min.js"></script>
-		<script src="js/dist/localization/messages_zh.js"></script>-->
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+		<script src="js/layer/layer.js"></script>
+
 		<script type="text/javascript">
             $(document).ready(function () {
 
@@ -172,21 +169,36 @@
                             url: path+"submitAdminLogin",
                             data: $("#form_administrator").serialize(),
                             success: function(data) {
+                                debugger
                                 var str = data.status;
                                 if(str == 200){
-                                    alert(data.message);
-                                    debugger;
-                                    window.location.href = path+"admin_main";
+                                    debugger
+                                    layer.confirm('您已登录成功，确定要进入管理员主页吗？',{
+                                        btn:['确定','取消']
+									},function(){
+                                        window.location.href = path+data.url;
+									},function(){
+                                        layer.msg('已取消登录',{
+                                            time:1500,
+											icon:2,
+										})
+									});
+
                                 }else{
-                                    alert("登录失败");
+                                    layer.alert('登录失败,请重新确认信息,',{
+                                        icon:2,
+                                        skin:'layer-ext-moon',
+                                    });
+                                    $("input[name='adminname']").val("");
+                                    $("input[name='adminpass']").val("");
                                 }
                             },
                             error:function (data) {
-                                alert("未知错误，请稍后再试");
+                                layer.alert("未知错误，请稍后再试");
                             }
                         });
 					}else{
-                        alert("账号密码不能为空");
+                       layer.alert("账号密码不能为空");
 					}
                 });
 
