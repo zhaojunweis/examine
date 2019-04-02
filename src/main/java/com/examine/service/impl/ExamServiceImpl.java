@@ -6,6 +6,7 @@ import com.examine.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -64,13 +65,21 @@ public class ExamServiceImpl implements ExamService {
      */
     @Override
     public boolean stopExam(String examName) {
-       boolean flag = false;
-       Integer stopFlag = examMapper.stopExam(examName);
-       if(stopFlag == 1){
-           flag = true;
-       }
-       return flag;
+        boolean flag = false;
+        Integer stopFlag = examMapper.stopExam(examName);
+        if (stopFlag == 1) {
+            flag = true;
+        }
+        return flag;
     }
 
-
+    /**
+     * 查询所有考试信息
+     *
+     * @return
+     */
+    @Override
+    public List<TExam> selectAllExamInfo() {
+        return examMapper.selectAllExamInfo();
+    }
 }

@@ -2,6 +2,7 @@ package com.examine.service;
 
 import com.examine.domain.TExam;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ExamService {
@@ -13,4 +14,5 @@ public interface ExamService {
 
     boolean stopExam(String examName);
 
+    List<TExam> selectAllExamInfo();
 }

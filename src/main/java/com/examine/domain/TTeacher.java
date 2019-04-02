@@ -6,6 +6,8 @@ public class TTeacher {
 
     private String tName;
 
+    private String tRealName;
+
     private String tPass;
 
     private int tIsAdmin;
@@ -53,5 +55,13 @@ public class TTeacher {
 
     public void settIsDelete(int tIsDelete) {
         this.tIsDelete = tIsDelete;
+    }
+
+    public String gettRealName() {
+        return tRealName;
+    }
+
+    public void settRealName(String tRealName) {
+        this.tRealName = tRealName;
     }
 }

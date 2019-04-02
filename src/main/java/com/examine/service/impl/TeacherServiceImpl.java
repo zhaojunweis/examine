@@ -128,4 +128,20 @@ public class TeacherServiceImpl implements TeacherService {
 
         return submitMapper.studentSubmitInfo();
     }
+
+    /**
+     * 判断是否只有admin
+     *
+     * @return
+     */
+    @Override
+    public boolean selectCountOtherAdminExceptAdmin() {
+        boolean flag =  false;
+        int affectCount = teacherMapper.selectCountOtherAdminExceptAdmin();
+
+        if(affectCount >= 1){
+            flag = true;
+        }
+        return flag;
+    }
 }

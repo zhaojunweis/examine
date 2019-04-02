@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,11 +24,9 @@ public class SystemController extends BaseController {
 
     @RequestMapping("/systemconfig")
     @ResponseBody
-    public Map<String,Object> insertSystemConfigure(TSystem system){
+    public Map<String,Object> updateSystemConfigure(TSystem system){
 
-
-
-        boolean flag = systemService.insertSystemConfigure(system);
+        boolean flag = systemService.updateSystemConfigure(system);
         if(!flag){
             resultMap.put("status",500);
             resultMap.put("message","insert system configure failed");
@@ -35,5 +34,12 @@ public class SystemController extends BaseController {
         resultMap.put("status",200);
         resultMap.put("message","insert system configure success");
         return resultMap;
+    }
+
+    @RequestMapping("/selectSystemConfigure")
+    @ResponseBody
+    public TSystem selectSystemConfigure(){
+
+        return systemService.selectSystemConfigure();
     }
 }

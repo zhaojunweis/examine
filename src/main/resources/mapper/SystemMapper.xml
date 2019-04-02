@@ -11,7 +11,32 @@
         <result property="sCanDelete" column="s_can_delete"/>
     </resultMap>
 
-    <insert id="insertSystemConfigure" parameterType="com.examine.domain.TSystem">
+    <update id="updateSystemConfigure" parameterType="com.examine.domain.TSystem">
+         update
+           t_system
+           <set>
+               <if test="sExamTime != null">
+                   s_exam_time = #{sExamTime},
+               </if>
+               <if test="sPageCount != null">
+                   s_page_count = #{sPageCount},
+               </if>
+               <if test="maxUploadSize != null">
+                   max_upload_size = #{maxUploadSize},
+               </if>
+               <if test="minUploadSize != null">
+                   min_upload_size = #{minUploadSize}
+               </if>
+               <if test="manualOpenTime != null">
+                   manual_open_time = #{manualOpenTime}
+               </if>
+               <if test="sCanDelete != null">
+                   s_can_delete = #{sCanDelete}
+               </if>
+           </set>
+    </update>
+
+    <!--<insert id="insertSystemConfigure" parameterType="com.examine.domain.TSystem">
          insert
            into
            t_system(
@@ -29,5 +54,9 @@
                #{manualOpenTime},
                #{sCanDelete}
            )
-    </insert>
+    </insert>-->
+
+    <select id = "selectSystemConfigure" resultMap="systemBaseMap">
+        select  * from t_system limit 0,1
+    </select>
 </mapper>

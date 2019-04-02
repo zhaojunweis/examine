@@ -60,4 +60,11 @@ public interface TeacherMapper {
      * @return
      */
     Integer selectIsPigeonhole(String examName);
+
+    /**
+     * 查询费Admin的管理员
+     *
+     * @return
+     */
+    Integer selectCountOtherAdminExceptAdmin();
 }

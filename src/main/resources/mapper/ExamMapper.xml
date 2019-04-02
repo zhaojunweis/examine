@@ -54,4 +54,8 @@
     <update id="clearExam">
         update t_exam set is_delete = 1 where is_delete = 0 and is_start = 0
     </update>
+
+    <select id = "selectAllExamInfo" resultMap="examBaseMapper">
+         select * from t_exam
+    </select>
 </mapper>

@@ -131,6 +131,12 @@ public class AdministratorController extends BaseController {
         return new ModelAndView("");
     }
 
+    /**
+     * 更新用户信息
+     *
+     * @param teacher
+     * @return
+     */
     @RequestMapping("/updateUserAccount")
     @ResponseBody
     public Map<String, Object> updateUserAccount(TTeacher teacher) {
@@ -148,4 +154,17 @@ public class AdministratorController extends BaseController {
         }
         return resultMap;
     }
+
+    /**
+     * 判断是否只有Admin用户
+     *
+     */
+    @RequestMapping("onlyAdmin")
+    @ResponseBody
+    public boolean onlyAdmin(){
+        return teacherService.selectCountOtherAdminExceptAdmin();
+    }
+
+
+
 }

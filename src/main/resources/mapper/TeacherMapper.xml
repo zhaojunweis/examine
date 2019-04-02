@@ -5,6 +5,7 @@
     <resultMap id="teacherBaseMap" type="com.examine.domain.TTeacher">
         <id property="id" column="id"/>
         <result property="tName" column="t_name"/>
+        <result property="tRealName" column="t_real_name"/>
         <result property="tPass" column="t_pass"/>
         <result property="tIsAdmin" column="t_is_admin"/>
         <result property="tIsDelete" column="t_is_delete"/>
@@ -41,10 +42,12 @@
         insert
         into t_teacher(
            t_name,
+           t_real_name,
            t_pass,
            t_is_admin
         ) values (
            #{tName},
+           #{tRealName},
            #{tPass},
            #{tIsAdmin}
         )
@@ -60,5 +63,9 @@
 
     <select id = "selectIsPigeonhole" parameterType="String" resultType="Integer">
         select is_pigeonhole from t_exam where exam_name = #{examName}
+    </select>
+
+    <select id = "selectCountOtherAdminExceptAdmin" resultType="Integer">
+        select count(*) from t_teacher where t_is_delete = 0 and t_name != 'admin' and t_is_admin = 1
     </select>
 </mapper>

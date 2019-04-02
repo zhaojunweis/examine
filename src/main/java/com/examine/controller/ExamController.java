@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -72,5 +73,12 @@ public class ExamController extends BaseController {
         }
         resultMap.put("status",200);
         return resultMap;
+    }
+
+    @RequestMapping("/selectAllExamInfo")
+    @ResponseBody
+    public List<TExam> selectAllExamInfo(){
+
+        return examService.selectAllExamInfo();
     }
 }

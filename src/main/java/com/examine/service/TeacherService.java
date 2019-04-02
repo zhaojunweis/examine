@@ -22,4 +22,7 @@ public interface TeacherService {
     boolean clearExamInfo(String examName);
 
     List<TStudent> exportSubmitInfo();
+
+    boolean selectCountOtherAdminExceptAdmin();
+
 }

@@ -3,6 +3,7 @@ package com.examine.dao;
 import com.examine.domain.TExam;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -35,5 +36,12 @@ public interface ExamMapper {
      * @param examName
      */
     Integer stopExam(String examName);
+
+    /**
+     * 查询所有考试信息
+     *
+     * @return
+     */
+    List<TExam> selectAllExamInfo();
 
 }

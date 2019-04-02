@@ -23,12 +23,23 @@ public class SystemServiceImpl implements SystemService {
      * @return
      */
     @Override
-    public boolean insertSystemConfigure(TSystem system) {
+    public boolean updateSystemConfigure(TSystem system) {
         boolean flag = false;
-        int insertCount = systemMapper.insertSystemConfigure(system);
-        if (insertCount == 1) {
+        int updateCount = systemMapper.updateSystemConfigure(system);
+        if (updateCount == 1) {
             flag = true;
         }
         return flag;
+    }
+
+    /**
+     * 查询管理员系统配置
+     *
+     * @return
+     */
+    @Override
+    public TSystem selectSystemConfigure() {
+
+        return systemMapper.selectSystemConfigure();
     }
 }
