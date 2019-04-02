@@ -83,23 +83,28 @@ public class AdministratorController extends BaseController {
             @RequestParam(value = "adminname",defaultValue = "admin") String tName,
             @RequestParam(value = "adminpass",defaultValue = "admin") String tPass,
             HttpSession session) {
-        if ("admin".equals(tName)) {
-            if ("admin".equals(tPass)) {
-                resultMap.put("status", 200);
-                resultMap.put("url", "admin_page");
-                resultMap.put("message", "login success");
-            }
-        } else {
+        if(teacherService.selectCountOtherAdminExceptAdmin()){
             String password = teacherService.selectAdminByLoginMessage(tName);
             if (tPass.equals(password)) {
                 resultMap.put("status", 200);
-                resultMap.put("url", "admin_page");
+                resultMap.put("url", "admin_main");
                 resultMap.put("message", "login success");
+                session.setAttribute("tName", tName);
             } else {
+                resultMap.put("status", 500);
+                resultMap.put("message", "wrong password");
+            }
+        }else{
+            if (("admin".equals(tName))&&("admin".equals(tPass))){
+                resultMap.put("status", 200);
+                resultMap.put("url", "admin_main");
+                resultMap.put("message", "login success");
+                session.setAttribute("tName", tName);
+            }else {
+                resultMap.put("status", 500);
                 resultMap.put("message", "wrong password");
             }
         }
-        session.setAttribute("tName", tName);
         return resultMap;
     }
 
