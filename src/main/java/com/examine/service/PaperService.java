@@ -6,6 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
 
-public interface SavePaperService {
+public interface PaperService {
    ResponseResult SavePaperService(MultipartFile multipartFile, HttpSession session) throws FileNotFoundException;
 }

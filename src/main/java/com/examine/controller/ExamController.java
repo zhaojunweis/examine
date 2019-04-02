@@ -3,7 +3,7 @@ package com.examine.controller;
 import com.examine.common.controller.BaseController;
 import com.examine.domain.TExam;
 import com.examine.service.ExamService;
-import com.examine.service.SavePaperService;
+import com.examine.service.PaperService;
 import com.examine.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,15 +23,21 @@ public class ExamController extends BaseController {
 
     private final ExamService examService;
 
-    private final SavePaperService savePaperService;
+    private final PaperService paperService;
 
     @Autowired
-    public ExamController(TeacherService teacherService, ExamService examService, SavePaperService savePaperService) {
+    public ExamController(TeacherService teacherService, ExamService examService, PaperService paperService) {
         this.teacherService = teacherService;
         this.examService = examService;
-        this.savePaperService = savePaperService;
+        this.paperService = paperService;
     }
 
+    /**
+     * 清除考试
+     *
+     * @param examName
+     * @return
+     */
     @RequestMapping("/clearExam")
     @ResponseBody
     public Map<String, Object> clearExam(String examName) {
@@ -46,6 +52,12 @@ public class ExamController extends BaseController {
         return resultMap;
     }
 
+    /**
+     * 保存考试信息
+     *
+     * @param exam
+     * @param session
+     */
     @RequestMapping("/saveExam")
     public void saveExam(TExam exam, HttpSession session) {
         //考试信息中包括老师信息
@@ -54,16 +66,30 @@ public class ExamController extends BaseController {
         examService.saveExaminationInfo(exam);
     }
 
+    /**
+     * 教师上传考试试卷
+     * 需要传入考试名称参数，修改后台数据库的考试试题卷的url
+     *
+     * @param examName
+     * @param multipartFile
+     * @param session
+     */
     @RequestMapping("/uploadExamPaper")
     public void uploadExamPaper(String examName,MultipartFile multipartFile,HttpSession session){
         session.setAttribute("examName",examName);
         try {
-            savePaperService.SavePaperService(multipartFile,session);
+            paperService.SavePaperService(multipartFile,session);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * 关闭考试
+     *
+     * @param examName
+     * @return
+     */
     @RequestMapping("/stopExam")
     public Map<String,Object> stopExam(String examName){
         boolean status = examService.stopExam(examName);
@@ -75,6 +101,11 @@ public class ExamController extends BaseController {
         return resultMap;
     }
 
+    /**
+     * 查询所有考试信息
+     *
+     * @return
+     */
     @RequestMapping("/selectAllExamInfo")
     @ResponseBody
     public List<TExam> selectAllExamInfo(){

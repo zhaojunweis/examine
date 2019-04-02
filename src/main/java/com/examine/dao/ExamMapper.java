@@ -28,7 +28,7 @@ public interface ExamMapper {
      *
      * @return
      */
-    Integer uploadExamPaper(Map<String,String> map);
+    Integer uploadExamPaper(Map<String,String> paramMap);
 
     /**
      * 停止考试

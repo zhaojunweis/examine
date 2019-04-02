@@ -42,4 +42,59 @@ public class SystemServiceImpl implements SystemService {
 
         return systemMapper.selectSystemConfigure();
     }
+
+    /**
+     * 查询最大加载大小
+     *
+     * @return
+     */
+    @Override
+    public Long selectMaxUploadSize() {
+
+        return systemMapper.selectMaxUploadSize();
+    }
+
+    /**
+     * 查询最小加载大小
+     *
+     * @return
+     */
+    @Override
+    public Long selectMinUploadSize() {
+
+        return systemMapper.selectMinUploadSize();
+    }
+
+    /**
+     * 查询考试的时间
+     *
+     * @return
+     */
+    @Override
+    public Integer selectExamTime() {
+
+        return systemMapper.selectExamTime();
+    }
+
+    /**
+     * 查询分页数量
+     *
+     * @return
+     */
+    @Override
+    public Integer selectPageCount() {
+
+        return systemMapper.selectPageCount();
+    }
+
+    /**
+     * 查询手动开启时间
+     *
+     * @return
+     */
+    @Override
+    public Integer selectManualOpenTime() {
+
+        return systemMapper.selectManualOpenTime();
+    }
 }
