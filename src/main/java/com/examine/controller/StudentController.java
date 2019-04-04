@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -60,5 +61,26 @@ public class StudentController extends BaseController {
             resultMap.put("message", "you ip address has been used,Forbidden");
         }
         return resultMap;
+    }
+
+    /**
+     * 学生个人查询已经提交的文件名称
+     * Map的结果为，key为文件名，value为文件路径
+     *
+     * @return
+     */
+    @RequestMapping("/selectHasSubmit")
+    @ResponseBody
+    public Map<String, String> hasSubmit(String sSno){
+        Map<String,String> hasSubmit = null;
+        sSno = "1610120001";
+        if(sSno.trim().length() > 0){
+            hasSubmit = studentService.selectHasSubmitPaper(sSno);
+        }else{
+            hasSubmit = new HashMap<>();
+            hasSubmit.put("status","500");
+            hasSubmit.put("message","server wrong");
+        }
+        return hasSubmit;
     }
 }

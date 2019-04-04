@@ -82,4 +82,20 @@ public class ExamServiceImpl implements ExamService {
     public List<TExam> selectAllExamInfo() {
         return examMapper.selectAllExamInfo();
     }
+
+    /**
+     * 手动开启时间
+     *
+     * @param examName
+     * @return
+     */
+    @Override
+    public boolean manualStart(String examName) {
+        boolean manualStatus = false;
+        Integer count = examMapper.manualStart(examName);
+        if (count > 0) {
+            manualStatus = true;
+        }
+        return manualStatus;
+    }
 }

@@ -112,4 +112,17 @@ public class ExamController extends BaseController {
 
         return examService.selectAllExamInfo();
     }
+
+    /**
+     * 手动开启考试
+     *
+     * @param examName
+     * @return
+     */
+    @RequestMapping("/manualStart")
+    @ResponseBody
+    public Map<String,String> manualStart(String examName){
+        examName = "Java";
+        return teacherService.manualStart(examName);
+    }
 }

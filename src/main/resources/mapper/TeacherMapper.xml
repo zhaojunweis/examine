@@ -68,4 +68,9 @@
     <select id = "selectCountOtherAdminExceptAdmin" resultType="Integer">
         select count(*) from t_teacher where t_is_delete = 0 and t_name != 'admin' and t_is_admin = 1
     </select>
+
+    <select id = "selectExamStartTime" resultType="String" parameterType="String">
+        select exam_start_time from t_exam where exam_name = #{examName}
+    </select>
+
 </mapper>
