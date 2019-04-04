@@ -90,7 +90,10 @@ public interface StudentMapper {
     Integer updateDirtyData(TStudent student);
 
     /**
+     * 查看学生已经提交的试卷
      *
-     *
+     * @param sSno
+     * @return
      */
+    String selectHasSubmitPaper(String sSno);
 }

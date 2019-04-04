@@ -52,5 +52,4 @@ public class PaperController {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity<>(FileUtils.readFileToByteArray(downloadFilePath), headers, HttpStatus.CREATED);
     }
-
 }

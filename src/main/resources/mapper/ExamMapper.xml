@@ -58,4 +58,8 @@
     <select id = "selectAllExamInfo" resultMap="examBaseMapper">
          select * from t_exam
     </select>
+
+    <update id = "manualStart" parameterType="String">
+        update t_exam set exam_start_time = now(),is_start = 1 where exam_name = #{examName}
+    </update>
 </mapper>

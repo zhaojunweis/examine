@@ -25,4 +25,7 @@ public interface TeacherService {
 
     boolean selectCountOtherAdminExceptAdmin();
 
+    String selectExamStartTime(String examName);
+
+    Map<String,String> manualStart(String examName);
 }

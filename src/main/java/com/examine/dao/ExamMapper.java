@@ -44,4 +44,12 @@ public interface ExamMapper {
      */
     List<TExam> selectAllExamInfo();
 
+    /**
+     * 手动开启时候，设置考试时间为当前时间,并设置t_start为1
+     *
+     * @param examName
+     * @return
+     */
+    Integer manualStart(String examName);
+
 }

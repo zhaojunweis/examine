@@ -105,5 +105,32 @@
 
 <a href = "/downloadPaper?fileName=test.txt">下载文件</a>
 
+<script>
+    var socket;
+    if(typeof(WebSocket) == "undefined") {
+        console.log("unSupport WebSocket");
+    }else{
+        console.log("support WebSocket");
+
+        socket = new WebSocket("ws://localhost:8080/socket/20");
+
+        socket.onopen = function() {
+            console.log("Socket opened");
+        };
+
+        socket.onmessage = function(msg) {
+            console.log(msg.data);
+        };
+
+        socket.onclose = function() {
+            console.log("Socket closed");
+        };
+
+        socket.onerror = function() {
+            alert("Socket encounter fault");
+        }
+    }
+</script>
+
 </body>
 </html>

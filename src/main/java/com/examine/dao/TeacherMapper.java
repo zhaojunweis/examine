@@ -67,4 +67,11 @@ public interface TeacherMapper {
      * @return
      */
     Integer selectCountOtherAdminExceptAdmin();
+
+    /**
+     * 提前开始考试，判断是不是在15分钟以前
+     *
+     * @return
+     */
+    String selectExamStartTime(String examName);
 }
