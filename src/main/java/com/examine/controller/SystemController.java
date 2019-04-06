@@ -8,6 +8,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
@@ -35,11 +36,23 @@ public class SystemController extends BaseController {
         resultMap.put("message","insert system configure success");
         return resultMap;
     }
-
-    @RequestMapping("/selectSystemConfigure")
+    /*
+     * 系统配置界面初始化
+     * */
+    @RequestMapping("/admin_config")
+    public ModelAndView EnterSystemConfig(){
+        ModelAndView mv = new ModelAndView();
+        TSystem tSystem = systemService.selectSystemConfigure();
+        if(tSystem!=null){
+            mv.addObject("systemconfig",tSystem);
+        }
+        mv.setViewName("admin_config");
+        return mv;
+    }
+    /*@RequestMapping("/selectSystemConfigure")
     @ResponseBody
     public TSystem selectSystemConfigure(){
 
         return systemService.selectSystemConfigure();
-    }
+    }*/
 }

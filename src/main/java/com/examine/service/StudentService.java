@@ -2,8 +2,6 @@ package com.examine.service;
 
 import com.examine.domain.TStudent;
 
-import java.util.Map;
-
 public interface StudentService {
 
     String selectStudentPasswordByUsername(String sSno);
@@ -19,6 +17,4 @@ public interface StudentService {
     boolean insertStudent(TStudent student);
 
     boolean updateDirtyData(TStudent student);
-
-    Map<String,String> selectHasSubmitPaper(String sSno);
 }

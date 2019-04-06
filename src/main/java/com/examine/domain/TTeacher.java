@@ -1,8 +1,6 @@
 package com.examine.domain;
 
-import java.io.Serializable;
-
-public class TTeacher implements Serializable {
+public class TTeacher {
 
     private long id;
 

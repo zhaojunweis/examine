@@ -34,7 +34,7 @@
 					<ul class="nav navbar-nav pull-right">
 						<li><span  class="brand">欢迎您,</span><span id="brandname" class="brand" th:text="${session.tName}"><small></small></span></li>
 						<li th:if="${session.tName!='admin'}"><a href="#" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="icon-pencil icon-white"></i>修改口令</a></li>
-						<li id="admin_logout"><a href="/logout"><i class="icon-share icon-white"></i>退出</a></li>
+						<li id="admin_logout"><a style="cursor: pointer"><i class="icon-share icon-white"></i>退出</a></li>
 					</ul>
 
 					<!--/.nav-collapse -->
@@ -122,6 +122,15 @@
 		<script src="js/layer/layer.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function () {
+				$("#admin_logout").click(function () {
+					layer.alert('是否要退出登录',{
+                        btn:['确定','取消']
+					},function () {
+						window.location.href = '/logout';
+					},function () {
+
+					});
+                });
 				$("#btn_change").click(function () {
 				    debugger;
 					var oldpass = $("input[name='oldpass']").val();

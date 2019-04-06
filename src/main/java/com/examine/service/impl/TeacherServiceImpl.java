@@ -11,10 +11,6 @@ import com.examine.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,56 +136,12 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public boolean selectCountOtherAdminExceptAdmin() {
-        boolean flag = false;
+        boolean flag =  false;
         int affectCount = teacherMapper.selectCountOtherAdminExceptAdmin();
 
-        if (affectCount >= 1) {
+        if(affectCount >= 1){
             flag = true;
         }
         return flag;
-    }
-
-    /**
-     * 查看考试时间
-     *
-     * @return
-     */
-    @Override
-    public String selectExamStartTime(String examName) {
-
-        return teacherMapper.selectExamStartTime(examName);
-    }
-
-    /**
-     * 教师手动开启考试
-     *
-     * @param examName
-     * @return
-     */
-    @Override
-    public Map<String, String> manualStart(String examName) {
-        Map<String, String> map = new HashMap<>();
-        //查看时间是否在15分钟以内
-        Date date = null;
-        String startTimeInSQL = selectExamStartTime(examName);
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(startTimeInSQL);
-            //与系统时间进行比对
-            long interval = date.getTime() - System.currentTimeMillis();
-            if (interval <= 15 * 60 * 1000) {
-                //是的话，修改数据库,t_start和考试时间
-                boolean flag = examService.manualStart(examName);
-                if (flag) {
-                    map.put("status", "200");
-                    map.put("message", "manual success");
-                }else{
-                    map.put("status", "500");
-                    map.put("message", "manual failed");
-                }
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return map;
     }
 }

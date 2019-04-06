@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +27,8 @@ public class CommonController extends BaseController {
 
     @RequestMapping("/logout")
     public ModelAndView logout(HttpSession session){
-        session.invalidate();
-        return new ModelAndView("redirect:/login");
+       session.invalidate();
+       return new ModelAndView("redirect:/login");
     }
 
     @RequestMapping("/editPassword")
@@ -35,13 +37,13 @@ public class CommonController extends BaseController {
         Map<String,Object> parameterMap = new HashMap<>();
         parameterMap.put("tName",tTeacher.gettName());
         parameterMap.put("tPass",tTeacher.gettPass());
-        if(teacherService.updateAccountByUsername(parameterMap)==1){
-            resultMap.put("status",200);
-            resultMap.put("message","update success");
-        }else{
-            resultMap.put("status",500);
-            resultMap.put("message","update error");
-        }
+         if(teacherService.updateAccountByUsername(parameterMap)==1){
+             resultMap.put("status",200);
+             resultMap.put("message","update success");
+         }else{
+             resultMap.put("status",500);
+             resultMap.put("message","update error");
+         }
 
         return resultMap;
     }

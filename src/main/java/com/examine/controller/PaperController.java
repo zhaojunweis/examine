@@ -2,7 +2,7 @@ package com.examine.controller;
 
 import com.examine.common.util.ResponseResult;
 import com.examine.service.ExamService;
-import com.examine.service.PaperService;
+import com.examine.service.SavePaperService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,13 +25,13 @@ import java.io.IOException;
 @Controller
 public class PaperController {
 
-    private final PaperService paperService;
+    private final SavePaperService savePaperService;
 
     private final ExamService examService;
 
     @Autowired
-    public PaperController(PaperService paperService, ExamService examService) {
-        this.paperService = paperService;
+    public PaperController(SavePaperService savePaperService, ExamService examService) {
+        this.savePaperService = savePaperService;
         this.examService = examService;
     }
 
@@ -39,7 +39,7 @@ public class PaperController {
     @ResponseBody
     public ResponseResult savePaper(MultipartFile multipartFile, HttpSession session) throws FileNotFoundException {
 
-        return paperService.SavePaperService(multipartFile, session);
+        return savePaperService.SavePaperService(multipartFile, session);
     }
 
     @RequestMapping("/downloadPaper")
@@ -52,4 +52,5 @@ public class PaperController {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity<>(FileUtils.readFileToByteArray(downloadFilePath), headers, HttpStatus.CREATED);
     }
+
 }

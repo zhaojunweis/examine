@@ -8,10 +8,7 @@ import com.examine.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -119,28 +116,5 @@ public class StudentServiceImpl implements StudentService {
             updateResult = true;
         }
         return updateResult;
-    }
-
-    /**
-     * 学生查看已经提交的试题卷
-     *
-     * @param sSno
-     * @return
-     */
-    @Override
-    public Map<String,String> selectHasSubmitPaper(String sSno) {
-        Map<String,String> submit = new HashMap<>();
-        String paper = studentMapper.selectHasSubmitPaper(sSno);
-        File paperUrl = null;
-        String name = "";
-        if (paper.trim().length() > 0) {
-            paperUrl = new File(paper);
-            name = paperUrl.getName();
-        }else{
-            name = "default";
-        }
-        //考虑到要点击查看，设置为name，paper路径
-        submit.put(name,paper);
-        return submit;
     }
 }

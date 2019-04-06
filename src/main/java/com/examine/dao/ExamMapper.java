@@ -28,7 +28,7 @@ public interface ExamMapper {
      *
      * @return
      */
-    Integer uploadExamPaper(Map<String,String> paramMap);
+    Integer uploadExamPaper(Map<String,String> map);
 
     /**
      * 停止考试
@@ -43,13 +43,5 @@ public interface ExamMapper {
      * @return
      */
     List<TExam> selectAllExamInfo();
-
-    /**
-     * 手动开启时候，设置考试时间为当前时间,并设置t_start为1
-     *
-     * @param examName
-     * @return
-     */
-    Integer manualStart(String examName);
 
 }

@@ -12,51 +12,51 @@
     </resultMap>
 
     <update id="updateSystemConfigure" parameterType="com.examine.domain.TSystem">
-        update
-        t_system
-        <set>
-            <if test="sExamTime != null">
-                s_exam_time = #{sExamTime},
-            </if>
-            <if test="sPageCount != null">
-                s_page_count = #{sPageCount},
-            </if>
-            <if test="maxUploadSize != null">
-                max_upload_size = #{maxUploadSize},
-            </if>
-            <if test="minUploadSize != null">
-                min_upload_size = #{minUploadSize}
-            </if>
-            <if test="manualOpenTime != null">
-                manual_open_time = #{manualOpenTime}
-            </if>
-            <if test="sCanDelete != null">
-                s_can_delete = #{sCanDelete}
-            </if>
-        </set>
+         update
+           t_system
+           <set>
+               <if test="sExamTime != null">
+                   s_exam_time = #{sExamTime},
+               </if>
+               <if test="sPageCount != null">
+                   s_page_count = #{sPageCount},
+               </if>
+               <if test="maxUploadSize != null">
+                   max_upload_size = #{maxUploadSize},
+               </if>
+               <if test="minUploadSize != null">
+                   min_upload_size = #{minUploadSize},
+               </if>
+               <if test="sPageCount != null">
+                   manual_open_time = #{manualOpenTime},
+               </if>
+               <if test="sCanDelete != null">
+                   s_can_delete = #{sCanDelete},
+               </if>
+           </set>
     </update>
 
-    <select id="selectSystemConfigure" resultMap="systemBaseMap">
+    <!--<insert id="insertSystemConfigure" parameterType="com.examine.domain.TSystem">
+         insert
+           into
+           t_system(
+                s_exam_time,
+                s_page_count,
+                max_upload_size,
+                min_upload_size,
+                manual_open_time,
+                s_can_delete
+           )values (
+               #{sExamTime},
+               #{sPageCount},
+               #{maxUploadSize},
+               #{minUploadSize},
+               #{manualOpenTime},
+               #{sCanDelete}
+           )
+    </insert>-->
+
+    <select id = "selectSystemConfigure" resultMap="systemBaseMap">
         select  * from t_system limit 0,1
-    </select>
-
-    <select id="selectMaxUploadSize" resultType="Long">
-        select max_upload_size from t_system
-    </select>
-
-    <select id="selectMinUploadSize" resultType="Long">
-        select min_upload_size from t_system
-    </select>
-
-    <select id="selectExamTime" resultType="Integer">
-        select s_exam_time from t_system
-    </select>
-
-    <select id="selectPageCount" resultType="Integer">
-        select s_page_count from t_system
-    </select>
-
-    <select id="selectManualOpenTime" resultType="Integer">
-        select manual_open_time from t_system
     </select>
 </mapper>

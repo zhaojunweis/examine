@@ -97,16 +97,16 @@
 								学生登录
 							</h3>
 
-							<form class="exam-form" action="student_login" method="post">
+							<form  class="exam-form" action="student_login" method="post">
 								<p>
 									<input type="text" name="sno" placeholder="学号" />
 									<br />
 									<input type="text" name="sname" placeholder="姓名" />
 								</p>
 								<p>
-
-
-										<input type="submit" class="btn disabled" onclick="return false" value="登录"
+									
+									
+										<input id="btn_student" type="button" class="btn disabled" onclick="return false" value="登录"
 											style="width: 100%" />
 									
 								</p>
@@ -123,9 +123,76 @@
 		<script src="js/layer/layer.js"></script>
 
 		<script type="text/javascript">
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', function () {
+                history.pushState(null, null, document.URL);
+            });
             $(document).ready(function () {
 
                 var path = "[[@{/}]]";
+                //学生登录
+                $("#btn_student").click(function(){
+                    debugger;
+                    var sSno = $("input[name='sno']").val() ;
+                    var sname = $("input[name='sname']").val();
+                    debugger;
+                    if((sSno!="")&&(sname!="")){
+                        $.ajax({
+                            type: 'post',
+                            url: path+"submitStudentLogin",
+                            data: {
+                                sSno:sSno,
+                                sPass:sname
+							},
+                            success: function(data) {
+                                debugger
+                                var str = data.status;
+                                switch (str){
+									case 200:
+                                        layer.confirm('您已登录成功，确定要进入学生主页吗？',{
+                                            btn:['确定','取消']
+                                        },function(){
+                                            window.location.href = path+data.url;
+                                        },function(){
+                                            layer.msg('已取消登录',{
+                                                time:1500,
+                                                icon:2,
+                                            })
+                                        });
+                                        break;
+									case 404:
+                                        layer.alert(data.message,{
+                                            icon:2,
+                                            skin:'layer-ext-moon',
+                                        });
+                                        break;
+									case 500:
+                                        layer.alert(data.message,{
+                                            icon:2,
+                                            skin:'layer-ext-moon',
+                                        });
+                                        $("input[name='sno']").val("");
+                                        $("input[name='sname']").val("");
+                                        break;
+									case 403:
+                                        layer.alert(data.message,{
+                                            icon:2,
+                                            skin:'layer-ext-moon',
+                                        });
+                                        break;
+
+								}
+
+                            },
+                            error:function (data) {
+                                layer.alert("未知错误，请稍后再试");
+                            }
+                        });
+                    }else{
+                        layer.alert("学号姓名不能为空");
+                    }
+                });
+
                 //教师登录
                 $("#btn_teacher").click(function(){
 
@@ -203,6 +270,8 @@
                 });
 
             });
+
+
 		</script>
 	</body>
 </html>
