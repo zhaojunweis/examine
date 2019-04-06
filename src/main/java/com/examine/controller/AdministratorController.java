@@ -34,15 +34,7 @@ public class AdministratorController extends BaseController {
     public ModelAndView showLoginPage(){
         return new ModelAndView("/loginpage");
     }
-    /*
-    * 考试清理界面初始化
-    */
-    @RequestMapping(value="/admin_exam")
-    public ModelAndView admin_exam(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/admin_exam");
-        return mv;
-    }
+
     /*
      * 教师管理界面初始化
      * */
@@ -64,15 +56,7 @@ public class AdministratorController extends BaseController {
         return  mv;
     }
 
-    /*
-    * 系统配置界面初始化
-    * */
-    @RequestMapping("/admin_config")
-    public ModelAndView EnterSystemConfig(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("admin_config");
-        return mv;
-    }
+
 
     /*
     * 管理员登录验证初始化

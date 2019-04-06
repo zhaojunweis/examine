@@ -15,6 +15,4 @@ public interface ExamService {
     boolean stopExam(String examName);
 
     List<TExam> selectAllExamInfo();
-
-    boolean manualStart(String examName);
 }

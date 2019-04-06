@@ -1,8 +1,6 @@
 package com.examine.domain;
 
-import java.io.Serializable;
-
-public class TStudent implements Serializable {
+public class TStudent {
 
     private long id;
 
