@@ -1,6 +1,7 @@
 package com.examine.controller;
 
 import com.examine.common.controller.BaseController;
+import com.examine.common.controller.CommonController;
 import com.examine.domain.TExam;
 import com.examine.domain.TSystem;
 import com.examine.service.ExamService;
@@ -31,13 +32,15 @@ public class ExamController extends BaseController {
     private final SavePaperService savePaperService;
 
     private final SystemService systemService;
+     private final CommonController commonController;
 
     @Autowired
-    public ExamController(TeacherService teacherService, ExamService examService, SavePaperService savePaperService,SystemService systemService) {
+    public ExamController(TeacherService teacherService, ExamService examService, SavePaperService savePaperService,SystemService systemService,CommonController commonController) {
         this.teacherService = teacherService;
         this.examService = examService;
         this.savePaperService = savePaperService;
         this.systemService = systemService;
+        this.commonController = commonController;
     }
 
     /*
@@ -46,71 +49,10 @@ public class ExamController extends BaseController {
     @RequestMapping(value="/admin_exam")
     public ModelAndView admin_exam() throws ParseException {
         ModelAndView mv = new ModelAndView();
-        TSystem tSystem = systemService.selectSystemConfigure();
-        List<TExam> tExams = examService.selectAllExamInfo();
-        List<Map> listmap  = new ArrayList<>();
-        String startTime;
-        String examTime;
-        for (TExam tExam: tExams) {
-            startTime= tExam.getExamStartTime();
-            examTime = tSystem.getsExamTime();
-            boolean status = isTestFinished(startTime,examTime);
-            if(tExam.getIsAutoStart()==1){
-                resultMap.put("isautostart","是");
-            }else {
-                resultMap.put("isautostart","否");
-            }
-            if(tExam.getIsStart()==1){
-                if(status){
-                    resultMap.put("isexam","否");
-                    resultMap.put("isfinished","是");
-                }else{
-                    resultMap.put("isexam","是");
-                    resultMap.put("isfinished","否");
-                }
-            }else {
-                resultMap.put("isexam","未开始");
-                resultMap.put("isfinished","未开始");
-            }
-            if(tExam.getIsPigeonhole()==1){
-                resultMap.put("ispageonhole","是");
-            }else{
-                resultMap.put("ispageonhole","否");
-            }
-            if (tExam.getIsDelete()==1){
-                resultMap.put("isdelete","是");
-            }else {
-                resultMap.put("isdelete","否");
-            }
-            resultMap.put("examname",tExam.getExamName());
-            resultMap.put("exam_time",tExam.getExamStartTime());
-            resultMap.put("create_name",tExam.gettName());
-            resultMap.put("exampaper_url",tExam.getExamPaperUrl());
-            listmap.add(resultMap);
-        }
+       List<Map> listmap  = commonController.getExamineInfo();
         mv.addObject("examlists",listmap);
         mv.setViewName("/admin_exam");
         return mv;
-    }
-    /**
-      * 判断考试状态
-      * @parame:
-      * @return
-     */
-
-
-    public boolean isTestFinished(String examtime,String ever_time) throws ParseException {
-        boolean status = false;
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        Date nowdate = new Date();
-        Date examdate = df.parse(examtime);
-        long time = nowdate.getTime()-examdate.getTime();
-        if(time>(Integer.valueOf(ever_time)*60*1000)){
-          status = true;
-        }else{
-            status = false;
-        }
-        return status;
     }
     @RequestMapping("/clearExam")
     @ResponseBody
@@ -132,9 +74,11 @@ public class ExamController extends BaseController {
        // String tName = (String) session.getAttribute("tName");
       //  exam.settName(tName);
        boolean flag =  examService.saveExaminationInfo(exam);
+       List<Map> mapList  = commonController.getExamineInfo();
        if(flag){
            resultMap.put("status","200");
            resultMap.put("message","添加考试成功");
+           resultMap.put("examlists",mapList);
        }else {
            resultMap.put("status","500");
            resultMap.put("message","添加考试失败");
