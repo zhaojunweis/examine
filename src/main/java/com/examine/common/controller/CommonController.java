@@ -79,6 +79,7 @@ public class CommonController extends BaseController {
         String startTime;
         String examTime;
         for (TExam tExam: tExams) {
+            Map<Object,Object> resultMap = new HashMap<>();
             startTime= tExam.getExamStartTime();
             examTime = tSystem.getsExamTime();
             boolean status = false;
@@ -117,7 +118,11 @@ public class CommonController extends BaseController {
             resultMap.put("examname",tExam.getExamName());
             resultMap.put("exam_time",tExam.getExamStartTime());
             resultMap.put("create_name",tExam.gettName());
-            resultMap.put("exampaper_url",tExam.getExamPaperUrl());
+            if(!tExam.gettName().equals(null)){
+                resultMap.put("exampaper_url",tExam.getExamPaperUrl());
+            }else{
+                resultMap.put("exampaper_url","还未上传试卷");
+            }
             listmap.add(resultMap);
         }
         return listmap;
