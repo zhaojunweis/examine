@@ -1,14 +1,15 @@
 package com.examine.controller;
 
 import com.examine.common.controller.BaseController;
+import com.examine.common.controller.CommonController;
 import com.examine.common.util.ExcelUtils;
 import com.examine.common.util.StringUtils;
 import com.examine.common.util.ZipUtils;
+import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
+import com.examine.domain.TSystem;
 import com.examine.domain.TTeacher;
-import com.examine.service.StudentService;
-import com.examine.service.SubmitService;
-import com.examine.service.TeacherService;
+import com.examine.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.zip.ZipOutputStream;
 
 @Controller
@@ -33,11 +34,19 @@ public class TeacherController extends BaseController {
 
     private final SubmitService submitService;
 
+    private final SystemService systemService;
+
+    private final ExamService examService;
+
+    private final CommonController commonController;
     @Autowired
-    public TeacherController(TeacherService teacherService, StudentService studentService, SubmitService submitService) {
+    public TeacherController(TeacherService teacherService, StudentService studentService, SubmitService submitService,ExamService examService,SystemService systemService,CommonController commonController) {
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.submitService = submitService;
+        this.examService = examService;
+        this.systemService = systemService;
+        this.commonController = commonController;
     }
 
 
@@ -49,6 +58,7 @@ public class TeacherController extends BaseController {
 @RequestMapping("/teacher_exam_before")
 public ModelAndView exam_Befor(){
     ModelAndView mv = new ModelAndView();
+    mv.addObject("examlists",commonController.getExamineInfo());
     mv.setViewName("/teacher_exam_before");
     return mv;
 }
@@ -60,6 +70,7 @@ public ModelAndView exam_Befor(){
 @RequestMapping("/teacher_exam_after")
 public ModelAndView exam_after(){
     ModelAndView mv = new ModelAndView();
+    mv.addObject("examlists",commonController.getExamineInfo());
     mv.setViewName("/teacher_exam_after");
     return mv;
 }

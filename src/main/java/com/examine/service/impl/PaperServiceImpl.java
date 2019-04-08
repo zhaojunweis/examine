@@ -48,14 +48,14 @@ public class PaperServiceImpl extends BaseService implements PaperService {
     @Override
     public ResponseResult SavePaperService(MultipartFile multipartFile, HttpSession session) {
         //系统设置的文件最大上传容量
-        long maxUploadSize = systemService.selectMaxUploadSize();
+       /* long maxUploadSize = systemService.selectMaxUploadSize();
         //系统设置的文件最小上传容量
-        long minUploadSize = systemService.selectMinUploadSize();
+        long minUploadSize = systemService.selectMinUploadSize();*/
         //上传文件的大小
         long fileSize = multipartFile.getSize();
 
         if (fileSize > 0 && !multipartFile.isEmpty()) {
-            if (fileSize >= minUploadSize && fileSize <= maxUploadSize) {
+           /* if (fileSize >= minUploadSize && fileSize <= maxUploadSize) {
                 String originalFileName = multipartFile.getOriginalFilename();
                 String baseUrl = SiteConfig.BASE_URL;
                 File targetFilePath = null;
@@ -77,9 +77,9 @@ public class PaperServiceImpl extends BaseService implements PaperService {
                             new File(ResourceUtils.getURL(baseUrl).getPath())
                                     .getAbsolutePath() + "/" + folderName, originalFileName);
                     //====================================================================//
-                   /* targetFilePath = new File(
+                   *//* targetFilePath = new File(
                             new File(ResourceUtils.getURL("src/main/resources/static").getPath())
-                                    .getAbsolutePath() + "/upload", originalFileName);*/
+                                    .getAbsolutePath() + "/upload", originalFileName);*//*
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -102,7 +102,7 @@ public class PaperServiceImpl extends BaseService implements PaperService {
                 return ResponseResult.ok("upload file success");
             } else {
                 return new ResponseResult("file is bigger or lower");
-            }
+            }*/
         }
         return new ResponseResult("upload file failed");
     }

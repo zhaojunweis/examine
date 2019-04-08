@@ -8,7 +8,7 @@ import java.util.Map;
 public interface ExamService {
     boolean nonphysicalDeleteOneExamByName(String examName);
 
-    void saveExaminationInfo(TExam exam);
+    boolean saveExaminationInfo(TExam exam);
 
     Integer uploadExamPaper(Map<String,String> map);
 
