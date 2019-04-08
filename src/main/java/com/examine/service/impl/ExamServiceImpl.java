@@ -41,9 +41,13 @@ public class ExamServiceImpl implements ExamService {
      * @param exam
      */
     @Override
-    public void saveExaminationInfo(TExam exam) {
-
-        examMapper.saveExaminationInfo(exam);
+    public boolean saveExaminationInfo(TExam exam) {
+        boolean flag = false;
+        long index =  examMapper.saveExaminationInfo(exam);
+        if (index > 0) {
+            flag = true;
+        }
+        return flag;
     }
 
     /**

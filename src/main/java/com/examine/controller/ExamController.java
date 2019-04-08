@@ -127,11 +127,19 @@ public class ExamController extends BaseController {
     }
 
     @RequestMapping("/saveExam")
-    public void saveExam(TExam exam, HttpSession session) {
+    public Object saveExam(TExam exam, HttpSession session) {
         //考试信息中包括老师信息
-        String tName = (String) session.getAttribute("tName");
-        exam.settName(tName);
-        examService.saveExaminationInfo(exam);
+       // String tName = (String) session.getAttribute("tName");
+      //  exam.settName(tName);
+       boolean flag =  examService.saveExaminationInfo(exam);
+       if(flag){
+           resultMap.put("status","200");
+           resultMap.put("message","添加考试成功");
+       }else {
+           resultMap.put("status","500");
+           resultMap.put("message","添加考试失败");
+       }
+       return resultMap;
     }
 
     @RequestMapping("/uploadExamPaper")

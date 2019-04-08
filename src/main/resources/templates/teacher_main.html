@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://java.sun.com/jsf/composite">
 <head>
 <meta charset="utf-8">
 <title>上机考试系统</title>
@@ -45,10 +45,11 @@ body {
 					<li><a href="/teacher_exam_after"><i class="icon-check icon-white"></i>考后操作</a></li>
 				</ul>
 				<ul class="nav navbar-nav pull-right">
-					<li><span class="brand"><small>欢迎，ae</small></span></li>
-					<li><a href="#" data-toggle="modal"
+					<!--<li><span class="brand"><small>欢迎，ae</small></span></li>-->
+					<li><span  class="brand">欢迎您,</span><span id="brandname" class="brand" th:text="${session.tName}"><small></small></span></li>
+					<li style="cursor: pointer"><a data-toggle="modal"
 		data-target=".bs-example-modal-sm"><i class="icon-pencil icon-white"></i>修改口令</a></li>
-					<li><a href="admin_logout"><i class="icon-share icon-white"></i>退出</a></li>
+					<li style="cursor: pointer" id="admin_logout"><a><i class="icon-share icon-white"></i>退出</a></li>
 				</ul>
 
 				<!--/.nav-collapse -->
@@ -65,10 +66,10 @@ body {
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">修改口令</h4>
+					<h4  class="modal-title">修改口令</h4>
 				</div>
 				<div class="modal-body">
-				<form class="exam-form" action="teacher_passwd" method="post">
+				<form id="teacher_passwd" class="exam-form" action="teacher_passwd" method="post">
 					<p>
 						<input type="password" name="oldpass" placeholder="原口令" style="width:100%"/>
 						<br/>
@@ -76,7 +77,7 @@ body {
 						<br/>
 						<input type="password" name="newpass2" placeholder="重输新口令" style="width:100%"/>
 						<br/>
-						<input type="submit" class="btn btn-primary" value="修改" style="width:100%"/>
+						<input id="btn_change" type="button" class="btn btn-primary" value="修改" style="width:100%"/>
 					</p>
 				</form>
 				</div>
@@ -140,6 +141,124 @@ body {
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/bootstrap-datetimepicker.js"></script>
 	<script src="js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="js/layer/layer.js"></script>
+	<script type="text/javascript">
+        $(document).ready(function () {
+            $("#admin_logout").click(function () {
+                layer.alert('是否要退出登录',{
+                    btn:['确定','取消']
+                },function () {
+                    window.location.href = '/logout';
+                },function () {
+
+                });
+            });
+            $("#btn_change").click(function () {
+                debugger;
+                var oldpass = $("input[name='oldpass']").val();
+                var newpass1 = $("input[name='newpass1']").val();
+                var newpass2 = $("input[name='newpass2']").val();
+                var name = $("#brandname").text();
+                debugger
+                if((oldpass=="")||(newpass1=="")||(newpass2=="")){
+                    layer.alert('请完善信息',{
+                        icon:2,
+                        skin:'layer-ext-moon',
+                    });
+                }else{
+                    debugger;
+                    if(newpass1 == newpass2){
+                        $.ajax({
+                            type:"post",
+                            url:"/checkPasswordByname",
+                            data:{
+                                tName:name,
+                            },
+                            success:function(data){
+                                if(data.status == 200){
+                                    debugger;
+                                    if(data.content!=oldpass){
+
+                                        layer.alert('原密码不正确,请重新输入',{
+                                            icon:2,
+                                            skin:'layer-ext-moon',
+                                        });
+                                        $("input[name='oldpass']").val("");
+                                    }else{
+                                        if(newpass1 == oldpass){
+                                            layer.alert('新口令与旧口令一致,请修改',{
+                                                icon:2,
+                                                skin:'layer-ext-moon',
+                                            });
+                                            $("input[name='newpass1']").val("");
+                                            $("input[name='newpass2']").val("");
+                                        }else {
+                                            $.ajax({
+                                                type:"post",
+                                                url:"/editPassword",
+                                                data:{
+                                                    tName:name,
+                                                    tPass:newpass1,
+                                                },
+                                                success:function(data){
+                                                    if(data.status == 200){
+                                                        debugger
+                                                        layer.msg('恭喜您，修改口令成功',{
+                                                            time:1000,
+                                                        });
+                                                        $("input[name='oldpass']").val("");
+                                                        $("input[name='newpass1']").val("");
+                                                        $("input[name='newpass2']").val("");
+                                                    }else{
+                                                        layer.alert('服务器错误,修改失败',{
+                                                            icon:2,
+                                                            skin:'layer-ext-moon',
+                                                        });
+                                                        $("input[name='oldpass']").val("");
+                                                        $("input[name='newpass1']").val("");
+                                                        $("input[name='newpass2']").val("");
+                                                    }
+                                                },
+                                                error:function (data) {
+                                                    layer.alert('请求错误,请稍后再试',{
+                                                        icon:2,
+                                                        skin:'layer-ext-moon',
+                                                    });
+                                                }
+
+                                            });
+                                        }
+
+                                    }
+                                }else{
+                                    layer.alert('数据库密码为空错误',{
+                                        icon:2,
+                                        skin:'layer-ext-moon',
+                                    });
+                                }
+                            },
+                            error:function (data) {
+                                debugger
+                                layer.alert('查询密码是否正确失败',{
+                                    icon:2,
+                                    skin:'layer-ext-moon',
+                                });
+                            }
+
+                        });
+                    }else{
+                        layer.alert('两次密码不一致',{
+                            icon:2,
+                            skin:'layer-ext-moon',
+                        });
+                        $("input[name='newpass1']").val("");
+                        $("input[name='newpass2']").val("");
+                    }
+                }
+
+            });
+        });
+	</script>
 </body>
 </html>
 

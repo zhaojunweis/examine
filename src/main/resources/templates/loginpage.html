@@ -210,18 +210,37 @@
                             success: function(data) {
                                 var str = data.status;
                                 if(str == 200){
-                                    alert(data.message);
-                                    window.location.href = path+"teacher_main";
+                                    layer.confirm('您已登录成功，确定要进入管理员主页吗？',{
+                                        btn:['确定','取消']
+                                    },function(){
+                                        window.location.href = path+"teacher_main";
+                                    },function(){
+                                        layer.msg('已取消登录',{
+                                            time:1500,
+                                            icon:2,
+                                        })
+                                    });
                                 }else{
-                                    alert(data.message);
+                                    layer.alert('登录失败,请重新确认信息,',{
+                                        icon:2,
+                                        skin:'layer-ext-moon',
+                                    });
+                                    $("input[name='t_name']").val("");
+                                    $("input[name='t_pass']").val("");
                                 }
                             },
                             error:function (data) {
-                                alert("未知错误，请稍后再试");
+                                layer.alert('未知错误，请稍后再试,',{
+                                    icon:2,
+                                    skin:'layer-ext-moon',
+                                });
                             }
                         });
                     }else{
-                        alert("账号密码不能为空");
+                        layer.alert('账号密码不能为空,',{
+                            icon:2,
+                            skin:'layer-ext-moon',
+                        });
                     }
                 });
                 //管理员登录

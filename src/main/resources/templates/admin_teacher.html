@@ -56,17 +56,17 @@ body {
 					<h4 class="modal-title">修改口令</h4>
 				</div>
 				<div class="modal-body">
-				<form class="exam-form" action="admin_passwd" method="post">
-					<p>
-						<input type="password" name="oldpass" placeholder="原口令" style="width:100%"/>
-						<br/>
-						<input type="password" name="newpass1" placeholder="新口令" style="width:100%"/>
-						<br/>
-						<input type="password" name="newpass2" placeholder="重输新口令" style="width:100%"/>
-						<br/>
-						<input type="submit" class="btn btn-primary" value="修改" style="width:100%"/>
-					</p>
-				</form>
+					<form id="admin_passwd"  class="exam-form" action="admin_passwd" method="post">
+						<p>
+							<input type="password" name="oldpass" placeholder="原口令" style="width:100%" />
+							<br />
+							<input type="password" name="newpass1" placeholder="新口令" style="width:100%" />
+							<br />
+							<input type="password" name="newpass2" placeholder="重输新口令" style="width:100%" />
+							<br />
+							<input id="btn_change" type="button" class="btn btn-primary" value="修改" style="width:100%" />
+						</p>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -214,12 +214,7 @@ body {
                         success:function (data) {
                             debugger
                             if(data.status==200){
-                                layer.alert(data.message,{
-                                    icon:0,
-                                    skin:'layer-ext-moon',
-                                })
-                                $("input").val('');
-                                $("input[name='action']").val('添加');
+
                                 var t_list = data.t_list;
 
                                 $("#appen_tr").empty();
