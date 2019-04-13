@@ -58,4 +58,8 @@
     <select id = "selectAllExamInfo" resultMap="examBaseMapper">
          select * from t_exam
     </select>
+
+    <select id = "selectOneExamInfoById" parameterType="Integer" resultMap="examBaseMapper">
+        select * from t_exam where id=#{id}
+    </select>
 </mapper>

@@ -15,4 +15,6 @@ public interface ExamService {
     boolean stopExam(String examName);
 
     List<TExam> selectAllExamInfo();
+
+    TExam selectOneExamInfoById(Integer id);
 }
