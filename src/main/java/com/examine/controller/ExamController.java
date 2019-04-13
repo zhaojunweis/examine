@@ -87,6 +87,7 @@ public class ExamController extends BaseController {
     }
 
     @RequestMapping("/uploadExamPaper")
+    @ResponseBody
     public void uploadExamPaper(String examName,MultipartFile multipartFile,HttpSession session){
         session.setAttribute("examName",examName);
         try {

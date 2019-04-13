@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://java.sun.com/jsf/composite">
+<html xmlns:th="http://java.sun.com/jsf/composite" xmlns="http://java.sun.com/jsf/html">
 <head>
 <meta charset="utf-8">
 <title>上机考试系统</title>
@@ -119,16 +119,22 @@ body {
 			<th>考试管理</th>
 		</tr>
 		<tr th:if="${examlists}!= null" th:each="user,userStat:${examlists}">
-			<th class="span3" th:text="${user.examname}"></th>
-			<th class="span3" th:text="${user.exam_time}"></th>
-			<th th:text="${user.create_name}"></th>
+			<input class="examId" type="hidden" th:value="${user.examId}" >
+			<th  class="span3 examname" th:text="${user.examname}"></th>
+			<th class="span3 examtime" th:text="${user.exam_time}"></th>
+			<th class="creatname" th:text="${user.create_name}"></th>
 			<th th:text="${user.exampaper_url}"></th>
-			<th th:text="${user.isautostart}"></th>
-			<th th:text="${user.isexam}"></th>
-			<th th:text="${user.isfinished}"></th>
-			<th th:text="${user.ispageonhole}"></th>
-			<th th:text="${user.isdelete}"></th>
-			<th><a class = "btn"><span class = "icon-edit"></span></a></th>
+			<th claass="isautostart" th:if="${user.isautostart=='1'}"><img src="img/gouxuan1.png"></th>
+			<th claass="isautostart" th:if="${user.isautostart!='1'}"></th>
+			<th th:if="${user.isexam=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isexam!='1'}"></th>
+			<th th:if="${user.isfinished=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isfinished!='1'}"></th>
+			<th th:if="${user.ispageonhole=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.ispageonhole!='1'}"></th>
+			<th th:if="${user.isdelete=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isdelete!='1'}"></th>
+			<th><a class = "btn edit_exam"><span class = "icon-edit"></span></a></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -156,6 +162,18 @@ $("#datetimepicker").datetimepicker({
     minView:0,
     pickerPosition:'bottom-left',
     language:'zh-CN'
+});
+$(document).ready(function () {
+	$(".edit_exam").click(function () {
+	/*	var examname = $(this).parent().parent().children(".examname").text();
+        var creatname = $(this).parent().parent().children(".creatname").text();
+        var examtime = $(this).parent().parent().children(".examtime").text();*/
+		debugger;
+		var ID = $(this).parent().parent().children(".examId").val();
+		debugger
+        window.location.href = "/teacher_exam_modify?Id="+ID;
+
+    });
 });
 $(document).ready(function () {
     $("#admin_logout").click(function () {
@@ -325,7 +343,7 @@ $(document).ready(function () {
                                 "<th class=\"span3\">"+list[i].exam_time+"</th>" +
                                 "<th>"+list[i].create_name+"</th>" +
                                 "<th>"+list[i].exampaper_url+"</th>" +
-                                "<th>"+list[i].isautostart+"</th>" +
+                                "<th>"+list[i].isAutoStart+"</th>" +
                                 "<th>"+list[i].isexam+"</th>" +
                                 "<th>"+list[i].isfinished+"</th>" +
                                 "<th>"+list[i].ispageonhole+"</th>" +

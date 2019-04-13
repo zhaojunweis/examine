@@ -108,12 +108,17 @@ body {
 			<th class="span3" th:text="${user.exam_time}"></th>
 			<th th:text="${user.create_name}"></th>
 			<th th:text="${user.exampaper_url}"></th>
-			<th th:text="${user.isautostart}"></th>
-			<th th:text="${user.isexam}"></th>
-			<th th:text="${user.isfinished}"></th>
-			<th th:text="${user.ispageonhole}"></th>
-			<th th:text="${user.isdelete}"></th>
-			<th>&nbsp;</th>
+			<th th:if="${user.isautostart=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isautostart!='1'}"></th>
+			<th th:if="${user.isexam=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isexam!='1'}"></th>
+			<th th:if="${user.isfinished=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isfinished!='1'}"></th>
+			<th th:if="${user.ispageonhole=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.ispageonhole!='1'}"></th>
+			<th th:if="${user.isdelete=='1'}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isdelete!='1'}"></th>
+			<th><a class = "btn"><span class = "icon-edit"></span></a></th>
 		</tr>
 	</thead>
 	<tbody>
