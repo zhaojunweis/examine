@@ -89,35 +89,36 @@ public class CommonController extends BaseController {
                 e.printStackTrace();
             }
             if(tExam.getIsAutoStart()==1){
-                resultMap.put("isautostart","是");
+                resultMap.put("isautostart","1");
             }else {
-                resultMap.put("isautostart","否");
+                resultMap.put("isautostart","0");
             }
             if(tExam.getIsStart()==1){
                 if(status){
-                    resultMap.put("isexam","否");
-                    resultMap.put("isfinished","是");
+                    resultMap.put("isexam","1");
+                    resultMap.put("isfinished","0");
                 }else{
-                    resultMap.put("isexam","是");
-                    resultMap.put("isfinished","否");
+                    resultMap.put("isexam","1");
+                    resultMap.put("isfinished","0");
                 }
             }else {
-                resultMap.put("isexam","未开始");
-                resultMap.put("isfinished","未开始");
+                resultMap.put("isexam","0");
+                resultMap.put("isfinished","0");
             }
             if(tExam.getIsPigeonhole()==1){
-                resultMap.put("ispageonhole","是");
+                resultMap.put("ispageonhole","1");
             }else{
-                resultMap.put("ispageonhole","否");
+                resultMap.put("ispageonhole","0");
             }
             if (tExam.getIsDelete()==1){
-                resultMap.put("isdelete","是");
+                resultMap.put("isdelete","1");
             }else {
-                resultMap.put("isdelete","否");
+                resultMap.put("isdelete","0");
             }
             resultMap.put("examname",tExam.getExamName());
             resultMap.put("exam_time",tExam.getExamStartTime());
             resultMap.put("create_name",tExam.gettName());
+            resultMap.put("examId",tExam.getId());
             if(!tExam.gettName().equals(null)){
                 resultMap.put("exampaper_url","已上传");
             }else{

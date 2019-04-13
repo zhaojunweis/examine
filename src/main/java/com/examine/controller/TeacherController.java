@@ -10,12 +10,15 @@ import com.examine.domain.TStudent;
 import com.examine.domain.TSystem;
 import com.examine.domain.TTeacher;
 import com.examine.service.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -117,6 +120,19 @@ public ModelAndView manage_unlock() {
 public ModelAndView manage_notify() {
     ModelAndView mv = new ModelAndView();
     mv.setViewName("/teacher_manage_notify");
+    return mv;
+}
+/**
+  * 考前编辑
+  * @parame:
+  * @return
+ */
+@RequestMapping("/teacher_exam_modify")
+public ModelAndView exam_modify(@Param(value = "Id")int Id){
+    ModelAndView mv = new ModelAndView();
+    TExam exam = examService.selectOneExamInfoById(Id);
+    mv.addObject("examinfo",exam);
+    mv.setViewName("/teacher_exam_modify");
     return mv;
 }
 
