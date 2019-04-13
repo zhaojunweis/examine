@@ -84,6 +84,18 @@ public class ExamServiceImpl implements ExamService {
      */
     @Override
     public List<TExam> selectAllExamInfo() {
+
         return examMapper.selectAllExamInfo();
+    }
+
+    /**
+     * 通过Id查询考试信息
+     *
+     * @return
+     */
+    @Override
+    public TExam selectOneExamInfoById() {
+
+        return examMapper.selectOneExamInfoById();
     }
 }

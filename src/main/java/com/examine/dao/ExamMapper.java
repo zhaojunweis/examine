@@ -44,4 +44,10 @@ public interface ExamMapper {
      */
     List<TExam> selectAllExamInfo();
 
+    /**
+     * 通过ID查询异常考试的信息
+     *
+     * @return
+     */
+    TExam selectOneExamInfoById();
 }
