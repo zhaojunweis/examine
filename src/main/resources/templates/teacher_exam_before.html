@@ -116,7 +116,7 @@ body {
 			<th>已结束</th>
 			<th>已归档</th>
 			<th>已清理</th>
-			<th>&nbsp;</th>
+			<th>考试管理</th>
 		</tr>
 		<tr th:if="${examlists}!= null" th:each="user,userStat:${examlists}">
 			<th class="span3" th:text="${user.examname}"></th>
@@ -128,7 +128,7 @@ body {
 			<th th:text="${user.isfinished}"></th>
 			<th th:text="${user.ispageonhole}"></th>
 			<th th:text="${user.isdelete}"></th>
-			<th>&nbsp;</th>
+			<th><a class = "btn"><span class = "icon-edit"></span></a></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -316,22 +316,22 @@ $(document).ready(function () {
                             "<th>已结束</th>" +
                             "<th>已归档</th>" +
                             "<th>已清理</th>" +
-                            "<th>&nbsp;</th></tr>");
+                            "<th>考试管理</th></tr>");
 						var list = data.examlists;
                         for (var i = 0; i <list.length ; i++) {
                             debugger
-                            $("#appen_tr").append("<tr>\n" +
-                                "\t\t\t<th class=\"span3\">"+list[i].examname+"</th>\n" +
-                                "\t\t\t<th class=\"span3\">"+list[i].exam_time+"</th>\n" +
-                                "\t\t\t<th>"+list[i].create_name+"</th>\n" +
-                                "\t\t\t<th>"+list[i].exampaper_url+"</th>\n" +
-                                "\t\t\t<th>"+list[i].isautostart+"</th>\n" +
-                                "\t\t\t<th>"+list[i].isexam+"</th>\n" +
-                                "\t\t\t<th>"+list[i].isfinished+ss"</th>\n" +
-                                "\t\t\t<th>"+list[i].ispageonhole+"</th>\n" +
-                                "\t\t\t<th>"+list[i].isdelete+"</th>\n" +
-                                "\t\t\t<th>&nbsp;</th>\n" +
-                                "\t\t</tr>");
+                            $("#appen_tr").append("<tr>" +
+                                "<th class=\"span3\">"+list[i].examname+"</th>" +
+                                "<th class=\"span3\">"+list[i].exam_time+"</th>" +
+                                "<th>"+list[i].create_name+"</th>" +
+                                "<th>"+list[i].exampaper_url+"</th>" +
+                                "<th>"+list[i].isautostart+"</th>" +
+                                "<th>"+list[i].isexam+"</th>" +
+                                "<th>"+list[i].isfinished+"</th>" +
+                                "<th>"+list[i].ispageonhole+"</th>" +
+                                "<th>"+list[i].isdelete+"</th>" +
+                                "<th><a class = \"btn\"><span class = \"icon-edit\"></span></a></th>" +
+                                "</tr>");
                         }
 					}else{
 					    debugger
