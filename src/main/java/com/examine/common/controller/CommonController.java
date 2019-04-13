@@ -119,9 +119,9 @@ public class CommonController extends BaseController {
             resultMap.put("exam_time",tExam.getExamStartTime());
             resultMap.put("create_name",tExam.gettName());
             if(!tExam.gettName().equals(null)){
-                resultMap.put("exampaper_url",tExam.getExamPaperUrl());
+                resultMap.put("exampaper_url","已上传");
             }else{
-                resultMap.put("exampaper_url","还未上传试卷");
+                resultMap.put("exampaper_url","未上传");
             }
             listmap.add(resultMap);
         }
