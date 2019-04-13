@@ -49,5 +49,5 @@ public interface ExamMapper {
      *
      * @return
      */
-    TExam selectOneExamInfoById();
+    TExam selectOneExamInfoById(Integer id);
 }

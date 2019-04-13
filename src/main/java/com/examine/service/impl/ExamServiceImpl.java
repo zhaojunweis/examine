@@ -94,8 +94,8 @@ public class ExamServiceImpl implements ExamService {
      * @return
      */
     @Override
-    public TExam selectOneExamInfoById() {
+    public TExam selectOneExamInfoById(Integer id) {
 
-        return examMapper.selectOneExamInfoById();
+        return examMapper.selectOneExamInfoById(id);
     }
 }

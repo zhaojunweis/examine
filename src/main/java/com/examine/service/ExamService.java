@@ -16,5 +16,5 @@ public interface ExamService {
 
     List<TExam> selectAllExamInfo();
 
-    TExam selectOneExamInfoById();
+    TExam selectOneExamInfoById(Integer id);
 }
