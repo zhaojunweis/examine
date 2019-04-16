@@ -33,41 +33,45 @@ public class StudentController extends BaseController {
         this.studentService = studentService;
     }
 
-@RequestMapping(value = "/success")
-    public ModelAndView stu_Success(){
+    @RequestMapping(value = "/success")
+    public ModelAndView stu_Success() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/success");
         return mv;
     }
+
     /*
-    * 学生登录验证
-    * */
+     * 学生登录验证
+     * */
     @RequestMapping(value = "/submitStudentLogin", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> submitLogin(TStudent student, HttpSession session) {
         TStudent tStudent;
         tStudent = studentService.selectStudentEntityByUsername(student.getsSno());
         logger.info(student.getsSno() + " " + student.getsPass());
-        if(tStudent!=null){
+        if (tStudent != null) {
             String loginIp = studentService.selectIpAddressByUsername(student.getsSno());
-            if (StringUtils.isBlank(loginIp)) {
-                String ip = IpUtil.getLocalIp();
-                    if (student.getsPass().equals(tStudent.getsPass())) {
-                        session.setAttribute("student", tStudent);
+            String ip = IpUtil.getLocalIp();
+            if (StringUtils.isBlank(loginIp) || loginIp.equals(ip)) {
+                if (student.getsPass().equals(tStudent.getsPass())) {
+                    session.setAttribute("student", tStudent);
+                    //如果登陆Ip为空，则插入，否者不变
+                    if(StringUtils.isBlank(loginIp)){
                         submitService.insertStudentLoginMessage(tStudent.getsSno(), ip);
-                        resultMap.put("status", 200);
-                        resultMap.put("url", "success");
-                        resultMap.put("message", "login success");
-                    } else {
-                        resultMap.put("status", 404);
-                        resultMap.put("message", "wrong password,Not Found");
                     }
+                    resultMap.put("status", 200);
+                    resultMap.put("url", "success");
+                    resultMap.put("message", "login success");
+                } else {
+                    resultMap.put("status", 404);
+                    resultMap.put("message", "wrong password,Not Found");
+                }
 
             } else {
                 resultMap.put("status", 403);
                 resultMap.put("message", "you ip address has been used,Forbidden");
             }
-        }else{
+        } else {
             resultMap.put("status", 500);
             resultMap.put("message", "this user is not exist");
         }
