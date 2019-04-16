@@ -77,8 +77,6 @@ public class ExcelUtils {
         outputStream.close();
     }
 
-
-
     public static void main(String[] args) {
         ExcelUtils.importExcelToSQL("C:\\Users\\lenovo\\Desktop\\name.xlsx");
     }

@@ -1,26 +1,17 @@
 package com.examine.service.impl;
 
 import com.examine.common.service.BaseService;
-import com.examine.common.util.FolderUtils;
 import com.examine.common.util.ResponseResult;
-import com.examine.config.SiteConfig;
 import com.examine.dao.ExamMapper;
-import com.examine.domain.TStudent;
 import com.examine.service.PaperService;
 import com.examine.service.SystemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class PaperServiceImpl extends BaseService implements PaperService {
