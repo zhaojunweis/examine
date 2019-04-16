@@ -118,6 +118,12 @@ public class ExamController extends BaseController {
         return resultMap;
     }
 
+    /**
+     * 教师更新考试的接口
+     *
+     * @param exam
+     * @return
+     */
     @RequestMapping("/updateExamInfo")
     public Map<String,Object> updateExamInfo(TExam exam){
         boolean flag = examService.updateExamInfo(exam);
