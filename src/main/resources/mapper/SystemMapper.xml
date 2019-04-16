@@ -36,6 +36,14 @@
            </set>
     </update>
 
+    <select id = "selectMaxUploadSize" resultType="long">
+          select max_upload_size from t_system
+    </select>
+
+    <select id = "selectMinUploadSize" resultType="long">
+          select min_upload_size from t_system
+    </select>
+
     <!--<insert id="insertSystemConfigure" parameterType="com.examine.domain.TSystem">
          insert
            into

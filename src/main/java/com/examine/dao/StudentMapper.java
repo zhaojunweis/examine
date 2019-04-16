@@ -4,6 +4,7 @@ import com.examine.domain.TStudent;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public interface StudentMapper {
@@ -89,8 +90,13 @@ public interface StudentMapper {
      */
     Integer updateDirtyData(TStudent student);
 
+
     /**
+     * 学生提交答案
      *
-     *
+     * @param map
+     * @return
      */
+    Integer submitAnswer(Map<String,String> map);
+
 }

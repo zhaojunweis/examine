@@ -2,6 +2,7 @@ package com.examine.controller;
 
 import com.examine.common.util.ResponseResult;
 import com.examine.service.ExamService;
+import com.examine.service.PaperService;
 import com.examine.service.SavePaperService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,13 @@ import java.io.IOException;
 @Controller
 public class PaperController {
 
-    private final SavePaperService savePaperService;
+    private final PaperService paperService;
 
     private final ExamService examService;
 
     @Autowired
-    public PaperController(SavePaperService savePaperService, ExamService examService) {
-        this.savePaperService = savePaperService;
+    public PaperController(PaperService paperService, ExamService examService) {
+        this.paperService = paperService;
         this.examService = examService;
     }
 
@@ -39,7 +40,7 @@ public class PaperController {
     @ResponseBody
     public ResponseResult savePaper(MultipartFile multipartFile, HttpSession session) throws FileNotFoundException {
 
-        return savePaperService.SavePaperService(multipartFile, session);
+        return paperService.SavePaperService(multipartFile, session);
     }
 
     @RequestMapping("/downloadPaper")

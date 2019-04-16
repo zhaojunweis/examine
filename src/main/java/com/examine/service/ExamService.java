@@ -17,4 +17,6 @@ public interface ExamService {
     List<TExam> selectAllExamInfo();
 
     TExam selectOneExamInfoById(Integer id);
+
+    boolean updateExamInfo(TExam exam);
 }

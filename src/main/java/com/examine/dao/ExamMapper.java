@@ -24,11 +24,11 @@ public interface ExamMapper {
     Integer saveExaminationInfo(TExam exam);
 
     /**
-     * 上传试卷
+     * 教师上传试卷
      *
      * @return
      */
-    Integer uploadExamPaper(Map<String,String> map);
+    Integer uploadExamPaper(Map<String, String> map);
 
     /**
      * 停止考试
@@ -50,4 +50,12 @@ public interface ExamMapper {
      * @return
      */
     TExam selectOneExamInfoById(Integer id);
+
+    /**
+     * 更新考试信息
+     *
+     * @param exam
+     * @return
+     */
+    Integer updateExamInfo(TExam exam);
 }
