@@ -33,12 +33,24 @@ public class StudentController extends BaseController {
         this.studentService = studentService;
     }
 
-    @RequestMapping(value = "/success")
+
+
+    /*
+    * 考前管理界面的考试编辑中添加学生名单
+    * */
+    @RequestMapping("/teacher_addstudent")
+    public ModelAndView showAddStudent(){
+
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/teacher_addstudent");
+        return mv;
+    }
+   /* @RequestMapping(value = "/success")
     public ModelAndView stu_Success() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/success");
         return mv;
-    }
+    }*/
 
     /*
      * 学生登录验证

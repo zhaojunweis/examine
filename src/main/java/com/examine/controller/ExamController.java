@@ -41,6 +41,34 @@ public class ExamController extends BaseController {
     }
 
     /*
+    *  教师在考前管理界面进入的
+    *  考试编辑界面修改考试信息
+    * */
+    @RequestMapping(value = "/examinfo_modifier")
+    @ResponseBody
+    public Map<String,Object> examinfo_modifier(TExam tExame){
+        int id = (int)tExame.getId();
+        TExam exam = examService.selectOneExamInfoById(id);
+        if(exam.getExamName().equals(tExame.getExamName())&&exam.getExamStartTime().equals(tExame.getExamStartTime())){
+            resultMap.put("status",200);
+            resultMap.put("message","考试信息未变动，无需修改");
+        }else{
+            boolean tag = examService.updateExamInfo(tExame);
+            if(tag){
+                resultMap.put("status",200);
+                resultMap.put("message","您的考试信息修改成功");
+            }else{
+                resultMap.put("status",500);
+                resultMap.put("massage","考试信息修改失败，请重试");
+            }
+        }
+
+        return resultMap;
+
+    }
+
+
+    /*
      * 考试清理界面初始化
      */
     @RequestMapping(value="/admin_exam")
@@ -65,6 +93,10 @@ public class ExamController extends BaseController {
         return resultMap;
     }
 
+    /*
+    * 添加考试
+    *
+    * */
     @RequestMapping("/saveExam")
     public Object saveExam(TExam exam, HttpSession session) {
         //考试信息中包括老师信息
