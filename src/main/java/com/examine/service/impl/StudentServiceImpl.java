@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -116,5 +117,21 @@ public class StudentServiceImpl implements StudentService {
             updateResult = true;
         }
         return updateResult;
+    }
+
+    /**
+     * 学生提交答案
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public boolean submitAnswer(Map<String, String> map) {
+        boolean updateStatus = false;
+        Integer affectCount = studentMapper.submitAnswer(map);
+        if(affectCount == 1){
+            updateStatus = true;
+        }
+        return updateStatus;
     }
 }

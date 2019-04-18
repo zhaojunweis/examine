@@ -36,18 +36,36 @@ public class TeacherServiceImpl implements TeacherService {
         this.submitMapper = submitMapper;
     }
 
+    /**
+     * 通过名称选择教师密码
+     *
+     * @param tName
+     * @return
+     */
     @Override
     public String selectTeacherPasswordByUsername(String tName) {
 
         return teacherMapper.selectTeacherPasswordByUsername(tName);
     }
 
+    /**
+     * 获取管理员登陆信息
+     *
+     * @param tName
+     * @return
+     */
     @Override
     public String selectAdminByLoginMessage(String tName) {
 
         return teacherMapper.selectAdminByLoginMessage(tName);
     }
 
+    /**
+     * 更通过名称更新账号
+     *
+     * @param map
+     * @return
+     */
     @Override
     public Integer updateAccountByUsername(Map<String, Object> map) {
 

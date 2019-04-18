@@ -43,7 +43,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public boolean saveExaminationInfo(TExam exam) {
         boolean flag = false;
-        long index =  examMapper.saveExaminationInfo(exam);
+        long index = examMapper.saveExaminationInfo(exam);
         if (index > 0) {
             flag = true;
         }
@@ -97,5 +97,20 @@ public class ExamServiceImpl implements ExamService {
     public TExam selectOneExamInfoById(Integer id) {
 
         return examMapper.selectOneExamInfoById(id);
+    }
+
+    /**
+     * 更新考试信息
+     *
+     * @param exam
+     * @return
+     */
+    @Override
+    public boolean updateExamInfo(TExam exam) {
+        boolean flag = false;
+        if (examMapper.updateExamInfo(exam) == 1) {
+            flag = true;
+        }
+        return flag;
     }
 }

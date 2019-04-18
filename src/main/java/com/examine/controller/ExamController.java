@@ -4,10 +4,7 @@ import com.examine.common.controller.BaseController;
 import com.examine.common.controller.CommonController;
 import com.examine.domain.TExam;
 import com.examine.domain.TSystem;
-import com.examine.service.ExamService;
-import com.examine.service.SavePaperService;
-import com.examine.service.SystemService;
-import com.examine.service.TeacherService;
+import com.examine.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,16 +26,16 @@ public class ExamController extends BaseController {
 
     private final ExamService examService;
 
-    private final SavePaperService savePaperService;
+    private final PaperService paperService;
 
     private final SystemService systemService;
      private final CommonController commonController;
 
     @Autowired
-    public ExamController(TeacherService teacherService, ExamService examService, SavePaperService savePaperService,SystemService systemService,CommonController commonController) {
+    public ExamController(TeacherService teacherService, ExamService examService, PaperService paperService,SystemService systemService,CommonController commonController) {
         this.teacherService = teacherService;
         this.examService = examService;
-        this.savePaperService = savePaperService;
+        this.paperService = paperService;
         this.systemService = systemService;
         this.commonController = commonController;
     }
@@ -86,22 +83,51 @@ public class ExamController extends BaseController {
        return resultMap;
     }
 
+    /**
+     * 教师上传考试试卷
+     *
+     * @param examName
+     * @param multipartFile
+     * @param session
+     */
     @RequestMapping("/uploadExamPaper")
     @ResponseBody
     public void uploadExamPaper(String examName,MultipartFile multipartFile,HttpSession session){
         session.setAttribute("examName",examName);
         try {
-            savePaperService.SavePaperService(multipartFile,session);
+            paperService.SavePaperService(multipartFile,session);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * 停止考试
+     *
+     * @param examName
+     * @return
+     */
     @RequestMapping("/stopExam")
     public Map<String,Object> stopExam(String examName){
         boolean status = examService.stopExam(examName);
 
         if(!status){
+            resultMap.put("status",500);
+        }
+        resultMap.put("status",200);
+        return resultMap;
+    }
+
+    /**
+     * 教师更新考试的接口
+     *
+     * @param exam
+     * @return
+     */
+    @RequestMapping("/updateExamInfo")
+    public Map<String,Object> updateExamInfo(TExam exam){
+        boolean flag = examService.updateExamInfo(exam);
+        if(!flag){
             resultMap.put("status",500);
         }
         resultMap.put("status",200);

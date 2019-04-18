@@ -23,7 +23,7 @@
          exam_name = #{examName}
     </update>
 
-    <insert id = "saveExaminationInfo" parameterType="com.examine.domain.TExam"
+    <insert id="saveExaminationInfo" parameterType="com.examine.domain.TExam"
             useGeneratedKeys="true" keyProperty="id">
         insert
         into t_exam(
@@ -55,11 +55,27 @@
         update t_exam set is_delete = 1 where is_delete = 0 and is_start = 0
     </update>
 
-    <select id = "selectAllExamInfo" resultMap="examBaseMapper">
+    <select id="selectAllExamInfo" resultMap="examBaseMapper">
          select * from t_exam
     </select>
 
-    <select id = "selectOneExamInfoById" parameterType="Integer" resultMap="examBaseMapper">
+    <select id="selectOneExamInfoById" parameterType="Integer" resultMap="examBaseMapper">
         select * from t_exam where id=#{id}
     </select>
+
+    <update id="updateExamInfo" parameterType="com.examine.domain.TExam">
+        update t_exam
+        <set>
+            <if test="examName != null">
+                exam_name = #{examName},
+            </if>
+            <if test="examStartTime != null">
+                exam_start_time = #{examStartTime},
+            </if>
+            <if test="isAutoStart != null">
+                is_auto_start = #{isAutoStart}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
 </mapper>

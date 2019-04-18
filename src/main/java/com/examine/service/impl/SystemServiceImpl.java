@@ -42,4 +42,26 @@ public class SystemServiceImpl implements SystemService {
 
         return systemMapper.selectSystemConfigure();
     }
+
+    /**
+     * 获取系统文件最大上传
+     *
+     * @return
+     */
+    @Override
+    public long selectMaxUploadSize() {
+
+        return systemMapper.selectMaxUploadSize();
+    }
+
+    /**
+     * 获取系统文件最小上传
+     *
+     * @return
+     */
+    @Override
+    public long selectMinUploadSize() {
+
+        return systemMapper.selectMinUploadSize();
+    }
 }

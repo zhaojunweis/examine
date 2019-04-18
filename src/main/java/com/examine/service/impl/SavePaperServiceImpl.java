@@ -39,7 +39,7 @@ public class SavePaperServiceImpl extends BaseService implements SavePaperServic
      */
     @Override
     public ResponseResult SavePaperService(MultipartFile multipartFile, HttpSession session) {
-        if (multipartFile.getSize() > 0 && !multipartFile.isEmpty()) {
+        /*if (multipartFile.getSize() > 0 && !multipartFile.isEmpty()) {
             String originalFileName = multipartFile.getOriginalFilename();
             File targetFilePath = null;
             try {
@@ -65,7 +65,7 @@ public class SavePaperServiceImpl extends BaseService implements SavePaperServic
             paramMap.put("examName", (String) session.getAttribute("examName"));
             examMapper.uploadExamPaper(paramMap);
             return ResponseResult.ok("upload file success");
-        }
+        }*/
         return new ResponseResult("upload file failed");
     }
 }

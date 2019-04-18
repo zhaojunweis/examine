@@ -19,4 +19,18 @@ public interface SystemMapper {
      * @return
      */
     TSystem selectSystemConfigure();
+
+    /**
+     * 获取学生上传文件最大值
+     *
+     * @return
+     */
+    long selectMaxUploadSize();
+
+    /**
+     * 获取学生上传文件最小值
+     *
+     * @return
+     */
+    long selectMinUploadSize();
 }

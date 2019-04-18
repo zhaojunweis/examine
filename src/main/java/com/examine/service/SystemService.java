@@ -5,5 +5,10 @@ import com.examine.domain.TSystem;
 
 public interface SystemService {
     boolean updateSystemConfigure(TSystem system);
+
     TSystem selectSystemConfigure();
+
+    long selectMaxUploadSize();
+
+    long selectMinUploadSize();
 }
