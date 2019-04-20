@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +54,42 @@ public class TeacherController extends BaseController {
         this.commonController = commonController;
     }
 
-
+    /*
+     * 有考试进行时，考中管理的考试概况初始化
+     * */
+    @RequestMapping(value = "/manageNotifyinExam")
+    public ModelAndView manageNotifyinExam(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/teacher_manage_notify_inexam");
+        return mv;
+    }
+    /*
+     * 有考试进行时，考中管理的学生信息初始化
+     * */
+    @RequestMapping(value = "/manageStudentinExam")
+    public ModelAndView manageStudentinExam(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/teacher_manage_student_inexam");
+        return mv;
+    }
+    /*
+     * 有考试进行时，考中管理的通知管理初始化
+     * */
+    @RequestMapping(value = "/manageSummaryinExam")
+    public ModelAndView manageSummaryinExam(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/teacher_manage_summary_inexam");
+        return mv;
+    }
+    /*
+     * 有考试进行时，考中管理的解除绑定初始化
+     * */
+    @RequestMapping(value = "/manageUnlockinExam")
+    public ModelAndView manageUnlockinExam(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/teacher_manage_unlock_inexam");
+        return mv;
+    }
 /**
   * 考前操作初始化
   * @parame:
@@ -85,7 +122,7 @@ public ModelAndView exam_after(){
 @RequestMapping("/teacher_manage_summary")
 public ModelAndView manage_summary(){
     ModelAndView mv = new ModelAndView();
-    mv.setViewName("/teacher_manage_summary");
+    mv.setViewName("/teacher_manage_summary_inexam");
     return mv;
 }
 /**
@@ -96,7 +133,7 @@ public ModelAndView manage_summary(){
 @RequestMapping("/teacher_manage_student")
 public ModelAndView manage_student() {
     ModelAndView mv = new ModelAndView();
-    mv.setViewName("/teacher_manage_student");
+    mv.setViewName("/teacher_manage_student_inexam");
     return mv;
 }
 /**
@@ -107,7 +144,7 @@ public ModelAndView manage_student() {
 @RequestMapping("/teacher_manage_unlock")
 public ModelAndView manage_unlock() {
     ModelAndView mv = new ModelAndView();
-    mv.setViewName("/teacher_manage_unlock");
+    mv.setViewName("/teacher_manage_unlock_inexam");
     return mv;
 }
 /**
@@ -119,7 +156,7 @@ public ModelAndView manage_unlock() {
 @RequestMapping("/teacher_manage_notify")
 public ModelAndView manage_notify() {
     ModelAndView mv = new ModelAndView();
-    mv.setViewName("/teacher_manage_notify");
+    mv.setViewName("/teacher_manage_notify_inexam");
     return mv;
 }
 /**
@@ -158,7 +195,7 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
             if (password.equals(tTeacher.gettPass())) {
                 session.setAttribute("tName", tTeacher.gettName());
                 resultMap.put("status", "200");
-                resultMap.put("url", "/teacher");
+                resultMap.put("url", "/teacher_main");
                 resultMap.put("message", "welcome to teacher");
             } else {
                 resultMap.put("message", "wrong password");
@@ -184,19 +221,28 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
     /**
      * 导入学生信息到数据库中
      *
-     * @param localExcelPath
+     * @param multipartFile
      * @return
      */
     @RequestMapping("/importStudentInfo")
     @ResponseBody
-    public Map<String, Object> importStudentInfo(String localExcelPath) {
-        boolean importStatus = studentService.importStudentInfo(localExcelPath);
-        if (!importStatus) {
-            resultMap.put("status", "500");
-            resultMap.put("message", "import failed");
+    public Map<String, Object> importStudentInfo(@RequestParam(value = "files",required = false) MultipartFile multipartFile) {
+
+        /*首先上传excel文件,并返回excel的文件位置
+        * */
+        String uploadexcel = ExcelUtils.uploadExcelFile(multipartFile);
+        if(uploadexcel.equals(null)){
+            resultMap.put("status","500");
+            resultMap.put("message","上传excel错误，添加失败");
+        }else {
+            boolean importStatus = studentService.importStudentInfo(uploadexcel);
+            if (!importStatus) {
+                resultMap.put("status", "500");
+                resultMap.put("message", "import failed");
+            }
+            resultMap.put("status", "200");
+            resultMap.put("message", "import success");
         }
-        resultMap.put("status", "200");
-        resultMap.put("message", "import success");
         return resultMap;
     }
 
