@@ -43,7 +43,7 @@
 								教师登录
 							</h3>
 
-							<form id="" class="exam-form" action="teacher_login" method="post">
+							<form id="" class="exam-form" action="teacher_login" method="post" onkeydown="teacherLogin()">
 								<p>
 									<input type="text" name="t_name" placeholder="用户名" /> <br /> <input
 										type="password" name="t_pass" placeholder="口令" />
@@ -66,7 +66,7 @@
 								管理员登录
 							</h3>
 
-							<form id="form_administrator"  class="exam-form" action="admin_login" method="post">
+							<form id="form_administrator"  class="exam-form" action="admin_login" method="post" onkeydown="adminLogin()">
 								<p>
 									<input id="adminname" type="text" name="adminname" placeholder="用户名" /> <br />
 									<input id="adminpass"	type="password" name="adminpass" placeholder="口令" />
@@ -97,11 +97,11 @@
 								学生登录
 							</h3>
 
-							<form  class="exam-form" action="student_login" method="post">
+							<form  class="exam-form" action="student_login" method="post" onkeydown="studentLogin()">
 								<p>
-									<input type="text" name="sno" placeholder="学号" />
+									<input type="text" name="sno" placeholder="学号"  onchange="testSno()"/>
 									<br />
-									<input type="text" name="sname" placeholder="姓名" />
+									<input type="text" name="sname" placeholder="姓名"  onchange="testSname()" />
 								</p>
 								<p>
 									
@@ -121,173 +121,12 @@
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/layer/layer.js"></script>
+		<script src="js/locales/login.js"></script>
 
 		<script type="text/javascript">
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', function () {
                 history.pushState(null, null, document.URL);
-            });
-            $(document).ready(function () {
-
-                var path = "[[@{/}]]";
-                //学生登录
-                $("#btn_student").click(function(){
-                    debugger;
-                    var sSno = $("input[name='sno']").val() ;
-                    var sname = $("input[name='sname']").val();
-                    debugger;
-                    if((sSno!="")&&(sname!="")){
-                        $.ajax({
-                            type: 'post',
-                            url: path+"submitStudentLogin",
-                            data: {
-                                sSno:sSno,
-                                sPass:sname
-							},
-                            success: function(data) {
-                                debugger
-                                var str = data.status;
-                                switch (str){
-									case 200:
-                                        layer.confirm('您已登录成功，确定要进入学生主页吗？',{
-                                            btn:['确定','取消']
-                                        },function(){
-                                            window.location.href = path+data.url;
-                                        },function(){
-                                            layer.msg('已取消登录',{
-                                                time:1500,
-                                                icon:2,
-                                            })
-                                        });
-                                        break;
-									case 404:
-                                        layer.alert(data.message,{
-                                            icon:2,
-                                            skin:'layer-ext-moon',
-                                        });
-                                        break;
-									case 500:
-                                        layer.alert(data.message,{
-                                            icon:2,
-                                            skin:'layer-ext-moon',
-                                        });
-                                        $("input[name='sno']").val("");
-                                        $("input[name='sname']").val("");
-                                        break;
-									case 403:
-                                        layer.alert(data.message,{
-                                            icon:2,
-                                            skin:'layer-ext-moon',
-                                        });
-                                        break;
-
-								}
-
-                            },
-                            error:function (data) {
-                                layer.alert("未知错误，请稍后再试");
-                            }
-                        });
-                    }else{
-                        layer.alert("学号姓名不能为空");
-                    }
-                });
-
-                //教师登录
-                $("#btn_teacher").click(function(){
-
-                    var name = $("input[name='t_name']").val() ;
-                    var pass = $("input[name='t_pass']").val();
-
-                    if((name!="")&&(pass!="")){
-                        $.ajax({
-                            type: 'post',
-                            url: path+"submitTeacherLogin",
-                            data: {
-                                tName:name,
-                                tPass:pass,
-							},
-                            success: function(data) {
-                                var str = data.status;
-                                if(str == 200){
-                                    layer.confirm('您已登录成功，确定要进入教师主页吗？',{
-                                        btn:['确定','取消']
-                                    },function(){
-                                        window.location.href = path+"teacher_main";
-                                    },function(){
-                                        layer.msg('已取消登录',{
-                                            time:1500,
-                                            icon:2,
-                                        })
-                                    });
-                                }else{
-                                    layer.alert('登录失败,请重新确认信息,',{
-                                        icon:2,
-                                        skin:'layer-ext-moon',
-                                    });
-                                    $("input[name='t_name']").val("");
-                                    $("input[name='t_pass']").val("");
-                                }
-                            },
-                            error:function (data) {
-                                layer.alert('未知错误，请稍后再试,',{
-                                    icon:2,
-                                    skin:'layer-ext-moon',
-                                });
-                            }
-                        });
-                    }else{
-                        layer.alert('账号密码不能为空,',{
-                            icon:2,
-                            skin:'layer-ext-moon',
-                        });
-                    }
-                });
-                //管理员登录
-                $("#btn_admin").click(function(){
-                    debugger;
-                    var name = $("#adminname").val() ;
-                    var pass = $("#adminpass").val();
-                    debugger;
-                    if((name!="")&&(pass!="")){
-                        $.ajax({
-                            type: 'post',
-                            url: path+"submitAdminLogin",
-                            data: $("#form_administrator").serialize(),
-                            success: function(data) {
-                                debugger
-                                var str = data.status;
-                                if(str == 200){
-                                    debugger
-                                    layer.confirm('您已登录成功，确定要进入管理员主页吗？',{
-                                        btn:['确定','取消']
-									},function(){
-                                        window.location.href = path+data.url;
-									},function(){
-                                        layer.msg('已取消登录',{
-                                            time:1500,
-											icon:2,
-										})
-									});
-
-                                }else{
-                                    layer.alert('登录失败,请重新确认信息,',{
-                                        icon:2,
-                                        skin:'layer-ext-moon',
-                                    });
-                                    $("input[name='adminname']").val("");
-                                    $("input[name='adminpass']").val("");
-                                }
-                            },
-                            error:function (data) {
-                                layer.alert("未知错误，请稍后再试");
-                            }
-                        });
-					}else{
-                       layer.alert("账号密码不能为空");
-					}
-                });
-
             });
 
 

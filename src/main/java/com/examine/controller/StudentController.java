@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,18 +40,19 @@ public class StudentController extends BaseController {
     * 考前管理界面的考试编辑中添加学生名单
     * */
     @RequestMapping("/teacher_addstudent")
-    public ModelAndView showAddStudent(){
+    public ModelAndView showAddStudent(@RequestParam(value = "Id")int id){
 
         ModelAndView mv = new ModelAndView();
+        mv.addObject("Id",id);
         mv.setViewName("/teacher_addstudent");
         return mv;
     }
-   /* @RequestMapping(value = "/success")
+    @RequestMapping(value = "/success")
     public ModelAndView stu_Success() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/success");
         return mv;
-    }*/
+    }
 
     /*
      * 学生登录验证

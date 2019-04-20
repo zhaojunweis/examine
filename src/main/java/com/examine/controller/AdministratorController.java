@@ -71,7 +71,7 @@ public class AdministratorController extends BaseController {
             String password = teacherService.selectAdminByLoginMessage(tName);
             if (tPass.equals(password)) {
                 resultMap.put("status", 200);
-                resultMap.put("url", "admin_main");
+                resultMap.put("url", "/admin_main");
                 resultMap.put("message", "login success");
                 session.setAttribute("tName", tName);
             } else {
@@ -81,7 +81,7 @@ public class AdministratorController extends BaseController {
         }else{
             if (("admin".equals(tName))&&("admin".equals(tPass))){
                 resultMap.put("status", 200);
-                resultMap.put("url", "admin_main");
+                resultMap.put("url", "/admin_main");
                 resultMap.put("message", "login success");
                 session.setAttribute("tName", tName);
             }else {

@@ -1,5 +1,6 @@
 package com.examine.common.util;
 
+import com.examine.config.SiteConfig;
 import com.examine.domain.TStudent;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -8,11 +9,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +22,7 @@ import java.util.List;
 public class ExcelUtils {
 
     private String[] titles;
+//    private String excelpath;
 
     public ExcelUtils(String[] titles) {
 
@@ -77,7 +79,45 @@ public class ExcelUtils {
         outputStream.close();
     }
 
-    public static void main(String[] args) {
-        ExcelUtils.importExcelToSQL("C:\\Users\\lenovo\\Desktop\\name.xlsx");
+    /*
+    * 首先上传excel表，然后以字符串形式返回excel表在服务端的路径
+    *
+    * */
+    public static String uploadExcelFile(MultipartFile multipartFile) {
+        String originname = multipartFile.getOriginalFilename();
+        String folder = "exceltables";
+        File targetFile = null;
+        String baseurl = SiteConfig.BASE_URL;
+        if (multipartFile != null) {
+            FolderUtils.createFolder(baseurl,folder);
+            //上传文件的路径
+            try {
+                targetFile = new File(
+                        new File(ResourceUtils.getURL(baseurl).getPath())
+                                .getAbsolutePath() + "/" + folder, originname);
+                if(targetFile.exists()){
+                    targetFile.delete();
+                    try {
+                        if (targetFile.createNewFile()) {
+
+                            multipartFile.transferTo(targetFile);
+                            return targetFile.getAbsolutePath();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
     }
+
+
+   /* public static void main(String[] args) {
+        ExcelUtils.importExcelToSQL("C:\\Users\\lenovo\\Desktop\\name.xlsx");
+    }*/
 }
