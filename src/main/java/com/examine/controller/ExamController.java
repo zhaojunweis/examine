@@ -202,7 +202,7 @@ public class ExamController extends BaseController {
    @ResponseBody
    public List<TExam> selectExamInfoByTName(){
 
-       String tName = "xwc";
+        String tName = "xwc";
        return examService.selectExamInfoByTName(tName);
    }
 }
