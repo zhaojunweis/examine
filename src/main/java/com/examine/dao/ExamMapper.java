@@ -58,4 +58,12 @@ public interface ExamMapper {
      * @return
      */
     Integer updateExamInfo(TExam exam);
+
+    /**
+     * 根据创建考试教师名称，实现考试信息查询
+     *
+     * @param tName
+     * @return
+     */
+    TExam selectExamInfoByTExam(String tName);
 }

@@ -62,12 +62,12 @@ public class StudentController extends BaseController {
     public Map<String, Object> submitLogin(TStudent student, HttpSession session) {
         TStudent tStudent;
         tStudent = studentService.selectStudentEntityByUsername(student.getsSno());
-        logger.info(student.getsSno() + " " + student.getsPass());
+        logger.info(student.getsSno() + " " + student.getsName());
         if (tStudent != null) {
             String loginIp = studentService.selectIpAddressByUsername(student.getsSno());
             String ip = IpUtil.getLocalIp();
             if (StringUtils.isBlank(loginIp) || loginIp.equals(ip)) {
-                if (student.getsPass().equals(tStudent.getsPass())) {
+                if (student.getsName().equals(tStudent.getsName())) {
                     session.setAttribute("student", tStudent);
                     //如果登陆Ip为空，则插入，否者不变
                     if(StringUtils.isBlank(loginIp)){

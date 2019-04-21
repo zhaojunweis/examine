@@ -6,7 +6,6 @@
         <id property="id" column="id"/>
         <result property="sSno" column="s_sno"/>
         <result property="sName" column="s_name"/>
-        <result property="sPass" column="s_pass"/>
         <result property="sClassId" column="s_class_id"/>
         <result property="sScoreName" column="s_score_name"/>
         <result property="sIsDelete" column="s_is_delete"/>
@@ -33,12 +32,10 @@
         into t_student(
            s_sno,
            s_name,
-           s_pass,
            s_class_id
         )values (
            #{sSno},
            #{sName},
-           #{sPass},
            #{sClassId}
         )
     </insert>
@@ -68,12 +65,10 @@
         into t_student(
            s_sno,
            s_name,
-           s_pass,
            s_class_id
         )values (
            #{sSno},
            #{sName},
-           #{sPass},
            #{sClassId}
         )
     </insert>
@@ -86,9 +81,6 @@
             </if>
             <if test="sName != null">
                  s_name = #{sName},
-            </if>
-            <if test="sPass != null">
-                 s_pass = #{sPass},
             </if>
             <if test="sClassId != null">
                  s_class_id = #{sClassId}

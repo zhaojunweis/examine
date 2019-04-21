@@ -48,7 +48,7 @@ function studentLogin(){
                 url:"/submitStudentLogin",
                 data: {
                     sSno:sSno,
-                    sPass:sname
+                    sName:sname
                 },
                 success: function(data) {
                     debugger

@@ -41,7 +41,7 @@ public class ExcelUtils {
                 TStudent student = new TStudent();
                 student.setsSno(NumberToTextConverter.toText(row.getCell(0).getNumericCellValue()));
                 student.setsName(row.getCell(1).getStringCellValue());
-                student.setsPass("123456"); // set default password
+                //student.setsPass("123456"); // set default password
                 Cell classId = row.getCell(2);
                 if (classId.getCellType() == Cell.CELL_TYPE_NUMERIC) {
                     String classIdS = NumberToTextConverter.toText(classId.getNumericCellValue());

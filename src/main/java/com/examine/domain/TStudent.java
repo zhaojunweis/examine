@@ -8,8 +8,6 @@ public class TStudent {
 
     private String sName;
 
-    private String sPass;
-
     private int sClassId;
 
     private String sScoreName;
@@ -43,14 +41,6 @@ public class TStudent {
 
     public void setsName(String sName) {
         this.sName = sName;
-    }
-
-    public String getsPass() {
-        return sPass;
-    }
-
-    public void setsPass(String sPass) {
-        this.sPass = sPass;
     }
 
     public int getsClassId() {
