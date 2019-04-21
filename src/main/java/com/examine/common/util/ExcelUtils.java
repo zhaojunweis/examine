@@ -89,23 +89,26 @@ public class ExcelUtils {
         File targetFile = null;
         String baseurl = SiteConfig.BASE_URL;
         if (multipartFile != null) {
-            FolderUtils.createFolder(baseurl,folder);
+           /* FolderUtils.createFolder(baseurl,folder);*/
             //上传文件的路径
             try {
                 targetFile = new File(
                         new File(ResourceUtils.getURL(baseurl).getPath())
                                 .getAbsolutePath() + "/" + folder, originname);
                 if(targetFile.exists()){
-                    targetFile.delete();
-                    try {
-                        if (targetFile.createNewFile()) {
 
-                            multipartFile.transferTo(targetFile);
-                            return targetFile.getAbsolutePath();
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
+                    targetFile.delete();
+                }
+
+                targetFile.getParentFile().mkdirs();
+                try {
+                    if (targetFile.createNewFile()) {
+
+                        multipartFile.transferTo(targetFile);
+                        return targetFile.getAbsolutePath();
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
 
             } catch (FileNotFoundException e) {
@@ -113,7 +116,7 @@ public class ExcelUtils {
             }
 
         }
-        return null;
+        return "";
     }
 
 

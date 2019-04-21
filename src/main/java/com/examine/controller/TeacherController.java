@@ -55,18 +55,28 @@ public class TeacherController extends BaseController {
         this.commonController = commonController;
     }
 
-    /*
-     * 有考试进行时，考中管理的考试概况初始化
-     * */
+
+    /**
+      *有考试进行时，考中管理的考试概况初始化
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping(value = "/manageNotifyinExam")
     public ModelAndView manageNotifyinExam(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/teacher_manage_notify_inexam");
         return mv;
     }
-    /*
-     * 有考试进行时，考中管理的学生信息初始化
-     * */
+
+    /**
+      *有考试进行时，考中管理的学生信息初始化
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping(value = "/manageStudentinExam")
     public ModelAndView manageStudentinExam(){
         ModelAndView mv = new ModelAndView();
@@ -82,9 +92,11 @@ public class TeacherController extends BaseController {
         mv.setViewName("/teacher_manage_summary_inexam");
         return mv;
     }
-    /*
-     * 有考试进行时，考中管理的解除绑定初始化
-     * */
+    /**
+      *有考试进行时，考中管理的解除绑定初始化
+      * @parame:
+      * @return
+     */
     @RequestMapping(value = "/manageUnlockinExam")
     public ModelAndView manageUnlockinExam(){
         ModelAndView mv = new ModelAndView();
@@ -97,9 +109,9 @@ public class TeacherController extends BaseController {
   * @return
  */
 @RequestMapping("/teacher_exam_before")
-public ModelAndView exam_Befor(){
+public ModelAndView exam_Befor(@RequestParam(defaultValue = "admin", value = "t_name") String t_name){
     ModelAndView mv = new ModelAndView();
-    mv.addObject("examlists",commonController.getExamineInfo());
+    mv.addObject("examlists",commonController.getExamineInfo(t_name));
     mv.setViewName("/teacher_exam_before");
     return mv;
 }
@@ -109,9 +121,9 @@ public ModelAndView exam_Befor(){
   * @return
  */
 @RequestMapping("/teacher_exam_after")
-public ModelAndView exam_after(){
+public ModelAndView exam_after(@RequestParam(defaultValue = "admin", value = "t_name") String t_name){
     ModelAndView mv = new ModelAndView();
-    mv.addObject("examlists",commonController.getExamineInfo());
+    mv.addObject("examlists",commonController.getExamineInfo(t_name));
     mv.setViewName("/teacher_exam_after");
     return mv;
 }
@@ -174,13 +186,6 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
     return mv;
 }
 
-
-
-
-
-
-
-
     /**
      * 教师登陆
      *
@@ -227,12 +232,12 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
      */
     @RequestMapping("/importStudentInfo")
     @ResponseBody
-    public Map<String, Object> importStudentInfo(@RequestParam(value = "files",required = false) MultipartFile multipartFile) {
+    public Map<String, Object> importStudentInfo(@RequestParam(value = "multipartFile",required = false) MultipartFile multipartFile) {
 
         /*首先上传excel文件,并返回excel的文件位置
         * */
         String uploadexcel = ExcelUtils.uploadExcelFile(multipartFile);
-        if(uploadexcel.equals(null)){
+        if(uploadexcel.equals("")){
             resultMap.put("status","500");
             resultMap.put("message","上传excel错误，添加失败");
         }else {

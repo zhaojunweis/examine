@@ -27,17 +27,27 @@ public class AdministratorController extends BaseController {
 
         this.teacherService = teacherService;
     }
-    /*
-    * 登录
-    * */
+
+    /**
+      * 登录
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping("/login")
     public ModelAndView showLoginPage(){
         return new ModelAndView("/loginpage");
     }
 
-    /*
-     * 教师管理界面初始化
-     * */
+
+    /**
+      * 教师管理界面初始化
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping(value="/admin_teacher")
     public ModelAndView admin_teacher(){
         ModelAndView mv = new ModelAndView();
@@ -46,9 +56,14 @@ public class AdministratorController extends BaseController {
         mv.setViewName("/admin_teacher");
         return mv;
     }
-    /*
-    * 管理员界面初始化
-    * */
+
+    /**
+      * 管理员界面初始化
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping("/admin_main")
     public ModelAndView EnterAdminMain(){
         ModelAndView mv = new ModelAndView();
@@ -58,9 +73,14 @@ public class AdministratorController extends BaseController {
 
 
 
-    /*
-    * 管理员登录验证初始化
-    * */
+
+    /**
+      * 管理员登录验证初始化
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping("/submitAdminLogin")
     @ResponseBody
     public Map<String, Object> submitAdminLogin(
@@ -92,9 +112,14 @@ public class AdministratorController extends BaseController {
         return resultMap;
     }
 
-    /*
-    * 添加教师功能
-    * */
+
+    /**
+      * 添加教师功能
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping("/saveTeacher")
     @ResponseBody
     public Map<String, Object> saveTeacher(TTeacher tTeacher) {
@@ -111,6 +136,11 @@ public class AdministratorController extends BaseController {
         return resultMap;
     }
 
+    /**
+      * 删除单个教师
+      * @parame:
+      * @return
+     */
     @RequestMapping("/removeTeacher")
     public ModelAndView removeTeacher(String tName) {
         ModelAndView mv = new ModelAndView();
