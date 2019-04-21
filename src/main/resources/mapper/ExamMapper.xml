@@ -79,4 +79,9 @@
         where id = #{id};
     </update>
 
+
+    <select id = "selectExamInfoByTExam" parameterType="String" resultMap="examBaseMapper">
+        select * from t_exam where t_name = #{tName} and is_delete = 0
+    </select>
+
 </mapper>

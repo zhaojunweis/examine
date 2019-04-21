@@ -113,4 +113,16 @@ public class ExamServiceImpl implements ExamService {
         }
         return flag;
     }
+
+    /**
+     * 根据教师提交的信息查询考试信息
+     *
+     * @param tName
+     * @return
+     */
+    @Override
+    public TExam selectExamInfoByTExam(String tName) {
+
+        return examMapper.selectExamInfoByTExam(tName);
+    }
 }

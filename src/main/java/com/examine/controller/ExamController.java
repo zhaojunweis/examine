@@ -175,4 +175,11 @@ public class ExamController extends BaseController {
 
         return examService.selectAllExamInfo();
     }*/
+   @RequestMapping("/selectExamInfoByTName")
+   @ResponseBody
+   public TExam selectExamInfoByTName(){
+
+       String tName = "xwc";
+       return examService.selectExamInfoByTExam(tName);
+   }
 }

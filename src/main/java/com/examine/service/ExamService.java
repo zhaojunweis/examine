@@ -19,4 +19,6 @@ public interface ExamService {
     TExam selectOneExamInfoById(Integer id);
 
     boolean updateExamInfo(TExam exam);
+
+    TExam selectExamInfoByTExam(String tName);
 }
