@@ -10,7 +10,7 @@ public class FolderUtils {
         StringBuilder sb = new StringBuilder();
         File file = new File(
                 sb.append(baseUrl).append(folderName).toString());
-        //判断文件夹是否存在
+        //判断文件夹是否存在u
         if(!file.exists()){
             mStatus = file.mkdir();
         }

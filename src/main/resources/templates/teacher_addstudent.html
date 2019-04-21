@@ -221,7 +221,7 @@ body {
             $("#addStudents").click(function () {
                 if($("input[name='students']").val().length!=0){
                     var formdata = new FormData();
-                    formdata.append("files",$("#students")[0].files[0]);
+                    formdata.append("multipartFile",$("#students")[0].files[0]);
                     $.ajax({
                         type:'post',
                         url:'/importStudentInfo',

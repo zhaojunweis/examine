@@ -36,9 +36,14 @@ public class StudentController extends BaseController {
 
 
 
-    /*
-    * 考前管理界面的考试编辑中添加学生名单
-    * */
+
+    /**
+      * 考前管理界面的考试编辑中添加学生名单
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping("/teacher_addstudent")
     public ModelAndView showAddStudent(@RequestParam(value = "Id")int id){
 
@@ -54,9 +59,14 @@ public class StudentController extends BaseController {
         return mv;
     }
 
-    /*
-     * 学生登录验证
-     * */
+
+    /**
+      * 学生登录验证
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping(value = "/submitStudentLogin", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> submitLogin(TStudent student, HttpSession session) {

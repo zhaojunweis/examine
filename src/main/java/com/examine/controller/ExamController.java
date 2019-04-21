@@ -44,9 +44,16 @@ public class ExamController extends BaseController {
    
 
     /*
-    *  教师在考前管理界面进入的
-    *  考试编辑界面修改考试信息
+    *
     * */
+    /**
+      *教师在考前管理界面进入的
+      * 考试编辑界面修改考试信息
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping(value = "/examinfo_modifier")
     @ResponseBody
     public Map<String,Object> examinfo_modifier(TExam tExame){
@@ -71,17 +78,29 @@ public class ExamController extends BaseController {
     }
 
 
-    /*
-     * 考试清理界面初始化
+
+    /**
+      *考试清理界面初始化
+      * @parame:
+      * @return
      */
+
+
     @RequestMapping(value="/admin_exam")
     public ModelAndView admin_exam() throws ParseException {
         ModelAndView mv = new ModelAndView();
-       List<Map> listmap  = commonController.getExamineInfo();
+       List<Map> listmap  = commonController.getExamineInfo("");
         mv.addObject("examlists",listmap);
         mv.setViewName("/admin_exam");
         return mv;
     }
+    /**
+      * 根据考试名称清理该场考试
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping("/clearExam")
     @ResponseBody
     public Map<String, Object> clearExam(String examName) {
@@ -96,17 +115,21 @@ public class ExamController extends BaseController {
         return resultMap;
     }
 
-    /*
-    * 添加考试
-    *
-    * */
+
+    /**
+      *添加考试
+      * @parame:
+      * @return
+     */
+
+
     @RequestMapping("/saveExam")
     public Object saveExam(TExam exam, HttpSession session) {
         //考试信息中包括老师信息
        // String tName = (String) session.getAttribute("tName");
       //  exam.settName(tName);
        boolean flag =  examService.saveExaminationInfo(exam);
-       List<Map> mapList  = commonController.getExamineInfo();
+       List<Map> mapList  = commonController.getExamineInfo(exam.gettName());
        if(flag){
            resultMap.put("status","200");
            resultMap.put("message","添加考试成功");
