@@ -65,5 +65,5 @@ public interface ExamMapper {
      * @param tName
      * @return
      */
-    TExam selectExamInfoByTExam(String tName);
+    List<TExam> selectExamInfoByTName(String tName);
 }

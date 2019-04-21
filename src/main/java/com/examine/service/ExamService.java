@@ -20,5 +20,5 @@ public interface ExamService {
 
     boolean updateExamInfo(TExam exam);
 
-    TExam selectExamInfoByTExam(String tName);
+    List<TExam> selectExamInfoByTName(String tName);
 }
