@@ -38,7 +38,7 @@ public class PaperController {
 
     @RequestMapping("/savePaper")
     @ResponseBody
-    public ResponseResult savePaper(@RequestParam(value = "files",required = false) MultipartFile multipartFile, HttpSession session) throws FileNotFoundException {
+    public ResponseResult savePaper(@RequestParam(value = "multipartFile",required = false) MultipartFile multipartFile, HttpSession session) throws FileNotFoundException {
 
         ResponseResult rr =  paperService.SavePaperService(multipartFile, session);
         return rr;
