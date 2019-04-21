@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -277,8 +278,12 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
         response.setHeader("Content-Disposition", "attachment;filename=" + zipName);
         try (ZipOutputStream out = new ZipOutputStream(response.getOutputStream())) {
             for (String aFileList : fileList) {
-                ZipUtils.doCompress(aFileList, out);
-                response.flushBuffer();
+                if(aFileList != null){
+                    //文件的上一级目录
+                    String parentDirDown = new File(aFileList).getParent();
+                    ZipUtils.doCompress(parentDirDown, out);
+                    response.flushBuffer();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

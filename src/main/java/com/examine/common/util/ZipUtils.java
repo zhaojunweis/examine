@@ -35,7 +35,7 @@ public class ZipUtils {
     }
 
     public static void doCompress(File inFile, ZipOutputStream out, String dir) throws IOException {
-        if ( inFile.isDirectory() ) {
+        if ( inFile.isDirectory()) {
             File[] files = inFile.listFiles();
             if (files!=null && files.length>0) {
                 for (File file : files) {
