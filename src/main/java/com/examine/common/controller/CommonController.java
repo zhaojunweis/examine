@@ -72,60 +72,80 @@ public class CommonController extends BaseController {
         }
         return resultMap;
     }
-    public List<Map> getExamineInfo(){
+    /**
+      * 根据type属性哦获取所有的考试信息和单个教师相关的考试信息
+      * @parame:
+      * @return
+     */
+
+
+    public List<Map> getExamineInfo(String type){
         TSystem tSystem = systemService.selectSystemConfigure();
-        List<TExam> tExams = examService.selectAllExamInfo();
+        List<TExam> tExams = null; //获取所有的考试信息
         List<Map> listmap  = new ArrayList<>();
-        String startTime;
-        String examTime;
-        for (TExam tExam: tExams) {
-            Map<Object,Object> resultMap = new HashMap<>();
-            startTime= tExam.getExamStartTime();
-            examTime = tSystem.getsExamTime();
-            boolean status = false;
-            try {
-                status = isTestFinished(startTime,examTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if(tExam.getIsAutoStart()==1){
-                resultMap.put("isautostart","1");
-            }else {
-                resultMap.put("isautostart","0");
-            }
-            if(tExam.getIsStart()==1){
-                if(status){
-                    resultMap.put("isexam","1");
-                    resultMap.put("isfinished","0");
-                }else{
-                    resultMap.put("isexam","1");
+        /*
+        * 根据type参数来区分管理员请求和单个教师请求
+        * */
+        if(type.equals("")){
+            tExams = examService.selectAllExamInfo();
+        }else {
+
+            /*tExams = examService.selectExamInfoByTExam(type);*/
+            tExams = examService.selectAllExamInfo();
+        }
+        if(tExams!=null){
+            String startTime;
+            String examTime;
+            for (TExam tExam: tExams) {
+                Map<Object,Object> resultMap = new HashMap<>();
+                startTime= tExam.getExamStartTime();
+                examTime = tSystem.getsExamTime();
+                boolean status = false;
+                try {
+                    status = isTestFinished(startTime,examTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if(tExam.getIsAutoStart()==1){
+                    resultMap.put("isautostart","1");
+                }else {
+                    resultMap.put("isautostart","0");
+                }
+                if(tExam.getIsStart()==1){
+                    if(status){
+                        resultMap.put("isexam","1");
+                        resultMap.put("isfinished","0");
+                    }else{
+                        resultMap.put("isexam","1");
+                        resultMap.put("isfinished","0");
+                    }
+                }else {
+                    resultMap.put("isexam","0");
                     resultMap.put("isfinished","0");
                 }
-            }else {
-                resultMap.put("isexam","0");
-                resultMap.put("isfinished","0");
+                if(tExam.getIsPigeonhole()==1){
+                    resultMap.put("ispageonhole","1");
+                }else{
+                    resultMap.put("ispageonhole","0");
+                }
+                if (tExam.getIsDelete()==1){
+                    resultMap.put("isdelete","1");
+                }else {
+                    resultMap.put("isdelete","0");
+                }
+                resultMap.put("examname",tExam.getExamName());
+                resultMap.put("exam_time",tExam.getExamStartTime());
+                resultMap.put("create_name",tExam.gettName());
+                resultMap.put("examId",tExam.getId());
+                if(!tExam.gettName().equals(null)){
+                    resultMap.put("exampaper_url","已上传");
+                }else{
+                    resultMap.put("exampaper_url","未上传");
+                }
+                listmap.add(resultMap);
             }
-            if(tExam.getIsPigeonhole()==1){
-                resultMap.put("ispageonhole","1");
-            }else{
-                resultMap.put("ispageonhole","0");
-            }
-            if (tExam.getIsDelete()==1){
-                resultMap.put("isdelete","1");
-            }else {
-                resultMap.put("isdelete","0");
-            }
-            resultMap.put("examname",tExam.getExamName());
-            resultMap.put("exam_time",tExam.getExamStartTime());
-            resultMap.put("create_name",tExam.gettName());
-            resultMap.put("examId",tExam.getId());
-            if(!tExam.gettName().equals(null)){
-                resultMap.put("exampaper_url","已上传");
-            }else{
-                resultMap.put("exampaper_url","未上传");
-            }
-            listmap.add(resultMap);
         }
+
         return listmap;
     }
     /**
