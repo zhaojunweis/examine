@@ -121,8 +121,8 @@ public class ExamServiceImpl implements ExamService {
      * @return
      */
     @Override
-    public TExam selectExamInfoByTExam(String tName) {
+    public List<TExam> selectExamInfoByTName(String tName) {
 
-        return examMapper.selectExamInfoByTExam(tName);
+        return examMapper.selectExamInfoByTName(tName);
     }
 }

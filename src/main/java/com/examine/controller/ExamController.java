@@ -200,9 +200,9 @@ public class ExamController extends BaseController {
     }*/
    @RequestMapping("/selectExamInfoByTName")
    @ResponseBody
-   public TExam selectExamInfoByTName(){
+   public List<TExam> selectExamInfoByTName(){
 
-       String tName = "xwc";
-       return examService.selectExamInfoByTExam(tName);
+        String tName = "xwc";
+       return examService.selectExamInfoByTName(tName);
    }
 }
