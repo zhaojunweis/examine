@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://java.sun.com/jsf/composite">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/exam.css" rel="stylesheet">
+<style>
+    .error_div{
+       width:74%;height:20px;text-align:left; margin: 0 auto;
+        padding-left: 5px;
+        padding-bottom: 2px;
+    }
+
+</style>
+<body>
+<div class="modal-body">
+    <form  style="text-align: center" id="admin_passwd"  class="exam-form" action="admin_passwd" method="post">
+        <input type="hidden">
+
+            <input type="text" name="name" placeholder="用户名" style="width:70%;margin: 0px"  onblur="validateTest('name')" onkeyup="validateTest('name')" />
+             <div class="error_div" id="namespan"></div>
+
+            <input type="text" name="pass" placeholder="初始口令" style="width:70%;margin: 0px" onblur="validateTest('pass')" onkeyup="validateTest('pass')"/>
+              <div class ="error_div" id="passspan"></div>
+
+            <input type="text" name="fullname" placeholder="全名" style="width:70%;margin: 0px"  onblur="validateTest('fullname')" onkeyup="validateTest('fullname')"/>
+            <div  class ="error_div"  id="fullnamespan"></div>
+
+            <input id="input_check" style="height: 20px;" type="checkbox" name="isadmin" placeholder="是否管理员" />
+            <span style="width:100px;height: 20px;text-align: center">管理员</span>
+            <br />
+            <input id="btn_change" type="button" class="btn btn-primary" value="修改" style="width:200px;margin-top: 10px;" />
+
+
+    </form>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/layer/layer.js"></script>
+<script>
+    function validateTest(input_name){
+        debugger
+        var content = $("input[name='"+input_name+"']").val();
+        var contentReg;
+        switch (input_name){
+            case "name":
+                debugger
+
+                if((content=="")||(content.length>10)){
+                    debugger
+                    $("input[name='name']").css('border','1px solid red');
+
+                    $("#namespan").text("填写长度在10以内的中英文或数字");
+                    $("#namespan").css('color',"red");
+                    $("#namespan").css('font-size',"10px");
+                    return false;
+                }else{
+                    debugger
+                    $("#namespan").text("");
+                    $("input[name='name']").css('border','1px solid #cccccc');
+                    return true;
+                }
+                break;
+            case "pass":
+                contentReg =  /^[a-zA-Z0-9]{6,10}$/;
+                if(!contentReg.test(content)){
+                    debugger
+                    $("input[name='pass']").css('border','1px solid red');
+                    $("#passspan").text("请填写6-10位数字或字母");
+                    $("#passspan").css('color',"red");
+                    $("#passspan").css('font-size',"10px");
+                    return false;
+                }else{
+                    debugger
+                    $("input[name='pass']").css('border','1px solid #cccccc');
+                    $("#passspan").text("");
+                    return true;
+                }
+                break;
+            case "fullname":
+                contentReg = /^[\u4e00-\u9fa5_a-zA-Z]{1,15}$/;
+                if(!contentReg.test(content)){
+                    debugger
+                    $("input[name='fullname']").css('border','1px solid red');
+                    $("#fullnamespan").text("请填写15位以内的中英文");
+                    $("#fullnamespan").css('color',"red");
+                    $("#fullnamespan").css('font-size',"10px");
+                    return false;
+                }else{
+                    debugger
+                    $("input[name='fullname']").css('border','1px solid #cccccc');
+                    $("#fullnamespan").text("");
+                    return true;
+                }
+                break;
+            default:break;
+        }
+    }
+    $(document).ready(function () {
+        $("#btn_change").click(function () {
+            var name = $("input[name='name']").val();
+            var pass = $("input[name='pass']").val();
+            var funname = $("input[name='fullname']").val();
+            var admin ;
+            var tatus = $("#input_check").prop("checked");
+            debugger;
+            if(tatus==true){
+                admin = 1;
+            }else{
+                admin = 0;
+            }
+            debugger
+            if(validateTest("name")&&validateTest("pass")&&validateTest("fullname")){
+                $.ajax({
+                    type:'post',
+                    url:'/saveTeacher',
+                    data:{
+                        tName:name,
+                        tPass:pass,
+                        tRealName:funname,
+                        tIsAdmin:admin,
+                    },
+                    success:function (data) {
+                        debugger
+                        if(data.status==200){
+
+                            var t_list = data.t_list;
+
+                            $("#appen_tr").empty();
+                            $("#appen_tr").append("<tr>" +
+                                "<th class=\"span4\">用户名</th>" +
+                                "<th class=\"span4\">全名</th>" +
+                                "<th class=\"span3\">是否管理员</th><th>&nbsp;</th></tr>")
+                            for (var i in t_list){
+                                debugger
+                                var tIsAdmin;
+                                if(t_list[i].tIsAdmin=="1"){
+                                    tIsAdmin = "是";
+                                }else {
+                                    tIsAdmin = "否";
+                                }
+                                $("#appen_tr").append("<tr>" +
+                                    "<th class=\"span4\">"+t_list[i].tName+"</th>" +
+                                    "<th class=\"span4\">"+t_list[i].tRealName+"</th>" +
+                                    "<th class=\"span3\">"+tIsAdmin+"</th><th>&nbsp;</th></tr>")
+                            }
+                            layer.msg(data.message);
+                        }else{
+                            layer.alert(data.message,{
+                                icon:2,
+                                skin:'layer-ext-moon',
+                            })
+                        }
+
+                    },
+                    error:function (data) {
+                        layer.alert("用户名已被占用,请重新输入",{
+                            icon:2,
+                            skin:'layer-ext-moon',
+                        })
+                    }
+                });
+            }else{
+                layer.alert("请根据提示信息填写",{
+                    icon:2,
+                    skin:'layer-ext-moon',
+                })
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>
