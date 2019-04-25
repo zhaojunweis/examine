@@ -64,7 +64,7 @@ public class CommonController extends BaseController {
     public Map<String,Object> checkPasswordByname(@RequestParam(value = "tName") String name){
         Map<String ,Object> parameterMap = new HashMap<>();
         String pd = teacherService.selectTeacherPasswordByUsername(name);
-        if(!pd.equals(null)){
+        if(pd!=null){
             resultMap.put("status",200);
             resultMap.put("content",pd);
         }else {
@@ -90,8 +90,8 @@ public class CommonController extends BaseController {
             tExams = examService.selectAllExamInfo();
         }else {
 
-            /*tExams = examService.selectExamInfoByTExam(type);*/
-            tExams = examService.selectAllExamInfo();
+            tExams = examService.selectExamInfoByTName(type);
+
         }
         if(tExams!=null){
             String startTime;

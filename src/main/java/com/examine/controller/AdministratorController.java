@@ -142,12 +142,13 @@ public class AdministratorController extends BaseController {
       * @return
      */
     @RequestMapping("/removeTeacher")
-    public ModelAndView removeTeacher(String tName) {
-        ModelAndView mv = new ModelAndView();
+    @ResponseBody
+    public Map<String, Object>  removeTeacher(@RequestParam(value = "tName") String tName) {
+
         teacherService.removeTeacher(tName);
         List<TTeacher> teachers = teacherService.selectAllTeacher();
-        mv.addObject("teachers", teachers);
-        return new ModelAndView("");
+        return  resultMap;
+
     }
 
     /**
@@ -182,6 +183,18 @@ public class AdministratorController extends BaseController {
     @ResponseBody
     public boolean onlyAdmin(){
         return teacherService.selectCountOtherAdminExceptAdmin();
+    }
+
+    /**
+      * 管理员修改教师的相关信息layer弹窗内容
+      * @parame:
+      * @return
+     */
+    @RequestMapping("/admin_Teacher_Edit")
+    public ModelAndView admin_Teacher_Edit(@RequestParam(value = "Id") int Id ){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("admin_teacher_edit");
+        return mv;
     }
 
 
