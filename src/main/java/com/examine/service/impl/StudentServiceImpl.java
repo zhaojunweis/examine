@@ -134,4 +134,10 @@ public class StudentServiceImpl implements StudentService {
         }
         return updateStatus;
     }
+
+    @Override
+    public Integer examineesCount(String sScoreName) {
+
+        return studentMapper.examineesCount(sScoreName);
+    }
 }

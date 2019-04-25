@@ -48,11 +48,11 @@ public interface StudentMapper {
     void saveStudentOneByOne(TStudent student);
 
     /**
-     * 查看学生数量
+     * 查看参加某场考试学生数量
      *
      * @return
      */
-    Integer examineesCount();
+    Integer examineesCount(String sScoreName);
 
     /**
      * 查看已经提交的数量
