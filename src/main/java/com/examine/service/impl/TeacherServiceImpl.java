@@ -100,14 +100,19 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     /**
-     * 删除教师
+     * 根据ID删除教师
      *
-     * @param tName
+     * @param id
+     * @return
      */
     @Override
-    public void removeTeacher(String tName) {
-
-        teacherMapper.removeTeacher(tName);
+    public boolean removeTeacher(Integer id) {
+        boolean flag = false;
+        Integer affectCount = teacherMapper.removeTeacherById(id);
+        if(affectCount == 1){
+            flag = true;
+        }
+        return flag;
     }
 
     /**

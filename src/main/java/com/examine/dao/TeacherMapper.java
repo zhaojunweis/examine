@@ -49,9 +49,10 @@ public interface TeacherMapper {
     /**
      * 通过用户名声删除教师
      *
-     * @param tName
+     * @param id
+     * @return
      */
-    void removeTeacher(String tName);
+    Integer removeTeacherById(Integer id);
 
     /**
      * 通过考试名称清除考试信息

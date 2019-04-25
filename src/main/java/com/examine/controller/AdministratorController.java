@@ -143,10 +143,15 @@ public class AdministratorController extends BaseController {
      */
     @RequestMapping("/removeTeacher")
     @ResponseBody
-    public Map<String, Object>  removeTeacher(@RequestParam(value = "tName") String tName) {
-
-        teacherService.removeTeacher(tName);
-        List<TTeacher> teachers = teacherService.selectAllTeacher();
+    public Map<String, Object>  removeTeacher(Integer id) {
+        boolean removeStatus = teacherService.removeTeacher(id);
+        if(!removeStatus){
+            resultMap.put("status","500");
+            resultMap.put("message","delete failed");
+        }else{
+            resultMap.put("status","200");
+            resultMap.put("message","delete success");
+        }
         return  resultMap;
 
     }

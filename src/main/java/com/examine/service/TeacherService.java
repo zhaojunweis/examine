@@ -17,7 +17,7 @@ public interface TeacherService {
 
     List<TTeacher> selectAllTeacher();
 
-    void removeTeacher(String tName);
+    boolean removeTeacher(Integer id);
 
     boolean clearExamInfo(String examName);
 
