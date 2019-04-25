@@ -90,8 +90,8 @@ public class CommonController extends BaseController {
             tExams = examService.selectAllExamInfo();
         }else {
 
-            /*tExams = examService.selectExamInfoByTExam(type);*/
-            tExams = examService.selectAllExamInfo();
+            tExams = examService.selectExamInfoByTName(type);
+
         }
         if(tExams!=null){
             String startTime;
