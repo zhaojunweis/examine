@@ -25,4 +25,7 @@ public interface TeacherService {
 
     boolean selectCountOtherAdminExceptAdmin();
 
+    TTeacher selectTeacherById(Integer id);
+
+    boolean updateTeacherById(TTeacher tTeacher);
 }

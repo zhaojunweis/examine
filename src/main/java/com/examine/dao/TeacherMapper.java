@@ -67,4 +67,19 @@ public interface TeacherMapper {
      * @return
      */
     Integer selectCountOtherAdminExceptAdmin();
+
+    /**
+     * 通过ID查询教师信息
+     *
+     * @return
+     */
+    TTeacher selectTeacherById(Integer id);
+
+    /**
+     * 根据教师ID更新教师信息
+     *
+     * @param tTeacher
+     * @return
+     */
+    Integer updateTeacherById(TTeacher tTeacher);
 }

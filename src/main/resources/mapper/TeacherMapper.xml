@@ -68,4 +68,33 @@
     <select id = "selectCountOtherAdminExceptAdmin" resultType="Integer">
         select count(*) from t_teacher where t_is_delete = 0 and t_name != 'admin' and t_is_admin = 1
     </select>
+
+    <select id = "selectTeacherById" resultMap="teacherBaseMap" parameterType="Integer">
+        select * from t_teacher where id = #{id} and t_is_delete = 0;
+    </select>
+
+    <update id="updateTeacherById" parameterType="com.examine.domain.TTeacher">
+        update
+          t_teacher
+          <set>
+              <if test="tName != null">
+                   t_name = #{tName},
+              </if>
+              <if test="tRealName != null">
+                   t_real_name = #{tRealName},
+              </if>
+              <if test="tPass != null">
+                   t_pass = #{tPass},
+              </if>
+              <if test="tIsAdmin != null">
+                   t_is_admin = #{tIsAdmin},
+              </if>
+
+              <if test="tIsDelete != null">
+                   t_is_delete = #{tIsDelete}
+              </if>
+          </set>
+
+          where id = #{id}
+    </update>
 </mapper>

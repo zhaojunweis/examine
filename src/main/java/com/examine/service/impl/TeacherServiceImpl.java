@@ -162,4 +162,31 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return flag;
     }
+
+    /**
+     * 通过教师Id查询教师信息
+     *
+     * @return
+     */
+    @Override
+    public TTeacher selectTeacherById(Integer id) {
+
+        return teacherMapper.selectTeacherById(id);
+    }
+
+    /**
+     * 通过教师ID更新教师信息
+     *
+     * @param tTeacher
+     * @return
+     */
+    @Override
+    public boolean updateTeacherById(TTeacher tTeacher) {
+        boolean flag = false;
+        Integer affectCount = teacherMapper.updateTeacherById(tTeacher);
+        if(affectCount == 1){
+            flag = true;
+        }
+        return flag;
+    }
 }
