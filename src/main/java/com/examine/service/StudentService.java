@@ -21,4 +21,6 @@ public interface StudentService {
     boolean updateDirtyData(TStudent student);
 
     boolean submitAnswer(Map<String,String> map);
+
+    Integer examineesCount(String sScoreName);
 }

@@ -53,19 +53,48 @@
         )
     </insert>
 
-    <delete id="removeTeacher" parameterType="String">
-        delete from t_teacher where t_name = #{tName}
+    <delete id="removeTeacherById" parameterType="Integer">
+        delete from t_teacher where id=#{id}
     </delete>
 
     <select id="selectAllTeacher" resultMap="teacherBaseMap">
         select * from t_teacher where t_is_delete = 0
     </select>
 
-    <select id = "selectIsPigeonhole" parameterType="String" resultType="Integer">
+    <select id="selectIsPigeonhole" parameterType="String" resultType="Integer">
         select is_pigeonhole from t_exam where exam_name = #{examName}
     </select>
 
-    <select id = "selectCountOtherAdminExceptAdmin" resultType="Integer">
+    <select id="selectCountOtherAdminExceptAdmin" resultType="Integer">
         select count(*) from t_teacher where t_is_delete = 0 and t_name != 'admin' and t_is_admin = 1
     </select>
+
+    <select id="selectTeacherById" resultMap="teacherBaseMap" parameterType="Integer">
+        select * from t_teacher where id = #{id} and t_is_delete = 0;
+    </select>
+
+    <update id="updateTeacherById" parameterType="com.examine.domain.TTeacher">
+        update
+        t_teacher
+        <set>
+            <if test="tName != null">
+                t_name = #{tName},
+            </if>
+            <if test="tRealName != null">
+                t_real_name = #{tRealName},
+            </if>
+            <if test="tPass != null">
+                t_pass = #{tPass},
+            </if>
+            <if test="tIsAdmin != null">
+                t_is_admin = #{tIsAdmin},
+            </if>
+
+            <if test="tIsDelete != null">
+                t_is_delete = #{tIsDelete}
+            </if>
+        </set>
+
+        where id = #{id}
+    </update>
 </mapper>

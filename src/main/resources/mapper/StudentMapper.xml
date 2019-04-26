@@ -40,12 +40,15 @@
         )
     </insert>
 
-    <select id="examineesCount" resultType="Integer">
-        select count(*) from t_student where s_is_delete = 0
+    <select id="examineesCount" resultType="Integer" parameterType="String">
+        select count(*) from t_student where s_is_delete = 0 and s_score_name = #{sScoreName}
     </select>
 
+
+
+
     <select id="examineesWhoSubmitCount" resultType="Integer">
-        select count(*) from t_submit where s_is_submit = 1
+        select count(*) from t_submit where s_is_submit = 1 and s_is_delete = 0
     </select>
 
     <select id="examineesWhoNoLogin" resultMap="studentBaseMap">
