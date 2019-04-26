@@ -40,28 +40,46 @@
         )
     </insert>
 
+    <!--考试人数-->
     <select id="examineesCount" resultType="Integer" parameterType="String">
         select count(*) from t_student where s_is_delete = 0 and s_score_name = #{sScoreName}
     </select>
 
-
-
-
-    <select id="examineesWhoSubmitCount" resultType="Integer">
-        select count(*) from t_submit where s_is_submit = 1 and s_is_delete = 0
+    <!--登陆人数-->
+    <select id="examineesWhoHasLoginCount" resultType="Integer" parameterType="String">
+        select count(*) from t_submit where  s_is_delete = 0 and s_login_address IS NOT NULL and  exam_name = #{sScoreName}
     </select>
 
-    <select id="examineesWhoNoLogin" resultMap="studentBaseMap">
-        select * from t_student where s_sno not in (
-           select s_sno from t_submit where t_submit.s_is_delete = 0
-        ) and t_student.s_is_delete = 0
+    <!--提交人数-->
+    <select id="examineesWhoSubmitCount" resultType="Integer" parameterType="String">
+        select count(*) from t_submit where s_is_submit = 1 and s_is_delete = 0 and  exam_name = #{sScoreName}
     </select>
 
-    <select id="examineesWhoHasLogin" resultMap="studentBaseMap">
-         select * from t_student where s_sno in (
-           select s_sno from t_submit where t_submit.s_is_delete = 0
-        ) and t_student.s_is_delete = 0
+    <!--未登录人数-->
+    <select id="examineesWhoNoLoginCount" resultType="Integer" parameterType="String">
+    select
+      (
+        select
+          count(*)
+           from t_student
+        where
+          s_is_delete = 0
+           and
+          s_score_name = #{sScoreName})
+      -
+      (
+        select
+          count(*)
+            from t_submit
+         where
+          s_is_delete = 0
+            and
+          s_login_address IS NOT NULL
+            and
+          exam_name =  #{sScoreName}
+      );
     </select>
+
 
     <insert id="insertStudent" parameterType="com.examine.domain.TStudent">
         insert
@@ -80,13 +98,13 @@
         update t_student
         <set>
             <if test="sSno != null">
-                 s_sno = #{sSno},
+                s_sno = #{sSno},
             </if>
             <if test="sName != null">
-                 s_name = #{sName},
+                s_name = #{sName},
             </if>
             <if test="sClassId != null">
-                 s_class_id = #{sClassId}
+                s_class_id = #{sClassId}
             </if>
         </set>
         where

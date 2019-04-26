@@ -8,6 +8,8 @@ import com.examine.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -129,7 +131,7 @@ public class StudentServiceImpl implements StudentService {
     public boolean submitAnswer(Map<String, String> map) {
         boolean updateStatus = false;
         Integer affectCount = studentMapper.submitAnswer(map);
-        if(affectCount == 1){
+        if (affectCount == 1) {
             updateStatus = true;
         }
         return updateStatus;
@@ -139,5 +141,35 @@ public class StudentServiceImpl implements StudentService {
     public Integer examineesCount(String sScoreName) {
 
         return studentMapper.examineesCount(sScoreName);
+    }
+
+    /**
+     * 学生考试进行过程中的信息
+     *
+     * @param sScoreName
+     * @return
+     */
+    @Override
+    public Map<String, Integer> studentCountOneExam(String sScoreName) {
+
+        HashMap<String, Integer> resultMap = new HashMap<>();
+        //考试参加人数
+        Integer examineesCount = studentMapper.examineesCount(sScoreName);
+
+        //登陆人数
+        Integer loginCount = studentMapper.examineesWhoHasLoginCount(sScoreName);
+
+        //未登录人数
+        Integer noLoginCount = studentMapper.examineesWhoNoLoginCount(sScoreName);
+
+        //提交人数
+        Integer whoSubmitCount = studentMapper.examineesWhoSubmitCount(sScoreName);
+
+        resultMap.put("examineesCount", examineesCount);
+        resultMap.put("loginCount", loginCount);
+        resultMap.put("noLoginCount", noLoginCount);
+        resultMap.put("whoSubmitCount", whoSubmitCount);
+
+        return resultMap;
     }
 }
