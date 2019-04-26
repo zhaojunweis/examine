@@ -3,7 +3,7 @@ package com.examine.service.impl;
 import com.examine.common.service.BaseService;
 import com.examine.common.util.FolderUtils;
 import com.examine.common.util.ResponseResult;
-import com.examine.config.SiteConfig;
+import com.examine.config.site.SiteConfig;
 import com.examine.dao.ExamMapper;
 import com.examine.dao.StudentMapper;
 import com.examine.domain.TStudent;

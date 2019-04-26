@@ -1,6 +1,6 @@
 package com.examine.common.util;
 
-import com.examine.config.SiteConfig;
+import com.examine.config.site.SiteConfig;
 import com.examine.domain.TStudent;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;

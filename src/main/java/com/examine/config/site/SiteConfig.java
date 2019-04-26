@@ -1,4 +1,4 @@
-package com.examine.config;
+package com.examine.config.site;
 
 
 public class SiteConfig {
