@@ -137,6 +137,12 @@ public class StudentServiceImpl implements StudentService {
         return updateStatus;
     }
 
+    /**
+     * 参加考试学生数量
+     *
+     * @param sScoreName
+     * @return
+     */
     @Override
     public Integer examineesCount(String sScoreName) {
 

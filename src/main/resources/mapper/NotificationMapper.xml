@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.examine.dao.NotificationMapper">
+
+    <insert id="saveNotification" parameterType="com.examine.domain.TNotification">
+         insert
+            into
+              t_notification(message)
+              value(#{message});
+    </insert>
+
+    <select id = "showAllNotification" resultType="com.examine.domain.TNotification">
+        select * from t_notification
+    </select>
+
+</mapper>

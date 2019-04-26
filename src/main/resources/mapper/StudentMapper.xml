@@ -115,4 +115,8 @@
        update t_submit set s_is_submit = 1,s_exam_paper=#{examPaperUrl} where s_sno=#{sSno}
     </update>
 
+    <select id="selectLoginInfoByIp" parameterType="String">
+
+    </select>
+
 </mapper>
