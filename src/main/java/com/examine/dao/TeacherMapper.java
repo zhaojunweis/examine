@@ -77,6 +77,14 @@ public interface TeacherMapper {
     TTeacher selectTeacherById(Integer id);
 
     /**
+     * 通过教师名称查询实体
+     *
+     * @param tName
+     * @return
+     */
+    TTeacher selectTeacherEntityByUsername(String tName);
+
+    /**
      * 根据教师ID更新教师信息
      *
      * @param tTeacher

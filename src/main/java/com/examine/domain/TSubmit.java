@@ -1,8 +1,9 @@
 package com.examine.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TSubmit {
+public class TSubmit implements Serializable {
 
     private long id;
 

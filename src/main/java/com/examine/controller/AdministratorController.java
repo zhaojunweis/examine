@@ -119,7 +119,6 @@ public class AdministratorController extends BaseController {
       * @return
      */
 
-
     @RequestMapping("/saveTeacher")
     @ResponseBody
     public Map<String, Object> saveTeacher(TTeacher tTeacher) {
