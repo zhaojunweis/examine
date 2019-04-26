@@ -11,24 +11,32 @@
        width:74%;height:20px;text-align:left; margin: 0 auto;
         padding-left: 5px;
         padding-bottom: 2px;
+        padding-left:85px;
+    }
+    .lab1{
+        width:100px;
+        font-size: 14px;
+        color: #333;
     }
 
 </style>
 <body>
 <div class="modal-body">
     <form  style="text-align: center" id="admin_passwd"  class="exam-form" action="admin_passwd" method="post">
-        <input type="hidden">
+        <input id="t_Id" type="hidden" th:value="${oneTeacher.id}">
 
-            <input type="text" name="name" placeholder="用户名" style="width:70%;margin: 0px"  onblur="validateTest('name')" onkeyup="validateTest('name')" />
+            <span class="lab1">用户名称: &nbsp&nbsp</span>
+            <input type="text" name="name" placeholder="用户名" th:value="${oneTeacher.tName}" style="width:70%;margin: 0px"  onblur="validateTest('name')" onkeyup="validateTest('name')" />
              <div class="error_div" id="namespan"></div>
-
-            <input type="text" name="pass" placeholder="初始口令" style="width:70%;margin: 0px" onblur="validateTest('pass')" onkeyup="validateTest('pass')"/>
+            <span class="lab1">初始口令: &nbsp&nbsp</span>
+            <input type="text" name="pass" placeholder="初始口令" th:value="${oneTeacher.tPass}"  style="width:70%;margin: 0px" onblur="validateTest('pass')" onkeyup="validateTest('pass')"/>
               <div class ="error_div" id="passspan"></div>
-
-            <input type="text" name="fullname" placeholder="全名" style="width:70%;margin: 0px"  onblur="validateTest('fullname')" onkeyup="validateTest('fullname')"/>
+             <span class="lab1">真实姓名: &nbsp&nbsp</span>
+            <input type="text" name="fullname" placeholder="真实姓名"  th:value="${oneTeacher.tRealName}" style="width:70%;margin: 0px"  onblur="validateTest('fullname')" onkeyup="validateTest('fullname')"/>
             <div  class ="error_div"  id="fullnamespan"></div>
 
-            <input id="input_check" style="height: 20px;" type="checkbox" name="isadmin" placeholder="是否管理员" />
+            <input th:if="${oneTeacher.tIsAdmin==1}"  style="height: 20px;" type="checkbox" name="isadmin" checked />
+            <input th:if="${oneTeacher.tIsAdmin!=1}"  style="height: 20px;" type="checkbox" name="isadmin"  />
             <span style="width:100px;height: 20px;text-align: center">管理员</span>
             <br />
             <input id="btn_change" type="button" class="btn btn-primary" value="修改" style="width:200px;margin-top: 10px;" />
@@ -100,11 +108,12 @@
     }
     $(document).ready(function () {
         $("#btn_change").click(function () {
+            var Id = $(this).parent().children("#t_Id").val();
             var name = $("input[name='name']").val();
             var pass = $("input[name='pass']").val();
             var funname = $("input[name='fullname']").val();
             var admin ;
-            var tatus = $("#input_check").prop("checked");
+            var tatus = $("input[name='isadmin']").prop("checked");
             debugger;
             if(tatus==true){
                 admin = 1;
@@ -115,38 +124,23 @@
             if(validateTest("name")&&validateTest("pass")&&validateTest("fullname")){
                 $.ajax({
                     type:'post',
-                    url:'/saveTeacher',
+                    url:'/updateTeacherById',
                     data:{
+                        id:Id,
                         tName:name,
                         tPass:pass,
                         tRealName:funname,
                         tIsAdmin:admin,
                     },
                     success:function (data) {
-                        debugger
                         if(data.status==200){
+                           layer.alert();
+                            layer.alert(data.message,{
+                                btn:['确定']
+                            },function () {
+                                window.parent.location.href = "/admin_teacher"
+                            });
 
-                            var t_list = data.t_list;
-
-                            $("#appen_tr").empty();
-                            $("#appen_tr").append("<tr>" +
-                                "<th class=\"span4\">用户名</th>" +
-                                "<th class=\"span4\">全名</th>" +
-                                "<th class=\"span3\">是否管理员</th><th>&nbsp;</th></tr>")
-                            for (var i in t_list){
-                                debugger
-                                var tIsAdmin;
-                                if(t_list[i].tIsAdmin=="1"){
-                                    tIsAdmin = "是";
-                                }else {
-                                    tIsAdmin = "否";
-                                }
-                                $("#appen_tr").append("<tr>" +
-                                    "<th class=\"span4\">"+t_list[i].tName+"</th>" +
-                                    "<th class=\"span4\">"+t_list[i].tRealName+"</th>" +
-                                    "<th class=\"span3\">"+tIsAdmin+"</th><th>&nbsp;</th></tr>")
-                            }
-                            layer.msg(data.message);
                         }else{
                             layer.alert(data.message,{
                                 icon:2,

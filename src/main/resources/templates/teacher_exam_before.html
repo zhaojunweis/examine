@@ -168,10 +168,8 @@
         language: 'zh-CN'
     });
     $(document).ready(function () {
-        $(".edit_exam").click(function () {
-            /*	var examname = $(this).parent().parent().children(".examname").text();
-                var creatname = $(this).parent().parent().children(".creatname").text();
-                var examtime = $(this).parent().parent().children(".examtime").text();*/
+        $(document).on("click",".edit_exam",function () {
+
             debugger;
             var ID = $(this).parent().parent().children(".examId").val();
             debugger
@@ -181,7 +179,7 @@
     });
 
     $(document).ready(function () {
-        $("#addexam").click(function () {
+        $(document).on("click","#addexam",function () {
             var t_name = $("input[name='ename']").val();
             var t_time = $("input[name='etime']").val();
             var t_creator = $("#brandname").text();
@@ -207,7 +205,7 @@
                         if (data.status == 200) {
                             debugger
                             layer.alert(data.message, {
-                                icon: 0,
+                                icon: 1,
                                 skin: 'layer-ext-moon',
                             })
                             $("input").val('');
@@ -229,6 +227,7 @@
                             for (var i = 0; i < list.length; i++) {
                                 debugger
                                 $("#appen_tr").append("<tr>" +
+                                    "<input class='examId' type='hidden' value="+ list[i].examId+">"+
                                     "<th class=\"span3\">" + list[i].examname + "</th>" +
                                     "<th class=\"span3\">" + list[i].exam_time + "</th>" +
                                     "<th>" + list[i].create_name + "</th>" +
@@ -239,7 +238,7 @@
                                 "<th>" + list[i].isfinished + "</th>" +
                                 "<th>" + list[i].ispageonhole + "</th>" +
                                 "<th>" + list[i].isdelete + "</th>" +
-                                "<th><a class = \"btn\"><span class = \"icon-edit\"></span></a></th></tr>");
+                                "<th><a class = 'btn edit_exam'><span class = \"icon-edit\"></span></a></th></tr>");
                             }
                         } else {
                             debugger

@@ -109,7 +109,7 @@ public class TeacherController extends BaseController {
   * @return
  */
 @RequestMapping("/teacher_exam_before")
-public ModelAndView exam_Befor(@RequestParam(defaultValue = "admin", value = "t_name") String t_name){
+public ModelAndView exam_Befor(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
     ModelAndView mv = new ModelAndView();
     mv.addObject("examlists",commonController.getExamineInfo(t_name));
     mv.setViewName("/teacher_exam_before");
@@ -121,7 +121,7 @@ public ModelAndView exam_Befor(@RequestParam(defaultValue = "admin", value = "t_
   * @return
  */
 @RequestMapping("/teacher_exam_after")
-public ModelAndView exam_after(@RequestParam(defaultValue = "admin", value = "t_name") String t_name){
+public ModelAndView exam_after(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
     ModelAndView mv = new ModelAndView();
     mv.addObject("examlists",commonController.getExamineInfo(t_name));
     mv.setViewName("/teacher_exam_after");

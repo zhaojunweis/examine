@@ -275,7 +275,7 @@ body {
                 if(validaterTest("sExamTime")&&validaterTest("sPageCount")&&validaterTest("manualOpenTime")&&validaterTest("minUploadSize")&&validaterTest("maxUploadSize")){
                     if(Number(minUploadSize)>=Number(maxUploadSize)){
                         layer.alert('上传文件长度下限高于上限，请修改',{
-                            icon:2,
+                            icon:0,
                             skin:'layer-ext-moon',
                         });
                         $("input[name='minUploadSize']").val(null);
@@ -296,7 +296,7 @@ body {
                                 var str = data.status;
                                 if(str == 200){
                                     layer.alert(data.message,{
-                                        icon:0,
+                                        icon:1,
                                         skin:'layer-ext-moon',
                                     });
                                     debugger;
@@ -319,7 +319,7 @@ body {
 
 				}else{
                     layer.alert('请完善信息',{
-                        icon:2,
+                        icon:0,
                         skin:'layer-ext-moon',
 					});
 
