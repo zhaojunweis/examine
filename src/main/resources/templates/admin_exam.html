@@ -96,9 +96,10 @@ body {
 			<th>已结束</th>
 			<th>已归档</th>
 			<th>已清理</th>
-			<th>&nbsp;</th>
+			<th>操作</th>
 		</tr>
 		<tr th:if="${examlists}!= null" th:each="user,userStat:${examlists}">
+			<input class="Id" type="hidden" th:valur="${user.examId}"/>
 			<th class="span3" th:text="${user.examname}"></th>
 			<th class="span3" th:text="${user.exam_time}"></th>
 			<th th:text="${user.create_name}"></th>
@@ -109,11 +110,11 @@ body {
 			<th th:if="${user.isexam!='1'}"></th>
 			<th th:if="${user.isfinished=='1'}"><img src="img/gouxuan1.png"></th>
 			<th th:if="${user.isfinished!='1'}"></th>
-			<th th:if="${user.ispageonhole=='1'}"><img src="img/gouxuan1.png"></th>
-			<th th:if="${user.ispageonhole!='1'}"></th>
-			<th th:if="${user.isdelete=='1'}"><img src="img/gouxuan1.png"></th>
-			<th th:if="${user.isdelete!='1'}"></th>
-			<th><a class = "btn"><span class = "icon-edit"></span></a></th>
+			<th class="is_pageonhole" th:if="${user.ispageonhole=='1'}"><img src="img/gouxuan1.png"></th>
+			<th class="is_pageonhole" th:if="${user.ispageonhole!='1'}"></th>
+			<th class="is_delete" th:if="${user.isdelete=='1'}"><img src="img/gouxuan1.png"></th>
+			<th class="is_delete" th:if="${user.isdelete!='1'}"></th>
+			<th> <button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -129,7 +130,61 @@ body {
 	<script src="js/layer/layer.js"></script>
 	<script src="js/locales/common_js.js "></script>
 	<script type="text/javascript">
+		$(document).ready(function () {
+			$(document).on("click",".delete",function () {
+				var is_delete = $(this).parent().parent().children(".is_delete").children("img");
+                var pageonhole = $(this).parent().parent().children(".is_pageonhole").children("img");
+                var Id = $(this).parent().parent().children(".Id").val();
+               if(is_delete.length!=0){//is_delete.lenth=0为未被清理
+                   layer.alert("该考试已经被清理",{
+                       icon:0,
+                       skin:'layer-ext-moon',
+				   });
+			   }else if(pageonhole.length==0){//pageonhole.length=0为还未归档
+                   layer.alert("该场考试还未归档，请归档后清理",{
+                       icon:0,
+                       skin:'layer-ext-moon',
+				   });
+			   }else{
+                   /*在清理之前最后提示用户一次*/
+                   layer.alert('是否确定删除该教师用户',{
+                       btn:['确定','取消']
+                   },function(){
+					   //点击确定后进行清理操作
+                       $.ajax({
+                           type:'post',
+                           url:"/clearExam",
+                           data:{
+                               Id:Id,
+                           },
+                           success:function (data) {
+                               if(data.status == 200){
+                                   layer.alert(data.message,{
+                                       icon:1,
+                                       skin:'layer-ext-moon',
+								   });
+                               }else{
+                                   layer.alert(data.message,{
+                                       icon:2,
+                                       skin:'layer-ext-moon',
+                                   })
+                               }
+                           },
+                           error:function (data) {
+                               layer.alert("系统错误，清理失败",{
+                                   icon:2,
+                                   skin:'layer-ext-moon',
+                               })
+                           }
+                       });
+                       
+				   },function (){
+					   
+                   });
 
+			   }
+            })
+        });
 	</script>
 </body>
 </html>

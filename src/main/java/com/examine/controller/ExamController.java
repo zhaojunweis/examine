@@ -124,7 +124,7 @@ public class ExamController extends BaseController {
 
 
     @RequestMapping("/saveExam")
-    public Object saveExam(TExam exam, HttpSession session) {
+    public Object saveExam(TExam exam, HttpSession session) throws ParseException {
         //考试信息中包括老师信息
        // String tName = (String) session.getAttribute("tName");
       //  exam.settName(tName);

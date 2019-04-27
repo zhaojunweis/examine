@@ -122,16 +122,26 @@ public class AdministratorController extends BaseController {
     @RequestMapping("/saveTeacher")
     @ResponseBody
     public Map<String, Object> saveTeacher(TTeacher tTeacher) {
-        boolean flag = teacherService.saveTeacher(tTeacher);
-        if (flag) {
-            List<TTeacher> teachers = teacherService.selectAllTeacher();
-            resultMap.put("t_list", teachers);
-            resultMap.put("status","200");
-            resultMap.put("message","添加教师成功!");
-        } else {
-            resultMap.put("status","500");
-            resultMap.put("message", "服务器错误，添加教师失败");
+
+        if(teacherService.selectTeacherPasswordByUsername(tTeacher.gettName())!=null){
+                resultMap.put("status","500");
+                resultMap.put("type","warning");
+                resultMap.put("message","该用户名已存在,请重新输入");
+        }else{
+            boolean flag = teacherService.saveTeacher(tTeacher);
+            if (flag) {
+                List<TTeacher> teachers = teacherService.selectAllTeacher();
+                resultMap.put("t_list", teachers);
+                resultMap.put("status","200");
+                resultMap.put("message","添加教师成功!");
+            } else {
+                resultMap.put("status","500");
+                resultMap.put("type","erroring");
+                resultMap.put("message", "服务器错误，添加教师失败");
+            }
         }
+
+
         return resultMap;
     }
 
@@ -142,14 +152,15 @@ public class AdministratorController extends BaseController {
      */
     @RequestMapping("/removeTeacher")
     @ResponseBody
-    public Map<String, Object>  removeTeacher(Integer id) {
+    public Map<String, Object>  removeTeacher(@RequestParam(value = "Id") Integer id) {
         boolean removeStatus = teacherService.removeTeacher(id);
         if(!removeStatus){
             resultMap.put("status","500");
-            resultMap.put("message","delete failed");
+            resultMap.put("message","删除失败");
         }else{
             resultMap.put("status","200");
-            resultMap.put("message","delete success");
+            resultMap.put("message","删除成功");
+            resultMap.put("t_list",teacherService.selectAllTeacher());
         }
         return  resultMap;
 
@@ -197,8 +208,44 @@ public class AdministratorController extends BaseController {
     @RequestMapping("/admin_Teacher_Edit")
     public ModelAndView admin_Teacher_Edit(@RequestParam(value = "Id") int Id ){
         ModelAndView mv = new ModelAndView();
+        mv.addObject("oneTeacher",teacherService.selectTeacherById(Id));
         mv.setViewName("admin_teacher_edit");
         return mv;
+    }
+
+    /**
+      * 根据Id编辑单个教师的信息
+      * @parame:
+      * @return
+     */
+    @RequestMapping(value = "/updateTeacherById")
+    @ResponseBody
+
+    public Map<String,Object> updateTeacherById(TTeacher teacher){
+
+        /*
+        * 判断信息是否变动，变动则更新未变动不更新
+        * */
+        TTeacher teacherintable = teacherService.selectTeacherById((int)teacher.getId());
+
+        if(teacherintable.gettName().equals(teacher.gettName())&&teacherintable.gettPass().equals(teacher.gettPass())&&
+                teacherintable.gettRealName().equals(teacher.gettRealName())&&teacherintable.gettIsAdmin()==teacher.gettIsAdmin()){
+            resultMap.put("status","500");
+            resultMap.put("message","编辑信息未变动,请重新编辑");
+        }else{
+            /*
+            * 编辑信息改变后向数据库写入*/
+            Boolean b = teacherService.updateTeacherById(teacher);
+            if(b){
+                resultMap.put("status","200");
+                resultMap.put("message","编辑成功");
+
+            }else{
+                resultMap.put("status","500");
+                resultMap.put("message","编辑失败，请重试");
+            }
+        }
+        return resultMap;
     }
 
 

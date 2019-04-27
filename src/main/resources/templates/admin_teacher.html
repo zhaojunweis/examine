@@ -147,70 +147,79 @@ body {
 
 		$(document).ready(function () {
             /*
-            * 对老师信息进行编辑
-            * */
-            var Id;
-			$(".edit").click(function () {
-			    debugger
+                      * 对老师信息进行编辑
+                      * */
 
-			   Id = $(this).parent().parent().children(".hiddenId").val();
-			    debugger
+            $(document).on("click",".edit",function () {
+                debugger
 
-				layer.open({
-					type:2,
-					area:['460px','370px'],
-					title:'教师编辑',
-					shade:0.6,
-					anim:1,
-					content:'/admin_Teacher_Edit?Id='+Id,
-				});
+                var Id = $(this).parent().parent().children(".hiddenId").val();
+                debugger
+
+                layer.open({
+                    type:2,
+                    area:['460px','370px'],
+                    title:'教师编辑',
+                    shade:0.4,
+                    anim:1,
+                    content:'/admin_Teacher_Edit?Id='+Id,
+                });
             });
-			/*
-			* 删除单个老师
-			* */
-			$(".delete").click(function () {
-                Id = $(this).parent().parent().children(".hiddenId").val();
+            /*
+            * 删除单个老师
+            * */
+            $(document).on("click",".delete	",function () {
+                debugger
+               var Id = $(this).parent().parent().children(".hiddenId").val();
+               debugger
                 layer.alert('是否确定删除该教师用户',{
                     btn:['确定','取消']
                 },function () {
-                   $.ajax({
-					   type:'post',
-						url:"/removeTeacher",
-					   data:{
-					       "Id":Id
-					   },
-					   success:function (data) {
-						   if(data.status==200){
-                               var t_list = data.t_list;
+                    $.ajax({
+                        type:'post',
+                        url:"/removeTeacher",
+                        data:{
+                            "Id":Id
+                        },
+                        success:function (data) {
+                            if(data.status==200){
+                                var t_list = data.t_list;
 
-                               $("#appen_tr").empty();
-                               $("#appen_tr").append("<tr>" +
-                                   "<th class=\"span4\">用户名</th>" +
-                                   "<th class=\"span4\">全名</th>" +
-                                   "<th class=\"span3\">是否管理员</th><th>&nbsp;</th></tr>");
-                               /*
-                               * 把剩余教师信息展示出来
-                               * */
-                               for (var i in t_list){
-                                   debugger
-                                   var tIsAdmin;
-                                   if(t_list[i].tIsAdmin=="1"){
-                                       tIsAdmin = "是";
-                                   }else {
-                                       tIsAdmin = "否";
-                                   }
-                                   $("#appen_tr").append("<tr>" +
-                                       "<th class=\"span4\">"+t_list[i].tName+"</th>" +
-                                       "<th class=\"span4\">"+t_list[i].tRealName+"</th>" +
-                                       "<th class=\"span3\">"+tIsAdmin+"</th><th>&nbsp;</th></tr>")
-                               }
-                               layer.alert("删除成功")
-						   }
-                       },
-					   error:function (data) {
-						   layer.laert("删除失败，请稍后再试");
-                       }
-				   });
+                                $("#appen_tr").empty();
+                                $("#appen_tr").append("<tr>" +
+                                    "<th class=\"span4\">用户名</th>" +
+                                    "<th class=\"span4\">全名</th>" +
+                                    "<th class=\"span3\">是否管理员</th><th>操作</th></tr>");
+                                /*
+                                * 把剩余教师信息展示出来
+                                * */
+                                for (var i in t_list){
+                                    debugger
+                                    var tIsAdmin;
+                                    if(t_list[i].tIsAdmin=="1"){
+                                        tIsAdmin = "是";
+                                    }else {
+                                        tIsAdmin = "否";
+                                    }
+                                    $("#appen_tr").append("<tr>" +
+                                        "<input class='hiddenId' type='hidden' value='"+t_list[i].id+"'>"+
+                                        "<th class=\"span4\">"+t_list[i].tName+"</th>" +
+                                        "<th class=\"span4\">"+t_list[i].tRealName+"</th>" +
+                                        "<th class=\"span3\">"+tIsAdmin+"</th>" +
+                                        "<th style=\"text-align: center\">" +
+                                        "<button class='btn btn-primary edit' style='padding: 1px 6px;margin-right:2px;'>编辑</button>" +
+                                        "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>删除</button>" +
+                                        "</th></tr>");
+                                }
+                                layer.alert(data.message);
+                            }else{
+                                layer.alert(data.message);
+                            }
+                        },
+                        error:function (data) {
+                            layer.alert("删除失败，请稍后再试");
+                        }
+                    });
                 },function () {
 
                 });
@@ -277,6 +286,8 @@ body {
 			}
 		}
 		 $(document).ready(function () {
+		     /*教师添加
+		     * */
 			$("#btn_addteacher").click(function () {
 				var name = $("input[name='name']").val();
                 var pass = $("input[name='pass']").val();
@@ -310,7 +321,7 @@ body {
                                 $("#appen_tr").append("<tr>" +
                                     "<th class=\"span4\">用户名</th>" +
                                     "<th class=\"span4\">全名</th>" +
-                                    "<th class=\"span3\">是否管理员</th><th>&nbsp;</th></tr>")
+                                    "<th class=\"span3\">是否管理员</th><th>操作</th></tr>")
                                 for (var i in t_list){
                                     debugger
                                     var tIsAdmin;
@@ -320,21 +331,31 @@ body {
                                         tIsAdmin = "否";
                                     }
                                     $("#appen_tr").append("<tr>" +
+                                        "<input class='hiddenId' type='hidden' value='"+t_list[i].id+"'>"+
                                         "<th class=\"span4\">"+t_list[i].tName+"</th>" +
                                         "<th class=\"span4\">"+t_list[i].tRealName+"</th>" +
-                                        "<th class=\"span3\">"+tIsAdmin+"</th><th>&nbsp;</th></tr>")
+                                        "<th class=\"span3\">"+tIsAdmin+"</th>" +
+										"<th style=\"text-align: center\">" +
+										"<button class='btn btn-primary edit' style='padding: 1px 6px;margin-right:2px;'>编辑</button>" +
+                                        "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>删除</button>" +
+										"</th></tr>")
                                 }
                                 layer.msg(data.message);
+                            }else if(data.type=='warning'){
+                                layer.alert(data.message,{
+                                    icon:0,
+                                    skin:'layer-ext-moon',
+                                })
                             }else{
                                 layer.alert(data.message,{
                                     icon:2,
                                     skin:'layer-ext-moon',
                                 })
-                            }
+							}
 
                         },
                         error:function (data) {
-                            layer.alert("用户名已被占用,请重新输入",{
+                            layer.alert("系统错误,请稍后再试",{
                                 icon:2,
                                 skin:'layer-ext-moon',
                             })
