@@ -83,9 +83,12 @@ public class TeacherController extends BaseController {
         mv.setViewName("/teacher_manage_student_inexam");
         return mv;
     }
-    /*
-     * 有考试进行时，考中管理的通知管理初始化
-     * */
+    /**
+      * 有考试进行时，考中管理的通知管理初始化
+      * @parame:
+      * @return
+     */
+
     @RequestMapping(value = "/manageSummaryinExam")
     public ModelAndView manageSummaryinExam(){
         ModelAndView mv = new ModelAndView();
