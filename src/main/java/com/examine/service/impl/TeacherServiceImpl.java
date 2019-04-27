@@ -194,4 +194,16 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return flag;
     }
+
+    /**
+     * 通过教师姓名查询教师实体信息
+     *
+     * @param tName
+     * @return
+     */
+    @Override
+    public TTeacher selectTeacherEntityByUsername(String tName) {
+
+        return teacherMapper.selectTeacherEntityByUsername(tName);
+    }
 }

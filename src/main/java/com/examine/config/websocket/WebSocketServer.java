@@ -1,4 +1,4 @@
-package com.examine.config;
+package com.examine.config.websocket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -59,21 +59,21 @@ public interface StudentMapper {
      *
      * @return
      */
-    Integer examineesWhoSubmitCount();
+    Integer examineesWhoSubmitCount(String sScoreName);
 
     /**
-     * 未登陆的学生信息
+     * 未登陆的学生人数
      *
      * @return
      */
-    List<TStudent> examineesWhoNoLogin();
+    Integer examineesWhoNoLoginCount(String sScoreName);
 
     /**
-     *登录的学生信息
+     *登录的学生人数
      *
      * @return
      */
-    List<TStudent> examineesWhoHasLogin();
+    Integer examineesWhoHasLoginCount(String sScoreName);
 
     /**
      * 教师手动添加学生信息
@@ -89,7 +89,6 @@ public interface StudentMapper {
      * @return
      */
     Integer updateDirtyData(TStudent student);
-
 
     /**
      * 学生提交答案

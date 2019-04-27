@@ -1,7 +1,7 @@
 package com.examine.controller;
 
 
-import com.examine.config.WebSocketServer;
+import com.examine.config.websocket.WebSocketServer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

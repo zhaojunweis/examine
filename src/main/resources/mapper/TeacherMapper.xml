@@ -73,6 +73,10 @@
         select * from t_teacher where id = #{id} and t_is_delete = 0;
     </select>
 
+    <select id="selectTeacherEntityByUsername" resultMap="teacherBaseMap" parameterType="String">
+        select * from t_teacher where t_name = #{tName} and t_is_delete = 0;
+    </select>
+
     <update id="updateTeacherById" parameterType="com.examine.domain.TTeacher">
         update
         t_teacher

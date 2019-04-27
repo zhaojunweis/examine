@@ -351,4 +351,16 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
         return resultMap;
     }
 
+    /**
+     * 查看进行中的考试信息学生的提交信息，登陆信息，考试学生总数等
+     *
+     * @return
+     */
+    @RequestMapping("/viewInfoOnTestInProgress")
+    @ResponseBody
+    public Map<String,Integer> viewInfoOnTestInProgress(){
+
+        return studentService.studentCountOneExam("Java");
+    }
+
 }
