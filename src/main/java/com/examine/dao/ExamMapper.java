@@ -66,4 +66,12 @@ public interface ExamMapper {
      * @return
      */
     List<TExam> selectExamInfoByTName(String tName);
+
+    /**
+     * 通过考试ID开启考试
+     *
+     * @param id
+     * @return
+     */
+    Integer startExamById(Integer id);
 }

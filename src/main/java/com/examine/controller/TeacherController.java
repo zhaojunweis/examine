@@ -7,12 +7,10 @@ import com.examine.common.util.StringUtils;
 import com.examine.common.util.ZipUtils;
 import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
-import com.examine.domain.TSystem;
 import com.examine.domain.TTeacher;
 import com.examine.service.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,15 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.zip.ZipOutputStream;
 
 @Controller
@@ -361,6 +358,28 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
     public Map<String,Integer> viewInfoOnTestInProgress(){
 
         return studentService.studentCountOneExam("Java");
+    }
+
+    /**
+     * 教师开启考试
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("/startExam")
+    @ResponseBody
+    public Map<String,Object> startExam(Integer id){
+        id = 58;
+        boolean flag = examService.startExamById(id);
+
+        if(flag){
+            resultMap.put("status",200);
+            resultMap.put("message","考试已开启");
+        }else{
+            resultMap.put("status",500);
+            resultMap.put("message","考试开启失败");
+        }
+        return resultMap;
     }
 
 }

@@ -125,4 +125,20 @@ public class ExamServiceImpl implements ExamService {
 
         return examMapper.selectExamInfoByTName(tName);
     }
+
+    /**
+     * 教师手动开启考试
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean startExamById(Integer id) {
+        boolean flag = false;
+        Integer startStatus = examMapper.startExamById(id);
+        if(startStatus == 1){
+            flag = true;
+        }
+        return flag;
+    }
 }

@@ -79,9 +79,19 @@
         where id = #{id};
     </update>
 
-
     <select id = "selectExamInfoByTName" parameterType="String" resultMap="examBaseMapper">
         select * from t_exam where t_name = #{tName} and is_delete = 0
     </select>
+
+    <update id="startExamById">
+         update
+           t_exam
+         set
+           is_start = 1
+         where
+            id = #{id}
+         and
+            is_delete = 0
+    </update>
 
 </mapper>

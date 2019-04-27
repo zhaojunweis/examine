@@ -21,4 +21,7 @@ public interface ExamService {
     boolean updateExamInfo(TExam exam);
 
     List<TExam> selectExamInfoByTName(String tName);
+
+    boolean startExamById(Integer id);
+
 }
