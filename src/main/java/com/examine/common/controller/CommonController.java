@@ -79,7 +79,7 @@ public class CommonController extends BaseController {
      */
 
 
-    public List<Map> getExamineInfo(String type){
+    public List<Map> getExamineInfo(String type) throws ParseException {
         TSystem tSystem = systemService.selectSystemConfigure();
         List<TExam> tExams = null; //获取所有的考试信息
         List<Map> listmap  = new ArrayList<>();
@@ -98,31 +98,65 @@ public class CommonController extends BaseController {
             String examTime;
             for (TExam tExam: tExams) {
                 Map<Object,Object> resultMap = new HashMap<>();
-                startTime= tExam.getExamStartTime();
+                /*
+                * 当为自动开启考试时，starttime为创建考试时的考试时间
+                * 当为非自动开启考试时，starttime为教师手动开始的时间
+                * */
+
                 examTime = tSystem.getsExamTime();
                 boolean status = false;
-                try {
-                    status = isTestFinished(startTime,examTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
+                /*
+                * 是否自动开始，如果是自动开始则按考试开始时间来算
+                * */
                 if(tExam.getIsAutoStart()==1){
                     resultMap.put("isautostart","1");
+                    /*
+                    * 如果是自动开始，应该先判断是否已到考试时间，如果到了,则修改标志位is_start,并且在判断是考试中还是考试后
+                    * */
+                    startTime= tExam.getExamStartTime();
+                    /*
+                    * 判断starttime是否到了当前时间，如果到了就修改该次考试的标志位is_start
+                    * */
+                    if(is_timeStart(startTime)){
+                        if(tExam.getIsStart()!=1){
+                            //考试还未开始，修改is_start标志位
+                        }
+                    }
+                    try {
+                        status = isTestFinished(startTime,examTime);
+                        if(status){
+                            resultMap.put("isexam","1");
+                            resultMap.put("isfinished","0");
+                        }else{
+                            resultMap.put("isexam","0");
+                            resultMap.put("isfinished","1");
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }else {
                     resultMap.put("isautostart","0");
-                }
-                if(tExam.getIsStart()==1){
-                    if(status){
-                        resultMap.put("isexam","1");
-                        resultMap.put("isfinished","0");
-                    }else{
-                        resultMap.put("isexam","1");
+                    /*此部分的考试开始时间start_time应该为教师手动开启的时间*/
+                    startTime= tExam.getExamStartTime();
+                    status = isTestFinished(startTime,examTime);
+                    if(tExam.getIsStart()==1){
+                        if(status){
+                            resultMap.put("isexam","1");
+                            resultMap.put("isfinished","0");
+                        }else{
+                            resultMap.put("isexam","0");
+                            resultMap.put("isfinished","1");
+                        }
+                    }else {
+                        resultMap.put("isexam","0");
                         resultMap.put("isfinished","0");
                     }
-                }else {
-                    resultMap.put("isexam","0");
-                    resultMap.put("isfinished","0");
                 }
+
                 if(tExam.getIsPigeonhole()==1){
                     resultMap.put("ispageonhole","1");
                 }else{
@@ -137,7 +171,7 @@ public class CommonController extends BaseController {
                 resultMap.put("exam_time",tExam.getExamStartTime());
                 resultMap.put("create_name",tExam.gettName());
                 resultMap.put("examId",tExam.getId());
-                if(!tExam.gettName().equals(null)){
+                if(tExam.getExamPaperUrl()!=null){
                     resultMap.put("exampaper_url","已上传");
                 }else{
                     resultMap.put("exampaper_url","未上传");
@@ -156,16 +190,34 @@ public class CommonController extends BaseController {
 
 
     public boolean isTestFinished(String examtime,String ever_time) throws ParseException {
-        boolean status = false;
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        boolean status = true;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date nowdate = new Date();
         Date examdate = df.parse(examtime);
         long time = nowdate.getTime()-examdate.getTime();
+        /*
+
+        * 判断当前时间与考试开始时间相差是否大于该场考试所需时间*/
         if(time>(Integer.valueOf(ever_time)*60*1000)){
-            status = true;
-        }else{
             status = false;
         }
         return status;
     }
+    /**
+      * 判断考试自动开始时当前时间是否与考试时间一致
+      * @parame:
+      * @return
+     */
+    public boolean is_timeStart(String examtime) throws ParseException {
+        boolean status = false;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date nowdate = new Date();
+        Date examdate = df.parse(examtime);
+        /*判断当前时间以到考试开始时间*/
+        if(nowdate.getTime()>=examdate.getTime()){
+            status = true;
+        }
+        return status;
+    }
+
 }
