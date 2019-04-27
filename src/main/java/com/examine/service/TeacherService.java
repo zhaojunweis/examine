@@ -28,4 +28,6 @@ public interface TeacherService {
     TTeacher selectTeacherById(Integer id);
 
     boolean updateTeacherById(TTeacher tTeacher);
+
+    TTeacher selectTeacherEntityByUsername(String tName);
 }

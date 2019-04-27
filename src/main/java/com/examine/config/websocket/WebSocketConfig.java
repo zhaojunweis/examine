@@ -1,4 +1,4 @@
-package com.examine.config;
+package com.examine.config.websocket;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

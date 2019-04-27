@@ -23,4 +23,6 @@ public interface StudentService {
     boolean submitAnswer(Map<String,String> map);
 
     Integer examineesCount(String sScoreName);
+
+    Map<String,Integer> studentCountOneExam(String sScoreName);
 }

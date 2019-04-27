@@ -1,6 +1,11 @@
 package com.examine.domain;
 
-public class TStudent {
+import javax.management.relation.Role;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+public class TStudent implements Serializable {
 
     private long id;
 
@@ -15,6 +20,8 @@ public class TStudent {
     private int sIsDelete;
 
     private String lastSubmit;
+
+    Set<Role> roleSet = new HashSet<>();
 
     public TStudent() {
     }
@@ -73,5 +80,13 @@ public class TStudent {
 
     public void setLastSubmit(String lastSubmit) {
         this.lastSubmit = lastSubmit;
+    }
+
+    public Set<Role> getRoleSet() {
+        return roleSet;
+    }
+
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
     }
 }
