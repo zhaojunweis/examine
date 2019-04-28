@@ -16,6 +16,12 @@ body {
 	padding-top: 60px;
 	/* 60px to make the container go all the way to the bottom of the topbar */
 }
+.error_info{
+	width:24.5%;
+	height:20px;
+	display: inline-block;
+	font-size: 10px;
+}
 </style>
 <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -98,11 +104,16 @@ body {
 	method="post">
 	<input type="hidden" name = "examId" th:value="${Id}"/>
 	<h4>添加单个学生</h4>
-	<input type="text" name="sno" placeholder="学号*" size="20" onchange="testSno()" />
-	<input type="text" name="sname" placeholder="姓名*" size="20"  onchange="testSname()"/>
-	<input type="text" name="sclass" placeholder="班级" size="20" onchange="testSclass()"/>
+	<input type="text" name="sno" placeholder="学号*" size="20" onblur="testSno()" onkeydown="testSno()" />
+	<input type="text" name="sname" placeholder="姓名*" size="20"  onblur="testSname()" onkeydown="testSname()"/>
+	<input type="text" name="sclass" placeholder="班级" size="20" onblur="testSclass()" onkeydown="testSclass()"/>
 	<input type="hidden" name="eid" th:value="${Id}" />
 	<input id="btn_addone" type="button" class="btn btn-primary" value="添加" />
+	<div>
+		<li class = "error_info" id="snospan"></li>
+		<li class = "error_info" id="namespan"></li>
+		<li class = "error_info" id="classspan"></li>
+	</div>
 </form>
 
 <div class="container-fluid">
@@ -233,7 +244,7 @@ body {
                         success:function (data) {
                             if(data.status == 200){
                                 layer.alert(data.message,{
-                                    icon:0,
+                                    icon:1,
                                     skin:'layer-ext-moon',
                                 })
                             }else {
@@ -252,7 +263,7 @@ body {
                     });
                 }else {
                     layer.alert("请选择文件",{
-                        icon:2,
+                        icon:0,
                         skin:'layer-ext-moon',
                     })
                 }
@@ -286,7 +297,10 @@ body {
 						},
 						success:function (data) {
 							if(data.status == 200){
-								layer.msg(data.message);
+                                layer.alert(data.message,{
+                                    icon:1,
+                                    skin:'layer-ext-moon',
+                                })
 							}else{
                                 layer.alert(data.message,{
                                     icon:2,
@@ -304,7 +318,7 @@ body {
 					});
 				}else{
 				    layer.alert("请根据要求填写信息",{
-						icon:2,
+						icon:0,
                         skin:'layer-ext-moon',
 					})
 				}
@@ -320,40 +334,49 @@ body {
             var contentReg = /^\d{6,10}$/;
             if(contentReg.test(t_sno)){
                 $("input[name='sno']").css('border','1px solid #cccccc');
+                $("#snospan").text("");
                 return true;
             }else{
                 $("input[name='sno']").css('border','1px solid red');
-                layer.msg("请正确填写6-10位数字")
+                $("#snospan").text("填写长度6-10位数字");
+                $("#snospan").css('color',"red");
+                $("#snospan").css('font-size',"10px");
                 return false
             }
         }
         /*
-      * 正则验证全为数字，且长度在6-10位
+      * 正则验证姓名全为汉字或中文，且长度在6-10位
       * */
         function testSname () {
             var t_sname = $("input[name='sname']").val();
-            var contentReg = /^[\u4e00-\u9fa5]{0,10}$/;
+            var contentReg = /^[\u0391-\uFFE5A-Za-z]+$/;
             if(contentReg.test(t_sname)){
                 $("input[name='sname']").css('border','1px solid #cccccc');
+                $("#namespan").text("");
                 return true;
             }else{
                 $("input[name='sname']").css('border','1px solid red');
-                layer.msg("请正确填写10以内长度的姓名");
+                $("#namespan").text("姓名只能为中英文");
+                $("#namespan").css('color',"red");
+                $("#namespan").css('font-size',"10px");
                 return false
             }
         }
         /*
-       * 正则验证全为数字，且长度在6-10位
+       * 正则验证全为数字，且长度在10位以内
        * */
         function testSclass () {
             var sclass = $("input[name='sclass']").val();
-            var contentReg = /^[0-9]*$/;
+            var contentReg = /^[0-9]{1,10}/;
             if(contentReg.test(sclass)){
                 $("input[name='sclass']").css('border','1px solid #cccccc');
+                $("#classspan").text("");
                 return true;
             }else{
                 $("input[name='sclass']").css('border','1px solid red');
-                layer.msg("请正确数字的班级代号")
+                $("#classspan").text("班级长度在10以内的或数字");
+                $("#classspan").css('color',"red");
+                $("#classspan").css('font-size',"10px");
                 return false
             }
         }

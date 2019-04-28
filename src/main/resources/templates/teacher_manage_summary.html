@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://java.sun.com/jsf/composite">
 <head>
 <meta charset="utf-8">
 <title>上机考试系统</title>
@@ -45,10 +45,10 @@ body {
 					<li><a href="/teacher_exam_after"><i class="icon-check icon-white"></i>考后操作</a></li>
 				</ul>
 				<ul class="nav navbar-nav pull-right">
-					<li><span class="brand"><small>欢迎，ae</small></span></li>
-					<li><a href="#" data-toggle="modal"
-		data-target=".bs-example-modal-sm"><i class="icon-pencil icon-white"></i>修改口令</a></li>
-					<li><a href="admin_logout"><i class="icon-share icon-white"></i>退出</a></li>
+					<li><span  class="brand">欢迎您,</span><span id="brandname" class="brand" th:text="${session.tName}"><small></small></span></li>
+					<li style="cursor: pointer"><a data-toggle="modal"
+												   data-target=".bs-example-modal-sm"><i class="icon-pencil icon-white"></i>修改口令</a></li>
+					<li style="cursor: pointer" id="admin_logout"><a><i class="icon-share icon-white"></i>退出</a></li>
 				</ul>
 
 				<!--/.nav-collapse -->
@@ -113,5 +113,7 @@ body {
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/bootstrap-datetimepicker.js"></script>
 	<script src="js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="js/layer/layer.js"></script>
+	<script src="js/locales/common_js.js "></script>
 </body>
 </html>

@@ -52,12 +52,12 @@ public class TeacherController extends BaseController {
         this.commonController = commonController;
     }
 
-
-    /**
+/*
+    *//**
       *有考试进行时，考中管理的考试概况初始化
       * @parame:
       * @return
-     */
+     *//*
 
 
     @RequestMapping(value = "/manageNotifyinExam")
@@ -67,11 +67,11 @@ public class TeacherController extends BaseController {
         return mv;
     }
 
-    /**
+    *//**
       *有考试进行时，考中管理的学生信息初始化
       * @parame:
       * @return
-     */
+     *//*
 
 
     @RequestMapping(value = "/manageStudentinExam")
@@ -80,26 +80,29 @@ public class TeacherController extends BaseController {
         mv.setViewName("/teacher_manage_student_inexam");
         return mv;
     }
-    /*
-     * 有考试进行时，考中管理的通知管理初始化
-     * */
+    *//**
+      * 有考试进行时，考中管理的通知管理初始化
+      * @parame:
+      * @return
+     *//*
+
     @RequestMapping(value = "/manageSummaryinExam")
     public ModelAndView manageSummaryinExam(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/teacher_manage_summary_inexam");
         return mv;
     }
-    /**
+    *//**
       *有考试进行时，考中管理的解除绑定初始化
       * @parame:
       * @return
-     */
+     *//*
     @RequestMapping(value = "/manageUnlockinExam")
     public ModelAndView manageUnlockinExam(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/teacher_manage_unlock_inexam");
         return mv;
-    }
+    }*/
 /**
   * 考前操作初始化
   * @parame:
@@ -130,9 +133,26 @@ public ModelAndView exam_after(@RequestParam(defaultValue = "admin", value = "t_
   * @return
  */
 @RequestMapping("/teacher_manage_summary")
-public ModelAndView manage_summary(){
+public ModelAndView manage_summary(HttpSession session) throws ParseException {
     ModelAndView mv = new ModelAndView();
-    mv.setViewName("/teacher_manage_summary_inexam");
+    String tname = (String) session.getAttribute("tName");
+    List<Map> exams = commonController.getExamineInfo(tname);
+    String sScoreName = null;
+    for (Map  exam: exams) {
+        /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
+        if(exam.get("isexam").equals("1")&&exam.get("isfinished").equals("0")){
+            sScoreName =(String) exam.get("examname");
+            break;
+        }
+    }
+   if(sScoreName == null){
+        mv.setViewName("/teacher_manage_summary");
+   }else {
+        Map<String,Integer> examinfo = studentService.studentCountOneExam(sScoreName);
+        mv.addObject("examinfo",examinfo);
+        mv.setViewName("/teacher_manage_summary_inexam");
+   }
+
     return mv;
 }
 /**

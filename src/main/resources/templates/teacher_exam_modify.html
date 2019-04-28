@@ -93,10 +93,10 @@ body {
 	<h4>编辑考试信息</h4>
 	<input type="hidden" name="id" th:value="${examinfo.id}">
 	考试名称：
-	<input type="text" name="ename"  th:value="${examinfo.examName}" onchange="testName()" />
+	<input type="text" name="ename"  th:value="${examinfo.examName}" onblur="testName()" onkeydown="testName()" />
 	考试时间：
 	<div class="controls input-append date" id="datetimepicker" data-link-field="etime" >
-		<input  name="etime" class="span2" type="text" th:value="${examinfo.examStartTime}" onchange="testEtime()"  readonly/>
+		<input  name="etime" class="span2" type="text" th:value="${examinfo.examStartTime}" onblur="testEtime()" onkeydown="testEtime()"  readonly/>
 		<span class="add-on"><i class="icon-remove"></i></span>
 		<span class="add-on"><i class="icon-th"></i></span>
 	</div>    
@@ -136,12 +136,10 @@ body {
 	<h4>开启考试</h4>
 	<input type="hidden" name="id" value="1">
     
-				<p class="text-warning">尚未上传试卷。</p>
-				<button type="submit" class="btn btn-warning btn-large"><i class="icon-off"></i> 开启</button>
-			
-			
-		
-	
+				<p th:if="${examinfo.examPaperUrl==null}" class="text-warning">尚未上传试卷。</p>
+				<button id="startexam" th:if="${examinfo.isStart!=1}" type="submit" class="btn btn-warning btn-large"><i class="icon-off"></i> 开启</button>
+				<button id="stopexam" th:if="${examinfo.isStart==1}" type="submit" style="background: red" class="btn btn-warning btn-large"><i class="icon-off"></i> 停止</button>
+
 </form>
 
 
@@ -247,10 +245,10 @@ $(document).ready(function () {
                 }
             });
 		}else{
-            layer.alert("请根据提示信息填写",{
+            /*layer.alert("请根据提示信息填写",{
                 icon:2,
                 skin:'layer-ext-moon',
-            })
+            })*/
 		}
     });
 	/*
