@@ -52,8 +52,11 @@ public class StudentController extends BaseController {
         mv.setViewName("/teacher_addstudent");
         return mv;
     }
+
     @RequestMapping(value = "/success")
-    public ModelAndView stu_Success() {
+    public ModelAndView stu_Success(HttpSession session) {
+        TStudent tStudent= (TStudent) session.getAttribute("student");
+
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/success");
         return mv;
