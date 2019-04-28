@@ -21,7 +21,9 @@ public class TStudent implements Serializable {
 
     private String lastSubmit;
 
-    Set<Role> roleSet = new HashSet<>();
+    private String roleId;
+
+    private TRole role;
 
     public TStudent() {
     }
@@ -82,11 +84,19 @@ public class TStudent implements Serializable {
         this.lastSubmit = lastSubmit;
     }
 
-    public Set<Role> getRoleSet() {
-        return roleSet;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setRoleSet(Set<Role> roleSet) {
-        this.roleSet = roleSet;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public TRole getRole() {
+        return role;
+    }
+
+    public void setRole(TRole role) {
+        this.role = role;
     }
 }

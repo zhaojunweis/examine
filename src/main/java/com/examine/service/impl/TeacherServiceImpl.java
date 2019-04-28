@@ -206,4 +206,16 @@ public class TeacherServiceImpl implements TeacherService {
 
         return teacherMapper.selectTeacherEntityByUsername(tName);
     }
+
+    /**
+     * 通过教师姓名查询教师权限
+     *
+     * @param tName
+     * @return
+     */
+    @Override
+    public TTeacher selectTeacherRoleAndPerm(String tName) {
+
+        return teacherMapper.selectTeacherRoleAndPerm(tName);
+    }
 }

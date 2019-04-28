@@ -30,4 +30,6 @@ public interface TeacherService {
     boolean updateTeacherById(TTeacher tTeacher);
 
     TTeacher selectTeacherEntityByUsername(String tName);
+
+    TTeacher selectTeacherRoleAndPerm(String tName);
 }

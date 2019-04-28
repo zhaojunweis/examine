@@ -25,4 +25,6 @@ public interface StudentService {
     Integer examineesCount(String sScoreName);
 
     Map<String,Integer> studentCountOneExam(String sScoreName);
+
+    TStudent selectStudentRoleAndPerm(String sSno);
 }

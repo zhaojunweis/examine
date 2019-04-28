@@ -98,4 +98,11 @@ public interface StudentMapper {
      */
     Integer submitAnswer(Map<String,String> map);
 
+    /**
+     * 根据学号筛选学生权限信息
+     *
+     * @param sSno
+     * @return
+     */
+    TStudent selectStudentRoleAndPerm(String sSno);
 }

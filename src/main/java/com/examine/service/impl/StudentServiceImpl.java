@@ -178,4 +178,16 @@ public class StudentServiceImpl implements StudentService {
 
         return resultMap;
     }
+
+    /**
+     * 通过学生学号查询学生权限信息
+     *
+     * @param sSno
+     * @return
+     */
+    @Override
+    public TStudent selectStudentRoleAndPerm(String sSno) {
+
+        return studentMapper.selectStudentRoleAndPerm(sSno);
+    }
 }

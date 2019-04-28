@@ -11,6 +11,54 @@
         <result property="tIsDelete" column="t_is_delete"/>
     </resultMap>
 
+    <resultMap id="teacherBaseShiro" type="com.examine.domain.TTeacher">
+        <id property="id" column="id"/>
+        <result property="tName" column="t_name"/>
+        <result property="tPass" column="t_pass"/>
+        <result property="tIsAdmin" column="t_is_admin"/>
+        <result property="tIsDelete" column="t_is_delete"/>
+        <result property="tRealName" column="t_real_name"/>
+        <result property="roleId" column="role_id"/>
+
+        <collection property="role" column="role_id" ofType="com.examine.domain.TRole">
+            <id column="role_id" property="roleId"/>
+            <result column="role" property="role"/>
+            <result column="description" property="description"/>
+            <collection property="permSet" ofType="com.examine.domain.TPerm">
+                <id column="perm_id" property="permId"/>
+                <result column="url" property="url"/>
+                <result column="desc" property="desc"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <sql id="teacher-shiro-select-base">
+         select
+          t_teacher.id,
+          t_teacher.t_name,
+          t_teacher.t_pass,
+          t_role.role_id,
+          t_role.role,
+          t_role.description,
+          t_perm.perm_id,
+          t_perm.url,
+          t_perm.desc
+        from
+          t_teacher,
+          t_role,
+          t_role_perm,
+          t_perm
+        where t_teacher.role_id = t_role.role_id
+              and t_role.role_id = t_role_perm.role_id
+              and t_role_perm.perm_id = t_perm.perm_id
+    </sql>
+
+    <select id="selectTeacherRoleAndPerm" parameterType="String" resultMap="teacherBaseShiro">
+        <include refid="teacher-shiro-select-base"/>
+        AND
+        t_name = #{tName}
+    </select>
+
     <select id="selectTeacherPasswordByUsername" parameterType="String" resultType="String">
         select t_pass from t_teacher where t_name=#{tName}
     </select>

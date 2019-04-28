@@ -91,4 +91,12 @@ public interface TeacherMapper {
      * @return
      */
     Integer updateTeacherById(TTeacher tTeacher);
+
+    /**
+     * 获取教师的所有权限
+     *
+     * @param tName
+     * @return
+     */
+    TTeacher selectTeacherRoleAndPerm(String tName);
 }

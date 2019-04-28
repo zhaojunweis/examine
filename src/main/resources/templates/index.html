@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,31 +11,37 @@
 <form method="post" action="/savePaper" enctype="multipart/form-data">
     <input value="" name="multipartFile" type="file"/>
     <input value="提交" name="提交" type="submit"/>
-   <!-- <label>
-        <input value="" name="id" type="text"/>
-    </label>
-    <label>
-        <input value="" name="examName" type="text"/>
-    </label>
-    <label>
-        <input value="" name="examStartTime" type="text"/>
-    </label>
-    <label>
-        <input value="" name="isAutoStart" type="text"/>
-    </label>
-    <input value="" name="submit" type="submit"/>-->
+    <!-- <label>
+         <input value="" name="id" type="text"/>
+     </label>
+     <label>
+         <input value="" name="examName" type="text"/>
+     </label>
+     <label>
+         <input value="" name="examStartTime" type="text"/>
+     </label>
+     <label>
+         <input value="" name="isAutoStart" type="text"/>
+     </label>
+     <input value="" name="submit" type="submit"/>-->
 </form>
 
 <!--学生登陆-->
-<!--<form method="post" action="/submitStudentLogin">
+<form method="post" action="/submitStudentLoginTest">
     <label>
-        <input value="" name="sSno" type="text"/>
+        <input value="1610120001" name="sSno" type="text"/>
     </label>
     <label>
-        <input value="" name="sPass" type="text"/>
+        <input value="456" name="sName" type="text"/>
     </label>
-    <input value="" name="submit" type="submit"/>
-</form>-->
+    <input value="学生登陆" name="submit" type="submit"/>
+</form>
+
+<!--<p shiro:hasRole="admin">有权限</p>-->
+<shiro:principal/>
+<span shiro:authenticated="true">
+    <span>欢迎您：<p shiro:hasrole="student">admin</p></span>
+</span>
 
 <!--教师登陆-->
 <!--<form method="post" action="/submitTeacherLogin">
@@ -113,7 +121,7 @@
     <input value="" name="submit" type="submit"/>
 </form>
 
-<a href = "/downloadPaper?fileName=test.txt">下载文件</a>
+<a href="/downloadPaper?fileName=test.txt">下载文件</a>
 
 </body>
 </html>

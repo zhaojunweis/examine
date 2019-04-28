@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class TRole implements Serializable {
 
-    private int id;
+    private int roleId;
 
     private String role;
 
@@ -16,11 +16,11 @@ public class TRole implements Serializable {
     Set<TPerm> permSet = new HashSet<>();
 
     public int getId() {
-        return id;
+        return roleId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.roleId = id;
     }
 
     public String getRole() {

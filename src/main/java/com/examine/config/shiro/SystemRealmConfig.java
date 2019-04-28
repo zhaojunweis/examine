@@ -1,6 +1,5 @@
 package com.examine.config.shiro;
 
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -36,6 +35,7 @@ public class SystemRealmConfig {
         //教师的URL权限设置
 
         //学生的URL权限设置
+        //filterChainDefinitionMap.put("/test1","authc");
 
         //管理员的URL权限设置
 
@@ -56,17 +56,9 @@ public class SystemRealmConfig {
     }
 
     @Bean
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        hashedCredentialsMatcher.setHashIterations(2);
-        return hashedCredentialsMatcher;
-    }
-
-    @Bean
     public SystemRealm myShiroRealm() {
         SystemRealm myShiroRealm = new SystemRealm();
-        myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        //myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return myShiroRealm;
     }
 
@@ -85,8 +77,7 @@ public class SystemRealmConfig {
     }
 
     @Bean(name = "simpleMappingExceptionResolver")
-    public SimpleMappingExceptionResolver
-    createSimpleMappingExceptionResolver() {
+    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
         SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
         Properties mappings = new Properties();
         mappings.setProperty("DatabaseException", "databaseError");
