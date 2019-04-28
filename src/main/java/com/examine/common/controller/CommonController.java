@@ -79,6 +79,7 @@ public class CommonController extends BaseController {
      */
 
 
+
     public List<Map> getExamineInfo(String type) throws ParseException {
         TSystem tSystem = systemService.selectSystemConfigure();
         List<TExam> tExams = null; //获取所有的考试信息
