@@ -17,6 +17,7 @@ function testSno () {
         return false
     }
 }
+
 /*
 * 正则验证全为数字，且长度在6-10位
 * */
@@ -42,7 +43,6 @@ function studentLogin(){
         var sname = $("input[name='sname']").val();
         debugger;
         if(testSno() && testSname() ){
-            debugger;
             $.ajax({
                 type: 'post',
                 url:"/submitStudentLogin",
