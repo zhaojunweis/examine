@@ -19,7 +19,7 @@ public interface TeacherService {
 
     boolean removeTeacher(Integer id);
 
-    boolean clearExamInfo(String examName);
+    boolean clearExamInfo(Integer id);
 
     List<TStudent> exportSubmitInfo();
 

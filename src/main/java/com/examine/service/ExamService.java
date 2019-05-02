@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface ExamService {
-    boolean nonphysicalDeleteOneExamByName(String examName);
+    boolean nonphysicalDeleteOneExamById(Integer id);
 
     boolean saveExaminationInfo(TExam exam);
 
     Integer uploadExamPaper(Map<String,String> map);
 
-    boolean stopExam(String examName);
+    boolean stopOneExamById(Integer id);
 
     List<TExam> selectAllExamInfo();
 

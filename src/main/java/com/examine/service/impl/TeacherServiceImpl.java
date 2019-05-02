@@ -118,17 +118,17 @@ public class TeacherServiceImpl implements TeacherService {
     /**
      * 清除考试信息
      *
-     * @param examName
+     * @param id
      * @return
      */
     @Override
-    public boolean clearExamInfo(String examName) {
+    public boolean clearExamInfo(Integer id) {
         boolean flag = false;
         //查询是否归档
-        Integer isPigeonhole = teacherMapper.selectIsPigeonhole(examName);
+        Integer isPigeonhole = teacherMapper.selectIsPigeonhole(id);
         if (isPigeonhole == 1) {
             //非物理删除考试信息
-            boolean examDelete = examService.nonphysicalDeleteOneExamByName(examName);
+            boolean examDelete = examService.nonphysicalDeleteOneExamById(id);
             //非物理删除学生信息
             boolean studentDelete = studentService.nonphysicalDeleteStudents();
             //非物理删除提交信息

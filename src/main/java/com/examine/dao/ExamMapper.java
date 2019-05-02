@@ -9,12 +9,12 @@ import java.util.Map;
 @Component
 public interface ExamMapper {
     /**
-     * 非物理删除某一场考试
+     * 通过ID非物理删除某一场考试
      *
-     * @param examName
+     * @param id
      * @return
      */
-    Integer nonphysicalDeleteOneExamByName(String examName);
+    Integer nonphysicalDeleteOneExamById(Integer id);
 
     /**
      * 新建考试
@@ -33,9 +33,9 @@ public interface ExamMapper {
     /**
      * 停止考试
      *
-     * @param examName
+     * @param id
      */
-    Integer stopExam(String examName);
+    Integer stopOneExamById(Integer id);
 
     /**
      * 查询所有考试信息

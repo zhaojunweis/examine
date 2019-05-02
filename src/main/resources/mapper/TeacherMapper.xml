@@ -109,8 +109,8 @@
         select * from t_teacher where t_is_delete = 0
     </select>
 
-    <select id="selectIsPigeonhole" parameterType="String" resultType="Integer">
-        select is_pigeonhole from t_exam where exam_name = #{examName}
+    <select id="selectIsPigeonhole" parameterType="Integer" resultType="Integer">
+        select is_pigeonhole from t_exam where id = #{id}
     </select>
 
     <select id="selectCountOtherAdminExceptAdmin" resultType="Integer">
