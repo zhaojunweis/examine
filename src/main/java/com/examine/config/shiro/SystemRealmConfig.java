@@ -1,24 +1,22 @@
 package com.examine.config.shiro;
 
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
 
 @Configuration
 public class SystemRealmConfig {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(SystemRealmConfig.class);
 
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shirFilter(@Qualifier("securityManager") SecurityManager securityManager) {
         logger.info("shiro filter factory bean");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -36,7 +34,7 @@ public class SystemRealmConfig {
 
         //学生的URL权限设置
         //filterChainDefinitionMap.put("/test1","authc");
-
+        filterChainDefinitionMap.put("/success","perms[/test20]");
         //管理员的URL权限设置
 
         //filterChainDefinitionMap.put("/saveTeacher","authc");
@@ -55,21 +53,19 @@ public class SystemRealmConfig {
         return shiroFilterFactoryBean;
     }
 
-    @Bean
-    public SystemRealm myShiroRealm() {
-        SystemRealm myShiroRealm = new SystemRealm();
-        //myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        return myShiroRealm;
+    @Bean(name = "systemRealm")
+    public SystemRealm getSystemRealm() {
+        return new SystemRealm();
     }
 
-    @Bean
-    public SecurityManager securityManager() {
+    @Bean(name = "securityManager")
+    public SecurityManager securityManager(@Qualifier("systemRealm") SystemRealm systemRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm());
+        securityManager.setRealm(systemRealm);
         return securityManager;
     }
 
-    @Bean
+    /*@Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
@@ -86,5 +82,5 @@ public class SystemRealmConfig {
         r.setDefaultErrorView("error");
         r.setExceptionAttribute("ex");
         return r;
-    }
+    }*/
 }

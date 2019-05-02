@@ -82,7 +82,7 @@ public class LoginController extends BaseController{
                 /*if(){
 
                 }*/
-                return new ModelAndView("success");
+                return new ModelAndView("redirect:success");
               /*  resultMap.put("status", 200);
                 resultMap.put("url", "success");
                 resultMap.put("message", "login success");*/
