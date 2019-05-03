@@ -21,26 +21,22 @@ public class SystemRealmConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
-        //拦截器
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
-        //配置不会被拦截的链接，顺序判断
+        //设置静态数据
         filterChainDefinitionMap.put("/static/**", "anon");
-
-        //配置退出过滤器，shiro已经实现退出操作
+        //设置退出
         filterChainDefinitionMap.put("/logout", "logout");
 
         //教师的URL权限设置
 
         //学生的URL权限设置
-        //filterChainDefinitionMap.put("/test1","authc");
-        filterChainDefinitionMap.put("/success","perms[/test20]");
+
         //管理员的URL权限设置
 
-        //filterChainDefinitionMap.put("/saveTeacher","authc");
-
-        //所有链接在认证后才能访问
-        //filterChainDefinitionMap.put("/**", "authc");
+        //test
+        filterChainDefinitionMap.put("/success","perms[/test20]");
 
         shiroFilterFactoryBean.setLoginUrl("/login");
 

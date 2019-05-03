@@ -2,7 +2,6 @@ package com.examine.common.controller;
 
 import com.examine.common.util.IpUtil;
 import com.examine.common.util.StringUtils;
-import com.examine.controller.StudentController;
 import com.examine.domain.TStudent;
 import com.examine.service.StudentService;
 import com.examine.service.SubmitService;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 /**
  * @version 1.0
@@ -29,16 +27,16 @@ import java.util.Map;
  */
 
 @Controller
-public class LoginController extends BaseController{
+public class StudentLoginController extends BaseController{
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(StudentLoginController.class);
 
     private final StudentService studentService;
 
     private final SubmitService submitService;
 
     @Autowired
-    public LoginController(SubmitService submitService, StudentService studentService) {
+    public StudentLoginController(SubmitService submitService, StudentService studentService) {
         this.submitService = submitService;
         this.studentService = studentService;
     }

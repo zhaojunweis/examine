@@ -7,6 +7,7 @@ import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 import com.examine.service.StudentService;
 import com.examine.service.TeacherService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -42,16 +43,19 @@ public class SystemRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        logger.info("授权配置=================开始");
-        TStudent student = (TStudent) principals.getPrimaryPrincipal();
-        //TTeacher teacher = (TTeacher) principals.getPrimaryPrincipal();
-        TTeacher teacher = null;
+        logger.info("授权===================================================开始");
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        TStudent student = null;
+        TTeacher teacher = null;
+        Object o = principals.getPrimaryPrincipal();
+        if (o instanceof TStudent) {
+            student = (TStudent) principals.getPrimaryPrincipal();
+        } else {
+            teacher = (TTeacher) principals.getPrimaryPrincipal();
+        }
         Collection<String> permCollection = new HashSet<>();
-
         if (null != student) {
-            logger.info("===========学生权限设置================");
-            TRole role = student.getRole();//获取角色
+            TRole role = student.getRole();
             for (TPerm tPerm : role.getPermSet()) {
                 permCollection.add(tPerm.getUrl());
             }
@@ -59,19 +63,15 @@ public class SystemRealm extends AuthorizingRealm {
         }
 
         if (null != teacher) {
-            logger.info("===========教师或管理员================");
             TRole role = teacher.getRole();
-            for(TPerm tPerm : role.getPermSet()){
+            for (TPerm tPerm : role.getPermSet()) {
                 permCollection.add(tPerm.getUrl());
             }
             List<String> roles = new ArrayList<>();
-            roles.add("teacher");
-            roles.add("admin");
             info.addRoles(roles);
         }
         info.addStringPermissions(permCollection);
-
-        logger.info("授权配置=================结束");
+        logger.info("授权===================================================结束");
         return info;
     }
 
@@ -85,11 +85,19 @@ public class SystemRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        logger.info("认证==================开始");
+        logger.info("认证===================================================开始");
 
         AuthenticationInfo info = null;
 
+        Object principal = SecurityUtils.getSubject().getPrincipal();
+
         String username = (String) authenticationToken.getPrincipal();
+
+        if(principal instanceof TStudent){
+            TStudent student = studentService.selectStudentRoleAndPerm(username);
+        }else{
+            TTeacher teacher = teacherService.selectTeacherRoleAndPerm(username);
+        }
 
         TStudent student = studentService.selectStudentRoleAndPerm(username);
 
@@ -110,7 +118,7 @@ public class SystemRealm extends AuthorizingRealm {
                     teacher, teacher.gettPass(), this.getClass().getSimpleName()
             );
         }
-        logger.info("认证==================结束");
+        logger.info("认证===================================================结束");
         return info;
     }
 
