@@ -6,6 +6,7 @@ import com.examine.common.util.StringUtils;
 import com.examine.domain.TStudent;
 import com.examine.service.StudentService;
 import com.examine.service.SubmitService;
+import org.apache.fop.fonts.truetype.TTFSubSetFile;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -104,5 +105,13 @@ public class StudentController extends BaseController {
         }
 
         return resultMap;
+    }
+
+    @RequestMapping(value = "/getStudentLogin")
+    @ResponseBody
+    public TStudent getStudentLogin(){
+
+        String sSno = "1610120001";
+        return studentService.selectStudentRoleAndPerm(sSno);
     }
 }

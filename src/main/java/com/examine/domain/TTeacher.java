@@ -16,6 +16,10 @@ public class TTeacher implements Serializable {
 
     private int tIsDelete;
 
+    private int roleId;
+
+    private TRole role;
+
     public TTeacher() {
     }
 
@@ -65,5 +69,21 @@ public class TTeacher implements Serializable {
 
     public void settRealName(String tRealName) {
         this.tRealName = tRealName;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    public TRole getRole() {
+        return role;
+    }
+
+    public void setRole(TRole role) {
+        this.role = role;
     }
 }

@@ -4,19 +4,18 @@ import java.io.Serializable;
 
 public class TPerm implements Serializable {
 
-    private int id;
+    private int permId;
 
     private String url;
 
     private String desc;
 
-
     public int getId() {
-        return id;
+        return permId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.permId = id;
     }
 
     public String getUrl() {

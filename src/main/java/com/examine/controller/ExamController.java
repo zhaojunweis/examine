@@ -103,8 +103,8 @@ public class ExamController extends BaseController {
 
     @RequestMapping("/clearExam")
     @ResponseBody
-    public Map<String, Object> clearExam(String examName) {
-        boolean isSuccess = teacherService.clearExamInfo(examName);
+    public Map<String, Object> clearExam(Integer id) {
+        boolean isSuccess = teacherService.clearExamInfo(id);
         if (isSuccess) {
             resultMap.put("status", 200);
             resultMap.put("message", "delete failed");
@@ -162,12 +162,12 @@ public class ExamController extends BaseController {
     /**
      * 停止考试
      *
-     * @param examName
+     * @param id
      * @return
      */
     @RequestMapping("/stopExam")
-    public Map<String,Object> stopExam(String examName){
-        boolean status = examService.stopExam(examName);
+    public Map<String,Object> stopExam(Integer id){
+        boolean status = examService.stopOneExamById(id);
 
         if(!status){
             resultMap.put("status",500);

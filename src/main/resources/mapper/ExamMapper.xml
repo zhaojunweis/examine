@@ -14,13 +14,14 @@
         <result property="isDelete" column="is_delete"/>
     </resultMap>
 
-    <update id="nonphysicalDeleteOneExamByName" parameterType="String">
+    <!--已改-->
+    <update id="nonphysicalDeleteOneExamById" parameterType="Integer">
          update
          t_exam
          set
          is_delete = 1
          where
-         exam_name = #{examName}
+         id = #{id};
     </update>
 
     <insert id="saveExaminationInfo" parameterType="com.examine.domain.TExam"
@@ -39,6 +40,7 @@
         )
     </insert>
 
+    <!--改-->
     <update id="uploadExamPaper" parameterType="Map">
         update
         t_exam
@@ -47,12 +49,14 @@
         exam_name = #{examName}
     </update>
 
-    <update id="stopExam" parameterType="String">
-        update t_exam set is_start = 0 where exam_name = #{examName}
+    <!--已改-->
+    <update id="stopOneExamById" parameterType="String">
+        update t_exam set is_start = 0, is_finished = 1 where id = #{id};
     </update>
 
+    <!--已改-->
     <update id="clearExam">
-        update t_exam set is_delete = 1 where is_delete = 0 and is_start = 0
+        update t_exam set is_delete = 1 where is_delete = 0 and is_start = 0 and is_finished = 1
     </update>
 
     <select id="selectAllExamInfo" resultMap="examBaseMapper">
@@ -79,9 +83,19 @@
         where id = #{id};
     </update>
 
-
     <select id = "selectExamInfoByTName" parameterType="String" resultMap="examBaseMapper">
         select * from t_exam where t_name = #{tName} and is_delete = 0
     </select>
+
+    <update id="startExamById">
+         update
+           t_exam
+         set
+           is_start = 1
+         where
+            id = #{id}
+         and
+            is_delete = 0
+    </update>
 
 </mapper>

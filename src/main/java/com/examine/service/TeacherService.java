@@ -19,7 +19,7 @@ public interface TeacherService {
 
     boolean removeTeacher(Integer id);
 
-    boolean clearExamInfo(String examName);
+    boolean clearExamInfo(Integer id);
 
     List<TStudent> exportSubmitInfo();
 
@@ -30,4 +30,6 @@ public interface TeacherService {
     boolean updateTeacherById(TTeacher tTeacher);
 
     TTeacher selectTeacherEntityByUsername(String tName);
+
+    TTeacher selectTeacherRoleAndPerm(String tName);
 }

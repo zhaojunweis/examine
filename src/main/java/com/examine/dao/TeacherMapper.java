@@ -57,10 +57,10 @@ public interface TeacherMapper {
     /**
      * 通过考试名称清除考试信息
      *
-     * @param examName
+     * @param id
      * @return
      */
-    Integer selectIsPigeonhole(String examName);
+    Integer selectIsPigeonhole(Integer id);
 
     /**
      * 查询费Admin的管理员
@@ -91,4 +91,12 @@ public interface TeacherMapper {
      * @return
      */
     Integer updateTeacherById(TTeacher tTeacher);
+
+    /**
+     * 获取教师的所有权限
+     *
+     * @param tName
+     * @return
+     */
+    TTeacher selectTeacherRoleAndPerm(String tName);
 }

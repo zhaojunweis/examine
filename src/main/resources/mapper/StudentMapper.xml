@@ -11,6 +11,53 @@
         <result property="sIsDelete" column="s_is_delete"/>
     </resultMap>
 
+    <resultMap id="studentBaseShiro" type="com.examine.domain.TStudent">
+        <id property="id" column="id"/>
+        <result property="sSno" column="s_sno"/>
+        <result property="sName" column="s_name"/>
+        <result property="sClassId" column="s_class_id"/>
+        <result property="sScoreName" column="s_score_name"/>
+        <result property="sIsDelete" column="s_is_delete"/>
+
+        <collection property="role" column="role_id" ofType="com.examine.domain.TRole">
+            <id column="role_id" property="roleId"/>
+            <result column="role" property="role"/>
+            <result column="description" property="description"/>
+            <collection property="permSet" ofType="com.examine.domain.TPerm">
+                <id column="perm_id" property="permId"/>
+                <result column="url" property="url"/>
+                <result column="desc" property="desc"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <sql id="shiro-select-base">
+        select
+          t_student.id,
+          t_student.s_sno,
+          t_student.s_name,
+          t_role.role_id,
+          t_role.role,
+          t_role.description,
+          t_perm.perm_id,
+          t_perm.url,
+          t_perm.desc
+          from
+            t_student,
+            t_role,
+            t_role_perm,
+            t_perm
+        where t_student.role_id = t_role.role_id
+        and t_role.role_id = t_role_perm.role_id
+        and t_role_perm.perm_id = t_perm.perm_id
+    </sql>
+
+    <select id="selectStudentRoleAndPerm" parameterType="String" resultMap="studentBaseShiro">
+        <include refid="shiro-select-base"/>
+        AND
+        s_sno = #{sSno}
+    </select>
+
     <select id="selectStudentPasswordByUsername" parameterType="String" resultType="String">
         select s_pass from t_student where s_sno=#{sSno}
     </select>

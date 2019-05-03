@@ -22,13 +22,13 @@ public class ExamServiceImpl implements ExamService {
     /**
      * 通过考试名称非物理删除一个考试
      *
-     * @param examName
+     * @param id 考试的ID号
      * @return
      */
     @Override
-    public boolean nonphysicalDeleteOneExamByName(String examName) {
+    public boolean nonphysicalDeleteOneExamById(Integer id) {
         boolean flag = false;
-        int affectCount = examMapper.nonphysicalDeleteOneExamByName(examName);
+        int affectCount = examMapper.nonphysicalDeleteOneExamById(id);
         if (affectCount >= 1) {
             flag = true;
         }
@@ -65,12 +65,12 @@ public class ExamServiceImpl implements ExamService {
     /**
      * 停止考试
      *
-     * @param examName
+     * @param id
      */
     @Override
-    public boolean stopExam(String examName) {
+    public boolean stopOneExamById(Integer id) {
         boolean flag = false;
-        Integer stopFlag = examMapper.stopExam(examName);
+        Integer stopFlag = examMapper.stopOneExamById(id);
         if (stopFlag == 1) {
             flag = true;
         }
@@ -124,5 +124,21 @@ public class ExamServiceImpl implements ExamService {
     public List<TExam> selectExamInfoByTName(String tName) {
 
         return examMapper.selectExamInfoByTName(tName);
+    }
+
+    /**
+     * 教师手动开启考试
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean startExamById(Integer id) {
+        boolean flag = false;
+        Integer startStatus = examMapper.startExamById(id);
+        if(startStatus == 1){
+            flag = true;
+        }
+        return flag;
     }
 }
