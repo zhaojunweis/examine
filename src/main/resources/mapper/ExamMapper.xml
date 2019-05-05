@@ -50,7 +50,7 @@
     </update>
 
     <!--已改-->
-    <update id="stopOneExamById" parameterType="String">
+    <update id="stopOneExamById">
         update t_exam set is_start = 0, is_finished = 1 where id = #{id};
     </update>
 

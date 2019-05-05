@@ -91,7 +91,9 @@ body {
 
 <form class="exam-form form-inline" action="teacher_exam_update" method="post">
 	<h4>编辑考试信息</h4>
+
 	<input type="hidden" name="id" th:value="${examinfo.id}">
+	<input type="hidden" name="url" th:value="${application.global_url}">
 	考试名称：
 	<input type="text" name="ename"  th:value="${examinfo.examName}" onblur="testName()" onkeydown="testName()" />
 	考试时间：
@@ -136,14 +138,15 @@ body {
 	<h4>开启考试</h4>
 	<input type="hidden" name="id" value="1">
     
-				<p th:if="${examinfo.examPaperUrl==null}" class="text-warning">尚未上传试卷。</p>
-				<button id="startexam" th:if="${examinfo.isStart!=1}" type="submit" class="btn btn-warning btn-large"><i class="icon-off"></i> 开启</button>
-				<button id="stopexam" th:if="${examinfo.isStart==1}" type="submit" style="background: red" class="btn btn-warning btn-large"><i class="icon-off"></i> 停止</button>
+				<p id="exampaper" th:if="${examinfo.examPaperUrl==null}" class="text-warning">尚未上传试卷。</p>
+				<button   th:if="${examinfo.isStart!=1}" type="button" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> <span>开启</span></button>
+				<button  th:if="${examinfo.isStart==1}" type="button" style="background: red" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> 停止</button>
 
 </form>
-
-
 	</div>
+
+
+
 	<!-- /container -->
 	<!-- placed at the end of the document so the pages load faster -->
 	<script src="js/jquery.min.js"></script>
@@ -154,7 +157,10 @@ body {
 	<script src="js/locales/common_js.js "></script>
 </body>
 </html>
+
 <script type="text/javascript">
+
+
 $("#datetimepicker").datetimepicker({
     format: "yyyy-mm-dd hh:ii",
     autoclose: true,
@@ -166,6 +172,8 @@ $("#datetimepicker").datetimepicker({
 });
 
 $(document).ready(function () {
+    var id = $("input[name='id']").val();
+    var url = $("input[name='url']").val();
     /*
     * 教师文件上传
     * */
@@ -257,6 +265,80 @@ $(document).ready(function () {
 	$("#addstudent").click(function () {
 
         window.location.href = "/teacher_addstudent?Id="+ $("input[name='id']").val();
+    });
+	/*
+	* 开启考试*/
+	$(".StartOrStop").click(function () {
+	    debugger
+		var tag = $(".StartOrStop").text().trim();
+	   var str = $("#exampaper").length;
+		if(tag == "开启"){
+		    if($("#exampaper").length==0){
+                $.ajax({
+                    type:'post',
+                    url:'/startExam',
+                    data:{
+                        Id:id,
+                    },
+                    success:function(data){
+                        if(data.status==200){
+                            layer.alert(data.message,{
+                                icon:1,
+                                skin:'layer-ext-moon',
+                            });
+                            $(".StartOrStop").children("span").text("停止");
+                            $(".StartOrStop").css("background","red");
+                        }else {
+                            layer.alert(data.message,{
+                                icon:0,
+                                skin:'layer-ext-moon',
+                            });
+                        }
+                    },
+                    error:function (data) {
+                        layer.alert("系统错误，请稍后再试",{
+                            icon:2,
+                            skin:'layer-ext-moon',
+                        });
+                    }
+                });
+            }else{
+		        layer.alert("开启考试前,请先上传试卷")
+			}
+
+
+		}else if(tag == "停止"){
+            $.ajax({
+                type:'post',
+                url:'/stopExam',
+                data:{
+                    Id:id,
+                },
+                success:function(data){
+                    debugger;
+                    if(data.status==200){
+                        layer.alert(data.message,{
+                            icon:1,
+                            skin:'layer-ext-moon',
+                        });
+                        $(".StartOrStop").children("span").text("考试已结束");
+                        $(".StartOrStop").css("background","gray");
+                    }else {
+                        layer.alert(data.message,{
+                            icon:0,
+                            skin:'layer-ext-moon',
+                        });
+                    }
+                },
+                error:function (data) {
+                    layer.alert("系统错误，请稍后再试",{
+                        icon:2,
+                        skin:'layer-ext-moon',
+                    });
+                }
+            });
+		}
+
     });
 });
 /*
