@@ -7,6 +7,7 @@ import com.examine.domain.TSystem;
 import com.examine.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -166,13 +167,34 @@ public class ExamController extends BaseController {
      * @return
      */
     @RequestMapping("/stopExam")
-    public Map<String,Object> stopExam(Integer id){
+    @ResponseBody
+    public Map<String,Object> stopExam(@RequestParam(value = "Id")Integer id){
         boolean status = examService.stopOneExamById(id);
 
         if(!status){
             resultMap.put("status",500);
+            resultMap.put("message","停止考试失败");
         }
         resultMap.put("status",200);
+        resultMap.put("message","停止考试成功");
+        return resultMap;
+    }
+    /**
+     * 开始考试
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("/startExam")
+    @ResponseBody
+    public Map<String,Object> startExam(@RequestParam(value = "Id") Integer id){
+        boolean status = examService.startExamById(id);
+        if(!status){
+            resultMap.put("status",500);
+            resultMap.put("message","开启考试失败");
+        }
+        resultMap.put("status",200);
+        resultMap.put("message","开启考试成功");
         return resultMap;
     }
 
