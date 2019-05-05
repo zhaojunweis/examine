@@ -140,7 +140,8 @@ public ModelAndView manage_summary(HttpSession session) throws ParseException {
     String sScoreName = null;
     for (Map  exam: exams) {
         /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
-        if(exam.get("isexam").equals("1")&&exam.get("isfinished").equals("0")){
+        if((int)exam.get("isexam")==1 && (int)exam.get("isfinished")==0){
+
             sScoreName =(String) exam.get("examname");
             break;
         }
@@ -161,9 +162,27 @@ public ModelAndView manage_summary(HttpSession session) throws ParseException {
   * @return
  */
 @RequestMapping("/teacher_manage_student")
-public ModelAndView manage_student() {
+public ModelAndView manage_student(HttpSession session) throws ParseException {
     ModelAndView mv = new ModelAndView();
-    mv.setViewName("/teacher_manage_student_inexam");
+    String tname = (String) session.getAttribute("tName");
+    List<Map> exams = commonController.getExamineInfo(tname);
+    String sScoreName = null;
+    for (Map  exam: exams) {
+        /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
+        if((int)exam.get("isexam")==1 && (int)exam.get("isfinished")==0){
+
+            sScoreName =(String) exam.get("examname");
+            break;
+        }
+    }
+    if(sScoreName == null){
+        mv.setViewName("/teacher_manage_student");
+    }else {
+        Map<String,Integer> examinfo = studentService.studentCountOneExam(sScoreName);
+        mv.addObject("examinfo",examinfo);
+        mv.setViewName("/teacher_manage_student_inexam");
+    }
+
     return mv;
 }
 /**
@@ -172,9 +191,26 @@ public ModelAndView manage_student() {
   * @return
  */
 @RequestMapping("/teacher_manage_unlock")
-public ModelAndView manage_unlock() {
+public ModelAndView manage_unlock(HttpSession session) throws ParseException {
     ModelAndView mv = new ModelAndView();
-    mv.setViewName("/teacher_manage_unlock_inexam");
+    String tname = (String) session.getAttribute("tName");
+    List<Map> exams = commonController.getExamineInfo(tname);
+    String sScoreName = null;
+    for (Map  exam: exams) {
+        /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
+        if((int)exam.get("isexam")==1 && (int)exam.get("isfinished")==0){
+
+            sScoreName =(String) exam.get("examname");
+            break;
+        }
+    }
+    if(sScoreName == null){
+        mv.setViewName("/teacher_manage_unlock");
+    }else {
+        Map<String,Integer> examinfo = studentService.studentCountOneExam(sScoreName);
+        mv.addObject("examinfo",examinfo);
+        mv.setViewName("/teacher_manage_unlock_inexam");
+    }
     return mv;
 }
 /**
@@ -184,9 +220,27 @@ public ModelAndView manage_unlock() {
  */
 
 @RequestMapping("/teacher_manage_notify")
-public ModelAndView manage_notify() {
+public ModelAndView manage_notify(HttpSession session) throws ParseException {
     ModelAndView mv = new ModelAndView();
-    mv.setViewName("/teacher_manage_notify_inexam");
+    String tname = (String) session.getAttribute("tName");
+    List<Map> exams = commonController.getExamineInfo(tname);
+    String sScoreName = null;
+    for (Map  exam: exams) {
+        /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
+        if((int)exam.get("isexam")==1 && (int)exam.get("isfinished")==0){
+
+            sScoreName =(String) exam.get("examname");
+            break;
+        }
+    }
+
+    if(sScoreName == null){
+        mv.setViewName("/teacher_manage_notify");
+    }else {
+        Map<String,Integer> examinfo = studentService.studentCountOneExam(sScoreName);
+        mv.addObject("examinfo",examinfo);
+        mv.setViewName("/teacher_manage_notify_inexam");
+    }
     return mv;
 }
 /**

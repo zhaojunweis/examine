@@ -30,18 +30,22 @@ body {
 
 				<ul class="nav navbar-nav">
 					<li><a href="/teacher_main"><i class="icon-home icon-white"></i>首页</a></li>
-					<li><a href="/teacher_exam_before"><i class="icon-cog icon-white"></i>考前操作</a></li>
+					<li><a th:href="@{/teacher_exam_before?t_name={name}(name = ${session.tName})}" ><i class="icon-cog icon-white"></i>考前操作</a></li>
 					<li class="dropdown"><a class="dropdown-toggle" role="button"
-											aria-expanded="false" aria-haspopup="true" href="#"
+											aria-expanded="false" aria-haspopup="true"
 											data-toggle="dropdown"><i class="icon-time icon-white"></i>考中管理<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="/teacher_manage_summary"><i class="icon-align-justify"></i>考试概况</a></li>
-							<li><a href="/teacher_manage_student"><i class="icon-list"></i>学生信息</a></li>
-							<li><a href="/teacher_manage_unlock"><i class="icon-lock"></i>解除锁定</a></li>
-							<li><a href="/teacher_manage_notify"><i class="icon-bell"></i>通知管理</a></li>
+							<li><a th:href="@{/teacher_manage_summary?t_name={name}(name = ${session.tName})}">
+								<i class="icon-align-justify"></i>考试概况</a></li>
+							<li><a th:href="@{/teacher_manage_student?t_name={name}(name = ${session.tName})}">
+								<i class="icon-list"></i>学生信息</a></li>
+							<li><a th:href="@{/teacher_manage_unlock?t_name={name}(name = ${session.tName})}">
+								<i class="icon-lock"></i>解除锁定</a></li>
+							<li><a th:href="@{/teacher_manage_notify?t_name={name}(name = ${session.tName})}">
+								<i class="icon-bell"></i>通知管理</a></li>
 						</ul>
 					</li>
-					<li><a href="/teacher_exam_after"><i class="icon-check icon-white"></i>考后操作</a></li>
+					<li><a th:href="@{/teacher_exam_after?t_name={name}(name = ${session.tName})}" ><i class="icon-check icon-white"></i>考后操作</a></li>
 				</ul>
 				<ul class="nav navbar-nav pull-right">
 					<li><span  class="brand">欢迎您,</span><span id="brandname" class="brand" th:text="${session.tName}"><small></small></span></li>
@@ -139,8 +143,9 @@ body {
 	<input type="hidden" name="id" value="1">
     
 				<p id="exampaper" th:if="${examinfo.examPaperUrl==null}" class="text-warning">尚未上传试卷。</p>
-				<button   th:if="${examinfo.isStart!=1}" type="button" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> <span>开启</span></button>
-				<button  th:if="${examinfo.isStart==1}" type="button" style="background: red" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> 停止</button>
+				<button   th:if="${examinfo.isStart==0 and examinfo.isFinished==0}" type="button" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> <span>开启</span></button>
+				<button  th:if="${examinfo.isStart==1 and examinfo.isFinished==0}" type="button" style="background: red" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> 停止</button>
+				<button  th:if="${examinfo.isStart==0 and examinfo.isFinished==1}" type="button" style="background: gray" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i>考试已结束 </button>
 
 </form>
 	</div>
@@ -303,7 +308,10 @@ $(document).ready(function () {
                     }
                 });
             }else{
-		        layer.alert("开启考试前,请先上传试卷")
+		        layer.alert("开启考试前,请先上传试卷",{
+                    icon:0,
+                    skin:'layer-ext-moon',
+                });
 			}
 
 
