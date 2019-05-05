@@ -38,19 +38,22 @@
 
             <ul class="nav navbar-nav">
                 <li><a href="/teacher_main"><i class="icon-home icon-white"></i>首页</a></li>
-                <li><a href="/teacher_exam_before"><i class="icon-cog icon-white"></i>考前操作</a></li>
+                <li><a th:href="@{/teacher_exam_before?t_name={name}(name = ${session.tName})}" ><i class="icon-cog icon-white"></i>考前操作</a></li>
                 <li class="dropdown"><a class="dropdown-toggle" role="button"
-                                        aria-expanded="false" aria-haspopup="true" href="#"
-                                        data-toggle="dropdown"><i class="icon-time icon-white"></i>考中管理<span
-                        class="caret"></span></a>
+                                        aria-expanded="false" aria-haspopup="true"
+                                        data-toggle="dropdown"><i class="icon-time icon-white"></i>考中管理<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/teacher_manage_summary"><i class="icon-align-justify"></i>考试概况</a></li>
-                        <li><a href="/teacher_manage_student"><i class="icon-list"></i>学生信息</a></li>
-                        <li><a href="/teacher_manage_unlock"><i class="icon-lock"></i>解除锁定</a></li>
-                        <li><a href="/teacher_manage_notify"><i class="icon-bell"></i>通知管理</a></li>
+                        <li><a th:href="@{/teacher_manage_summary?t_name={name}(name = ${session.tName})}">
+                            <i class="icon-align-justify"></i>考试概况</a></li>
+                        <li><a th:href="@{/teacher_manage_student?t_name={name}(name = ${session.tName})}">
+                            <i class="icon-list"></i>学生信息</a></li>
+                        <li><a th:href="@{/teacher_manage_unlock?t_name={name}(name = ${session.tName})}">
+                            <i class="icon-lock"></i>解除锁定</a></li>
+                        <li><a th:href="@{/teacher_manage_notify?t_name={name}(name = ${session.tName})}">
+                            <i class="icon-bell"></i>通知管理</a></li>
                     </ul>
                 </li>
-                <li><a href="/teacher_exam_after"><i class="icon-check icon-white"></i>考后操作</a></li>
+                <li><a th:href="@{/teacher_exam_after?t_name={name}(name = ${session.tName})}" ><i class="icon-check icon-white"></i>考后操作</a></li>
             </ul>
             <ul class="nav navbar-nav pull-right">
                 <li><span class="brand">欢迎您,</span><span id="brandname" class="brand" th:text="${session.tName}"><small></small></span>
@@ -137,17 +140,18 @@
             <th class="span3 examname" th:text="${user.examname}"></th>
             <th class="span3 examtime" th:text="${user.exam_time}"></th>
             <th class="creatname" th:text="${user.create_name}"></th>
-            <th th:text="${user.exampaper_url}"></th>
-            <th claass="isautostart" th:if="${user.isautostart=='1'}"><img src="img/gouxuan1.png"></th>
-            <th claass="isautostart" th:if="${user.isautostart!='1'}"></th>
-            <th th:if="${user.isexam=='1'}"><img src="img/gouxuan1.png"></th>
-            <th th:if="${user.isexam!='1'}"></th>
-            <th th:if="${user.isfinished=='1'}"><img src="img/gouxuan1.png"></th>
-            <th th:if="${user.isfinished!='1'}"></th>
-            <th th:if="${user.ispageonhole=='1'}"><img src="img/gouxuan1.png"></th>
-            <th th:if="${user.ispageonhole!='1'}"></th>
-            <th th:if="${user.isdelete=='1'}"><img src="img/gouxuan1.png"></th>
-            <th th:if="${user.isdelete!='1'}"></th>
+            <th th:if="${user.exampaper_url!=null}"><img src="img/gouxuan1.png"></th>
+            <th th:if="${user.exampaper_url==null}"></th>
+            <th claass="isautostart" th:if="${user.isautostart==1}"><img src="img/gouxuan1.png"></th>
+            <th claass="isautostart" th:if="${user.isautostart!=1}"></th>
+            <th th:if="${user.isexam==1}"><img src="img/gouxuan1.png"></th>
+            <th th:if="${user.isexam!=1}"></th>
+            <th th:if="${user.isfinished==1}"><img src="img/gouxuan1.png"></th>
+            <th th:if="${user.isfinished!=1}"></th>
+            <th th:if="${user.ispageonhole==1}"><img src="img/gouxuan1.png"></th>
+            <th th:if="${user.ispageonhole!=1}"></th>
+            <th th:if="${user.isdelete==1}"><img src="img/gouxuan1.png"></th>
+            <th th:if="${user.isdelete!=1}"></th>
             <th><a class="btn edit_exam"><span class="icon-edit"></span></a></th>
         </tr>
         </thead>
@@ -189,6 +193,9 @@
     });
 
     $(document).ready(function () {
+        /*
+        * 添加单次考试
+        * */
         $(document).on("click","#addexam",function () {
             var t_name = $("input[name='ename']").val();
             var t_time = $("input[name='etime']").val();
@@ -237,7 +244,7 @@
                             for (var i = 0; i < list.length; i++) {
                                 debugger
                              ;
-                                var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete;
+                                var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
                                 if(list[i].isautostart == '1'){
                                     str_isauto="<th><img src='img/gouxuan1.png'></th>";
                                 }else{
@@ -263,14 +270,18 @@
                                 }else{
                                     str_isdelete = "<th></th>";
                                 }
+                                if(list[i].exampaper_url !=null){
+                                    exam_url="<th><img src='img/gouxuan1.png'></th>";
+                                }else{
+                                    exam_url = "<th></th>";
+                                }
                                 $("#appen_tr").append("<tr>" +
                                     "<input class='examId' type='hidden' value="+ list[i].examId+">"+
 
                                     "<th class=\"span3\">" + list[i].examname + "</th>" +
                                     "<th class=\"span3\">" + list[i].exam_time + "</th>" +
                                     "<th>" + list[i].create_name + "</th>" +
-                                    "<th>" + list[i].exampaper_url + "</th>"+
-                                        str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
+                                      exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
                                     "<th><a class = 'btn edit_exam'><span class = \"icon-edit\"></span></a></th></tr>");
                             }
 

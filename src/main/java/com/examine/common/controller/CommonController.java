@@ -90,13 +90,11 @@ public class CommonController extends BaseController {
         if(type.equals("")){
             tExams = examService.selectAllExamInfo();
         }else {
-
             tExams = examService.selectExamInfoByTName(type);
-
         }
         if(tExams!=null){
-            String startTime;
-            String examTime;
+          /*  String startTime;
+            String examTime;*/
             for (TExam tExam: tExams) {
                 Map<Object,Object> resultMap = new HashMap<>();
                 /*
@@ -104,27 +102,27 @@ public class CommonController extends BaseController {
                 * 当为非自动开启考试时，starttime为教师手动开始的时间
                 * */
 
-                examTime = tSystem.getsExamTime();
-                boolean status = false;
+               /* examTime = tSystem.getsExamTime();
+                boolean status = false;*/
 
                 /*
                 * 是否自动开始，如果是自动开始则按考试开始时间来算
                 * */
-                if(tExam.getIsAutoStart()==1){
+               /* if(tExam.getIsAutoStart()==1){
                     resultMap.put("isautostart","1");
-                    /*
+                    *//*
                     * 如果是自动开始，应该先判断是否已到考试时间，如果到了,则修改标志位is_start,并且在判断是考试中还是考试后
-                    * */
-                    startTime= tExam.getExamStartTime();
-                    /*
+                    * *//*
+                   *//* startTime= tExam.getExamStartTime();*//*
+                    *//*
                     * 判断starttime是否到了当前时间，如果到了就修改该次考试的标志位is_start
-                    * */
-                    if(is_timeStart(startTime)){
+                    * *//*
+                  *//*  if(is_timeStart(startTime)){
                         if(tExam.getIsStart()!=1){
                             //考试还未开始，修改is_start标志位
                         }
-                    }
-                    try {
+                    }*//*
+                    *//*try {
                         status = isTestFinished(startTime,examTime);
                         if(status){
                             resultMap.put("isexam","1");
@@ -136,12 +134,12 @@ public class CommonController extends BaseController {
 
                     } catch (ParseException e) {
                         e.printStackTrace();
-                    }
+                    }*//*
 
 
                 }else {
                     resultMap.put("isautostart","0");
-                    /*此部分的考试开始时间start_time应该为教师手动开启的时间*/
+                    *//*此部分的考试开始时间start_time应该为教师手动开启的时间*//*
                     startTime= tExam.getExamStartTime();
                     status = isTestFinished(startTime,examTime);
                     if(tExam.getIsStart()==1){
@@ -156,27 +154,20 @@ public class CommonController extends BaseController {
                         resultMap.put("isexam","0");
                         resultMap.put("isfinished","0");
                     }
-                }
+                }*/
 
-                if(tExam.getIsPigeonhole()==1){
-                    resultMap.put("ispageonhole","1");
-                }else{
-                    resultMap.put("ispageonhole","0");
-                }
-                if (tExam.getIsDelete()==1){
-                    resultMap.put("isdelete","1");
-                }else {
-                    resultMap.put("isdelete","0");
-                }
+
                 resultMap.put("examname",tExam.getExamName());
                 resultMap.put("exam_time",tExam.getExamStartTime());
                 resultMap.put("create_name",tExam.gettName());
                 resultMap.put("examId",tExam.getId());
-                if(tExam.getExamPaperUrl()!=null){
-                    resultMap.put("exampaper_url","已上传");
-                }else{
-                    resultMap.put("exampaper_url","未上传");
-                }
+                resultMap.put("isautostart",tExam.getIsAutoStart());
+                resultMap.put("isexam",tExam.getIsStart());
+                resultMap.put("isfinished",tExam.getIsFinished());
+                resultMap.put("ispageonhole",tExam.getIsPigeonhole());
+                resultMap.put("isdelete",tExam.getIsDelete());
+                resultMap.put("exampaper_url",tExam.getExamPaperUrl());
+
                 listmap.add(resultMap);
             }
         }
