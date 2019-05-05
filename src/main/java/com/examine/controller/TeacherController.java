@@ -380,26 +380,7 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
         return studentService.studentCountOneExam("Java");
     }
 
-    /**
-     * 教师开启考试
-     *
-     * @param id
-     * @return
-     */
-    @RequestMapping("/startExam")
-    @ResponseBody
-    public Map<String,Object> startExam(Integer id){
-        id = 58;
-        boolean flag = examService.startExamById(id);
 
-        if(flag){
-            resultMap.put("status",200);
-            resultMap.put("message","考试已开启");
-        }else{
-            resultMap.put("status",500);
-            resultMap.put("message","考试开启失败");
-        }
-        return resultMap;
-    }
+
 
 }

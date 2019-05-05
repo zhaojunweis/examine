@@ -52,7 +52,7 @@
 
     <!--已改-->
     <update id="stopOneExamById" parameterType="Integer">
-        update t_exam set is_start = 0, is_finished = 1 where id = #{id};
+        update  t_exam set is_start = 0, is_finished = 1 where id = #{id};
     </update>
 
     <!--已改-->
