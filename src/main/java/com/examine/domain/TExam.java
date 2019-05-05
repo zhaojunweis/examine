@@ -22,6 +22,8 @@ public class TExam implements Serializable {
 
     private int isDelete;
 
+    private int isFinished;
+
     public long getId() {
         return id;
     }
@@ -92,5 +94,13 @@ public class TExam implements Serializable {
 
     public void setIsDelete(int isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public int getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(int isFinished) {
+        this.isFinished = isFinished;
     }
 }

@@ -12,6 +12,7 @@
         <result property="isStart" column="is_start"/>
         <result property="isPigeonhole" column="is_pigeonhole"/>
         <result property="isDelete" column="is_delete"/>
+        <result property="isFinished" column="is_finished"/>
     </resultMap>
 
     <!--已改-->
@@ -50,7 +51,7 @@
     </update>
 
     <!--已改-->
-    <update id="stopOneExamById" parameterType="String">
+    <update id="stopOneExamById" parameterType="Integer">
         update t_exam set is_start = 0, is_finished = 1 where id = #{id};
     </update>
 
