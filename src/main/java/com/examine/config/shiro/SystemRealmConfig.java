@@ -28,14 +28,58 @@ public class SystemRealmConfig {
         //设置退出
         filterChainDefinitionMap.put("/logout", "logout");
 
+        //公共（管理员，教师）
+        filterChainDefinitionMap.put("/editPassword","perms[/editPassword]");
+        filterChainDefinitionMap.put("/checkPasswordByname","perms[/checkPasswordByname]");
         //教师的URL权限设置
+        filterChainDefinitionMap.put("/teacher_exam_before","perms[/teacher_exam_before]");
+        filterChainDefinitionMap.put("/teacher_exam_after","perms[/teacher_exam_after]");
+        filterChainDefinitionMap.put("/teacher_manage_summary","perms[/teacher_manage_summary]");
+        filterChainDefinitionMap.put("/teacher_manage_student","perms[/teacher_manage_student]");
+        filterChainDefinitionMap.put("/teacher_manage_unlock","perms[/teacher_manage_unlock]");
+        filterChainDefinitionMap.put("/teacher_manage_notify","perms[/teacher_manage_notify]");
+        filterChainDefinitionMap.put("/teacher_exam_modify","perms[/teacher_exam_modify]");
+        filterChainDefinitionMap.put("/submitTeacherLogin","perms[/submitTeacherLogin]");
+        filterChainDefinitionMap.put("/teacher_main","perms[/teacher_main]");
+        filterChainDefinitionMap.put("/importStudentInfo","perms[/importStudentInfo]");
+        filterChainDefinitionMap.put("/exportSubmitInfo","perms[/exportSubmitInfo]");
+        filterChainDefinitionMap.put("/downLoadZipFile","perms[/downLoadZipFile]");
+        filterChainDefinitionMap.put("/saveStudent","perms[/saveStudent]");
+        filterChainDefinitionMap.put("/updateDirtyData","perms[/updateDirtyData]");
+        filterChainDefinitionMap.put("/doUnbinding","perms[/doUnbinding]");
+
+        filterChainDefinitionMap.put("/insertMessage","perms[/insertMessage]");
+        filterChainDefinitionMap.put("/selectAllMessage","perms[/selectAllMessage]");
+        filterChainDefinitionMap.put("/examinfo_modifier","perms[/examinfo_modifier]");
+        filterChainDefinitionMap.put("/updateExamInfo","perms[/updateExamInfo]");
+        filterChainDefinitionMap.put("/startExam","perms[/startExam]");
+        filterChainDefinitionMap.put("/stopExam","perms[/stopExam]");
+        filterChainDefinitionMap.put("/uploadExamPaper","perms[/uploadExamPaper]");
+        filterChainDefinitionMap.put("/saveExam","perms[/saveExam]");
+        filterChainDefinitionMap.put("/clearExam","perms[/clearExam]");
 
         //学生的URL权限设置
-
+        filterChainDefinitionMap.put("/success","perms[/success]");
+        filterChainDefinitionMap.put("/studentListdir","perms[/studentListdir]");
+        filterChainDefinitionMap.put("/student_exam_upload","perms[/student_exam_upload]");
+        filterChainDefinitionMap.put("/studentsubmit","perms[/studentsubmit]");
+        filterChainDefinitionMap.put("/studentdoloadpage","perms[/studentdoloadpage]");
         //管理员的URL权限设置
 
+        filterChainDefinitionMap.put("/admin_main","perms[/admin_main]");
+        filterChainDefinitionMap.put("/admin_teacher","perms[/admin_teacher]");
+        filterChainDefinitionMap.put("/saveTeacher","perms[/saveTeacher]");
+        filterChainDefinitionMap.put("/removeTeacher","perms[/removeTeacher]");
+        filterChainDefinitionMap.put("/updateUserAccount","perms[/updateUserAccount]");
+        filterChainDefinitionMap.put("/admin_Teacher_Edit","perms[/admin_Teacher_Edit]");
+        filterChainDefinitionMap.put("/updateTeacherById","perms[/updateTeacherById]");
+        filterChainDefinitionMap.put("/admin_exam","perms[/admin_exam]");
+        filterChainDefinitionMap.put("/clearExam","perms[/clearExam]");
+        filterChainDefinitionMap.put("/systemconfig","perms[/systemconfig]");
+        filterChainDefinitionMap.put("/admin_config","perms[/admin_config]");
+
         //test
-        filterChainDefinitionMap.put("/success","perms[/test20]");
+       // filterChainDefinitionMap.put("/success","perms[/test20]");
 
         shiroFilterFactoryBean.setLoginUrl("/login");
 

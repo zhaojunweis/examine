@@ -190,15 +190,15 @@ public class AdministratorController extends BaseController {
         return resultMap;
     }
 
-    /**
+   /* *//**
      * 判断是否只有Admin用户
      *
-     */
-    @RequestMapping("onlyAdmin")
+     *//*
+    @RequestMapping("/onlyAdmin")
     @ResponseBody
     public boolean onlyAdmin(){
         return teacherService.selectCountOtherAdminExceptAdmin();
-    }
+    }*/
 
     /**
       * 管理员修改教师的相关信息layer弹窗内容

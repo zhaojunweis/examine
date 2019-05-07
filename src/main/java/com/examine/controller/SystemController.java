@@ -23,6 +23,7 @@ public class SystemController extends BaseController {
         this.systemService = systemService;
     }
 
+
     @RequestMapping("/systemconfig")
     @ResponseBody
     public Map<String,Object> updateSystemConfigure(TSystem system){

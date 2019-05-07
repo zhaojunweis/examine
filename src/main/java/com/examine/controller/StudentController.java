@@ -54,6 +54,11 @@ public class StudentController extends BaseController {
         return mv;
     }
 
+    /**
+     * 学生首页初始化
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/success")
     public ModelAndView stu_Success(HttpSession session) {
         TStudent tStudent= (TStudent) session.getAttribute("student");
@@ -107,11 +112,52 @@ public class StudentController extends BaseController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/getStudentLogin")
+    /**
+     * 学生查看提交情况初始化
+     * @return
+     */
+    @RequestMapping("/studentListdir")
+    public ModelAndView studentListdir(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/student_exam_listdir");
+        return  mv;
+    }
+    /**
+     * 学生提交界面初始化
+     * @return
+     */
+    @RequestMapping("/student_exam_upload")
+    public ModelAndView student_exam_upload(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/student_exam_listdir");
+        return  mv;
+    }
+    /**
+     * 学生提交答案
+     * @return
+     */
+    @RequestMapping("/studentsubmit")
+    @ResponseBody
+    public Map<String,Object> studentsubmit(){
+       return null;
+    }
+    /**
+     * 学生下载试卷
+     * @return
+     */
+    @RequestMapping("/studentdoloadpage")
+    @ResponseBody
+    public Map<String,Object> studentdoloadpage(){
+        return null;
+    }
+
+
+  /*  @RequestMapping(value = "/getStudentLogin")
     @ResponseBody
     public TStudent getStudentLogin(){
 
         String sSno = "1610120001";
         return studentService.selectStudentRoleAndPerm(sSno);
-    }
+    }*/
+
 }
