@@ -21,7 +21,6 @@ public class SystemRealmConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
-
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
         //设置静态数据
