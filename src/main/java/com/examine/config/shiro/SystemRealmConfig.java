@@ -40,7 +40,7 @@ public class SystemRealmConfig {
 
         shiroFilterFactoryBean.setLoginUrl("/login");
 
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        //shiroFilterFactoryBean.setSuccessUrl("/index");
 
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
@@ -60,23 +60,4 @@ public class SystemRealmConfig {
         securityManager.setRealm(systemRealm);
         return securityManager;
     }
-
-    /*@Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
-        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
-        return authorizationAttributeSourceAdvisor;
-    }
-
-    @Bean(name = "simpleMappingExceptionResolver")
-    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
-        SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
-        Properties mappings = new Properties();
-        mappings.setProperty("DatabaseException", "databaseError");
-        mappings.setProperty("UnauthorizedException", "403");
-        r.setExceptionMappings(mappings);
-        r.setDefaultErrorView("error");
-        r.setExceptionAttribute("ex");
-        return r;
-    }*/
 }
