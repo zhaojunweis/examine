@@ -23,7 +23,7 @@ public class SystemRealmConfig {
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
-        //设置静态数据
+       /* //设置静态数据
         filterChainDefinitionMap.put("/static/**", "anon");
         //设置退出
         filterChainDefinitionMap.put("/logout", "logout");
@@ -75,13 +75,13 @@ public class SystemRealmConfig {
         filterChainDefinitionMap.put("/admin_exam","perms[/admin_exam]");
         filterChainDefinitionMap.put("/clearExam","perms[/clearExam]");
         filterChainDefinitionMap.put("/systemconfig","perms[/systemconfig]");
-        filterChainDefinitionMap.put("/admin_config","perms[/admin_config]");
+        filterChainDefinitionMap.put("/admin_config","perms[/admin_config]");*/
 
         //test
        // filterChainDefinitionMap.put("/success","perms[/test20]");
 
-        shiroFilterFactoryBean.setLoginUrl("/login");
-
+     /*   shiroFilterFactoryBean.setLoginUrl("/login");
+*/
         //shiroFilterFactoryBean.setSuccessUrl("/index");
 
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");

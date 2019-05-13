@@ -94,20 +94,20 @@ body {
 		</h1>
 
 
-<form class="exam-form form-inline" action="teacher_manage_binding_search"
-	method="post">
-	<h4>按学生查找已登录信息</h4>
-	<input type="text" name="sno" placeholder="学号" size="20" />
-	<input type="text" name="sname" placeholder="姓名" size="20" />
-	<input type="text" name="sclass" placeholder="班级" size="20" />
-	<button type="submit" class="btn btn-primary"><i class="icon-search"></i> 查找</button>
-</form>
+		<form class="exam-form form-inline"
+			  method="post">
+			<h4>查找学生信息</h4>
+			<input type="text" name="snofind" placeholder="学号" size="20" />
+			<!--<input type="text" name="snamefind" placeholder="姓名" size="20" />
+            <input type="text" name="sclassfind" placeholder="班级" size="20" />-->
+			<button id="btn_findinfo" type="button" class="btn btn-primary"><i class="icon-search"></i> 查找</button>
+		</form>
 
-<form class="exam-form form-inline" action="teacher_manage_binding_searchip"
+<form class="exam-form form-inline"
 	method="post">
 	<h4>按ip地址查找已登录信息</h4>
 	<input type="text" name="ip" placeholder="ip地址" size="20" />
-	<button type="submit" class="btn btn-primary"><i class="icon-search"></i> 查找</button>
+	<button id="btn_infobyIp" type="button" class="btn btn-primary"><i class="icon-search"></i> 查找</button>
 </form>
 
 <div class="container-fluid">
@@ -120,13 +120,14 @@ body {
 					<th class="span2">姓名</th>
 					<th class="span3">班级</th>
 					<th class="span3">ip地址</th>
-					<th>&nbsp;</th>
+					<th class="span3"></th>
 				</tr>
 			</thead>
 			<tbody>
 				
 			</tbody>
 		</table>
+		<div style="margin-top: 20px;width: 100%;height: 100px;padding:40px;text-align: center" class="notfindinfo"></div>
 	</div>
 </div>
 
@@ -140,6 +141,58 @@ body {
 	<script src="js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="js/layer/layer.js"></script>
 	<script src="js/locales/common_js.js "></script>
+	<script>
+		$(document).ready(function () {
+            //根据学号查找学生信息
+            $("#btn_findinfo").click(function () {
+                $("tbody").empty();
+                $(".notfindinfo").empty();
+                var snofind = $("input[name='snofind']").val();
+                if(snofind.trim()!=""){
+                    $.ajax({
+                        type:'post',
+                        url:"/queryStudentEntity",
+                        data:{
+                            sno:snofind
+                        },
+                        success:function (data) {
+                            if (data.status == 200){
+                                var studentinfo = data.studentinfo;
+
+                                $("tbody").empty();
+                                $(".notfindinfo").empty();
+                                $("tbody").append("<tr>\n" +
+                                    "\t\t\t\t\t\t<th class=\"span3\">"+studentinfo.sSno+"</th>\n" +
+                                    "\t\t\t\t\t\t<th class=\"span2\">"+studentinfo.sName+"</th>\n" +
+                                    "\t\t\t\t\t\t<th class=\"span3\">"+studentinfo.sClassId+"</th>\n" +
+                                    "\t\t\t\t\t\t<th class=\"span3\">"+studentinfo.sScoreName+"</th>\n" +
+                                    "<th class=\"span3\"></th>"+
+                                    "\t\t\t\t\t</tr>");
+                            }else {
+                                $("tbody").empty();
+                                $(".notfindinfo").append("<label style='font-size: 30px;color: #555555'>没有找到该学号的学生</label>")
+                            }
+                        },
+                        error:function (data) {
+                            layer.alert("请求失败，请重试",{
+                                icon:2,
+                                skin:'layer-ext-moon',
+                            });
+                        }
+                    });
+                }else {
+                    layer.alert("请输入需要查找的学生学号",{
+                        icon:0,
+                        skin:'layer-ext-moon',
+                    })
+                }
+            });
+            //根据Ip查找信息
+			$("#btn_infobyIp").click(function () {
+				layer.alert("ip查找接口未写，功能暂未实现");
+            });
+        });
+	</script>
 </body>
 </html>
 

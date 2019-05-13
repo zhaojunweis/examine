@@ -6,6 +6,7 @@ import com.examine.common.util.ExcelUtils;
 import com.examine.common.util.StringUtils;
 import com.examine.common.util.ZipUtils;
 import com.examine.domain.TExam;
+import com.examine.domain.TNotification;
 import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 import com.examine.service.*;
@@ -42,14 +43,18 @@ public class TeacherController extends BaseController {
     private final ExamService examService;
 
     private final CommonController commonController;
+
+    private NotificationService notificationService;
     @Autowired
-    public TeacherController(TeacherService teacherService, StudentService studentService, SubmitService submitService,ExamService examService,SystemService systemService,CommonController commonController) {
+    public TeacherController(TeacherService teacherService, StudentService studentService, SubmitService submitService,ExamService examService,SystemService systemService,
+                             NotificationService notificationService,CommonController commonController) {
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.submitService = submitService;
         this.examService = examService;
         this.systemService = systemService;
         this.commonController = commonController;
+        this.notificationService = notificationService;
     }
 
 /*
@@ -240,6 +245,7 @@ public ModelAndView manage_notify(HttpSession session) throws ParseException {
         Map<String,Integer> examinfo = studentService.studentCountOneExam(sScoreName);
         mv.addObject("examinfo",examinfo);
         mv.setViewName("/teacher_manage_notify_inexam");
+        mv.addObject("notifies",notificationService.showAllNotification());
     }
     return mv;
 }
@@ -432,6 +438,43 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
     public Map<String,Integer> viewInfoOnTestInProgress(){
 
         return studentService.studentCountOneExam("Java");
+    }
+
+    /**
+     * 教师根据学号查找学生相关信息
+     * @param sno
+     * @return
+     */
+    @RequestMapping(value="/queryStudentEntity")
+    @ResponseBody
+    public Map<String,Object> queryStudentEntity(@RequestParam(value = "sno") String sno){
+
+        TStudent student = studentService.selectStudentEntityByUsername(sno);
+        if(student!=null){
+            resultMap.put("studentinfo",student);
+            resultMap.put("status",200);
+            return resultMap;
+        }
+        resultMap.put("status",500);
+        resultMap.put("message","未找到该学生的相关信息");
+        return resultMap;
+    }
+    @RequestMapping("/addNotifycation")
+    @ResponseBody
+    public Map<String,Object> addNotifycation(TNotification tNotification){
+
+        boolean b = notificationService.saveNotification(tNotification);
+        if(b){
+            resultMap.put("status",200);
+            resultMap.put("notifies",notificationService.showAllNotification());
+            resultMap.put("message","添加通知成功");
+            return resultMap;
+        }
+        resultMap.put("status",500);
+        resultMap.put("message","添加通知失败");
+        return resultMap;
+
+
     }
 
 
