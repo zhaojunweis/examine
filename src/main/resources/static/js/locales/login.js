@@ -119,6 +119,7 @@ function teacherLogin(){
                     tPass:pass,
                 },
                 success: function(data) {
+                    debugger
                     var str = data.status;
                     if(str == 200){
                         layer.confirm('您已登录成功，确定要进入教师主页吗？',{
