@@ -3,7 +3,9 @@ package com.examine.controller;
 import com.examine.common.controller.BaseController;
 import com.examine.common.util.IpUtil;
 import com.examine.common.util.StringUtils;
+import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
+import com.examine.service.ExamService;
 import com.examine.service.StudentService;
 import com.examine.service.SubmitService;
 import org.apache.fop.fonts.truetype.TTFSubSetFile;
@@ -29,10 +31,13 @@ public class StudentController extends BaseController {
 
     private final SubmitService submitService;
 
+    private final ExamService examService;
+
     @Autowired
-    public StudentController(SubmitService submitService, StudentService studentService) {
+    public StudentController(SubmitService submitService, StudentService studentService,ExamService examService) {
         this.submitService = submitService;
         this.studentService = studentService;
+        this.examService = examService;
     }
 
 
@@ -61,10 +66,14 @@ public class StudentController extends BaseController {
      */
     @RequestMapping(value = "/success")
     public ModelAndView stu_Success(HttpSession session) {
-        TStudent tStudent= (TStudent) session.getAttribute("student");
-
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("/success");
+        TStudent tStudent= (TStudent) session.getAttribute("student");
+        TExam tExam = examService.selectOneExamInfoById(tStudent.getScoreId());
+        if(tExam.getIsStart()==1 && tExam.getIsFinished()==0){ //判断该学生的考试是否已经开启了
+            mv.setViewName("/student_main");
+        }else{
+            mv.setViewName("/success");
+        }
         return mv;
     }
 
