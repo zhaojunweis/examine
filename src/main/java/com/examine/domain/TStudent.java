@@ -15,7 +15,7 @@ public class TStudent implements Serializable {
 
     private int sClassId;
 
-    private String sScoreName;
+    private int sScoreId;
 
     private int sIsDelete;
 
@@ -60,12 +60,12 @@ public class TStudent implements Serializable {
         this.sClassId = sClassId;
     }
 
-    public String getsScoreName() {
-        return sScoreName;
+    public int getScoreId() {
+        return sScoreId;
     }
 
-    public void setsScoreName(String sScoreName) {
-        this.sScoreName = sScoreName;
+    public void setScoreId(Integer sScoreId) {
+        this.sScoreId = sScoreId;
     }
 
     public int getsIsDelete() {

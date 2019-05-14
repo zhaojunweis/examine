@@ -7,7 +7,7 @@
         <result property="sSno" column="s_sno"/>
         <result property="sName" column="s_name"/>
         <result property="sClassId" column="s_class_id"/>
-        <result property="sScoreName" column="s_score_name"/>
+        <result property="sScoreId" column="s_score_Id"/>
         <result property="sIsDelete" column="s_is_delete"/>
     </resultMap>
 
@@ -16,7 +16,7 @@
         <result property="sSno" column="s_sno"/>
         <result property="sName" column="s_name"/>
         <result property="sClassId" column="s_class_id"/>
-        <result property="sScoreName" column="s_score_name"/>
+        <result property="sScoreId" column="s_score_Id"/>
         <result property="sIsDelete" column="s_is_delete"/>
 
         <collection property="role" column="role_id" ofType="com.examine.domain.TRole">
@@ -89,17 +89,17 @@
 
     <!--考试人数-->
     <select id="examineesCount" resultType="Integer" parameterType="String">
-        select count(*) from t_student where s_is_delete = 0 and s_score_name = #{sScoreName}
+        select count(*) from t_student where s_is_delete = 0 and s_score_Id = #{sScoreName}
     </select>
 
     <!--登陆人数-->
     <select id="examineesWhoHasLoginCount" resultType="Integer" parameterType="String">
-        select count(*) from t_submit where  s_is_delete = 0 and s_login_address IS NOT NULL and  exam_name = #{sScoreName}
+        select count(*) from t_submit where  s_is_delete = 0 and s_login_address IS NOT NULL and  exam_Id = #{sScoreName}
     </select>
 
     <!--提交人数-->
     <select id="examineesWhoSubmitCount" resultType="Integer" parameterType="String">
-        select count(*) from t_submit where s_is_submit = 1 and s_is_delete = 0 and  exam_name = #{sScoreName}
+        select count(*) from t_submit where s_is_submit = 1 and s_is_delete = 0 and  exam_Id = #{sScoreName}
     </select>
 
     <!--未登录人数-->
@@ -112,7 +112,7 @@
         where
           s_is_delete = 0
            and
-          s_score_name = #{sScoreName})
+          s_score_Id = #{sScoreName})
       -
       (
         select
@@ -123,7 +123,7 @@
             and
           s_login_address IS NOT NULL
             and
-          exam_name =  #{sScoreName}
+          exam_Id =  #{sScoreName}
       );
     </select>
 
