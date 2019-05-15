@@ -11,6 +11,9 @@ import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 import com.examine.service.*;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -273,19 +277,30 @@ public ModelAndView exam_modify(@Param(value = "Id")int Id){
     @RequestMapping("/submitTeacherLogin")
     @ResponseBody
     public Map<String, Object> submitTeacherLogin(TTeacher tTeacher, HttpSession session) {
-        String password = teacherService.selectTeacherPasswordByUsername(tTeacher.gettName());
-        if (!StringUtils.isBlank(password, tTeacher.gettPass())) {
-            if (password.equals(tTeacher.gettPass())) {
-                session.setAttribute("tName", tTeacher.gettName());
-                resultMap.put("status", "200");
-                resultMap.put("url", "/teacher_main");
-                resultMap.put("message", "welcome to teacher");
+
+             String username = tTeacher.gettName();
+             String password = "";
+             //如果查询数据库中tname对应的tpass与前台传来的一致,则进行权限校验，否则程序结束立即返回信息给前台
+            if (!teacherService.selectTeacherPasswordByUsername(tTeacher.gettName()).equals(tTeacher.gettPass())) {
+                resultMap.put("status", "500");
+                resultMap.put("message","您输入的密码错误，请确认后再登陆");
+                return resultMap;
             } else {
-                resultMap.put("message", "wrong password");
+                password = tTeacher.gettPass();
             }
-        } else {
-            resultMap.put("status", 404);
-            resultMap.put("message", "not exist!");
+
+        org.apache.shiro.subject.Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
+        try{
+            subject.login(token);
+            session.setAttribute("tName", tTeacher.gettName());
+            resultMap.put("status", "200");
+            resultMap.put("url", "/teacher_main");
+            resultMap.put("message", "登录成功");
+        }catch (AuthenticationException e){
+            e.printStackTrace();
+            resultMap.put("status", "403");
+            resultMap.put("message","您没有教师权限,登录失败");
         }
         return resultMap;
     }

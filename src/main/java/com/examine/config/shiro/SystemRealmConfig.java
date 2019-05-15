@@ -23,7 +23,7 @@ public class SystemRealmConfig {
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
-       /* //设置静态数据
+        //设置静态数据
         filterChainDefinitionMap.put("/static/**", "anon");
         //设置退出
         filterChainDefinitionMap.put("/logout", "logout");
@@ -39,7 +39,7 @@ public class SystemRealmConfig {
         filterChainDefinitionMap.put("/teacher_manage_unlock","perms[/teacher_manage_unlock]");
         filterChainDefinitionMap.put("/teacher_manage_notify","perms[/teacher_manage_notify]");
         filterChainDefinitionMap.put("/teacher_exam_modify","perms[/teacher_exam_modify]");
-        filterChainDefinitionMap.put("/submitTeacherLogin","perms[/submitTeacherLogin]");
+        //filterChainDefinitionMap.put("/submitTeacherLogin","perms[/submitTeacherLogin]");
         filterChainDefinitionMap.put("/teacher_main","perms[/teacher_main]");
         filterChainDefinitionMap.put("/importStudentInfo","perms[/importStudentInfo]");
         filterChainDefinitionMap.put("/exportSubmitInfo","perms[/exportSubmitInfo]");
@@ -75,7 +75,7 @@ public class SystemRealmConfig {
         filterChainDefinitionMap.put("/admin_exam","perms[/admin_exam]");
         filterChainDefinitionMap.put("/clearExam","perms[/clearExam]");
         filterChainDefinitionMap.put("/systemconfig","perms[/systemconfig]");
-        filterChainDefinitionMap.put("/admin_config","perms[/admin_config]");*/
+        filterChainDefinitionMap.put("/admin_config","perms[/admin_config]");
 
         //test
        // filterChainDefinitionMap.put("/success","perms[/test20]");
