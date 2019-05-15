@@ -122,7 +122,7 @@ function teacherLogin(){
                     debugger
                     var str = data.status;
                     if(str == 200){
-                        layer.confirm('您已登录成功，确定要进入教师主页吗？',{
+                        layer.confirm(data.message,{
                             btn:['确定','取消']
                         },function(){
                             window.location.href = data.url;
@@ -132,8 +132,15 @@ function teacherLogin(){
                                 icon:2,
                             })
                         });
-                    }else{
-                        layer.alert('您的账号密码无效,请输入正确信息,',{
+                    }else if(str == 403){
+                        layer.alert(data.message,{
+                            icon:0,
+                            skin:'layer-ext-moon',
+                        });
+                        $("input[name='t_name']").val("");
+                        $("input[name='t_pass']").val("");
+                    }else {
+                        layer.alert(data.message,{
                             icon:2,
                             skin:'layer-ext-moon',
                         });
@@ -182,8 +189,15 @@ function adminLogin(){
                             })
                         });
 
-                    }else{
-                        layer.alert('您的账号密码无效,请输入正确信息,',{
+                    }else if (str == 403) {
+                        layer.alert(data.message,{
+                            icon:0,
+                            skin:'layer-ext-moon',
+                        });
+                        $("input[name='adminname']").val("");
+                        $("input[name='adminpass']").val("");
+                    }else {
+                        layer.alert(data.message,{
                             icon:2,
                             skin:'layer-ext-moon',
                         });

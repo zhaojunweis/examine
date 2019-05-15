@@ -9,6 +9,9 @@ import com.examine.service.ExamService;
 import com.examine.service.StudentService;
 import com.examine.service.SubmitService;
 import org.apache.fop.fonts.truetype.TTFSubSetFile;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,10 +67,12 @@ public class StudentController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/success")
+    @RequestMapping(value = "/student_main")
     public ModelAndView stu_Success(HttpSession session) {
         ModelAndView mv = new ModelAndView();
         TStudent tStudent= (TStudent) session.getAttribute("student");
+        session.setAttribute("sno", tStudent.getsSno());
+        session.setAttribute("examId",tStudent.getScoreId());
         TExam tExam = examService.selectOneExamInfoById(tStudent.getScoreId());
         if(tExam.getIsStart()==1 && tExam.getIsFinished()==0){ //判断该学生的考试是否已经开启了
             mv.setViewName("/student_main");
@@ -77,6 +82,16 @@ public class StudentController extends BaseController {
         return mv;
     }
 
+    /**
+     * 查看提交初始化
+     * @return
+     */
+    @RequestMapping("/student_exam_listdir")
+    public ModelAndView student_exam_listdir(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/student_exam_listdir");
+        return mv;
+    }
 
     /**
       * 学生登录验证
@@ -88,36 +103,42 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/submitStudentLogin", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> submitLogin(TStudent student, HttpSession session) {
+        String sno = student.getsSno();
+        String sname = "";
         TStudent tStudent;
-        tStudent = studentService.selectStudentEntityByUsername(student.getsSno());
+        tStudent = studentService.selectStudentEntityByUsername(sno);
         logger.info(student.getsSno() + " " + student.getsName());
-        if (tStudent != null) {
             String loginIp = studentService.selectIpAddressByUsername(student.getsSno());
             String ip = IpUtil.getLocalIp();
-            if (StringUtils.isBlank(loginIp) || loginIp.equals(ip)) {
-                if (student.getsName().equals(tStudent.getsName())) {
-                    session.setAttribute("student", tStudent);
+        if (!student.getsName().equals(tStudent.getsName())){
+            resultMap.put("status", 500);
+            resultMap.put("message", "账号密码错误，登录失败");
+            return resultMap;
+        }else if (StringUtils.isBlank(loginIp) || loginIp.equals(ip)) {
                     //如果登陆Ip为空，则插入，否者不变
                     if(StringUtils.isBlank(loginIp)){
-                        submitService.insertStudentLoginMessage(tStudent.getsSno(), ip);
+                        submitService.insertStudentLoginMessage(sno, ip);
                     }
-                    resultMap.put("status", 200);
-                    resultMap.put("url", "success");
-                    resultMap.put("message", "login success");
+                    sname = student.getsName();
+
                 } else {
                     resultMap.put("status", 404);
-                    resultMap.put("message", "wrong password,Not Found");
+                    resultMap.put("message", "IP已被绑定，登录失败");
+                    return resultMap;
                 }
-
-            } else {
-                resultMap.put("status", 403);
-                resultMap.put("message", "you ip address has been used,Forbidden");
-            }
-        } else {
-            resultMap.put("status", 500);
-            resultMap.put("message", "this user is not exist");
+        org.apache.shiro.subject.Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(sno,sname);
+        try{
+            subject.login(token);
+            session.setAttribute("student",tStudent);
+            resultMap.put("status", "200");
+            resultMap.put("url", "/student_main");
+            resultMap.put("message", "登录成功");
+        }catch (AuthenticationException e){
+            e.printStackTrace();
+            resultMap.put("status", "403");
+            resultMap.put("message","您没有学生权限,登录失败");
         }
-
         return resultMap;
     }
 
@@ -168,5 +189,6 @@ public class StudentController extends BaseController {
         String sSno = "1610120001";
         return studentService.selectStudentRoleAndPerm(sSno);
     }*/
+
 
 }

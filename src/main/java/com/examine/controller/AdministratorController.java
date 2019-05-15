@@ -99,7 +99,13 @@ public class AdministratorController extends BaseController {
 
         if (teacherService.selectCountOtherAdminExceptAdmin()) {
             username = tName;
-            password = teacherService.selectAdminByLoginMessage(tName);
+           if(tPass.equals(teacherService.selectAdminByLoginMessage(tName))){
+            password = tPass;
+           }else {
+               resultMap.put("status", 500);
+               resultMap.put("message", "您的密码错误，登录失败");
+               return resultMap;
+           }
 
         } else {
             if (("admin".equals(tName)) && ("admin".equals(tPass))) {
@@ -114,13 +120,14 @@ public class AdministratorController extends BaseController {
             subject.login(token);
         } catch (AuthenticationException e) {
             e.printStackTrace();
-            resultMap.put("status", 500);
-            resultMap.put("message", "wrong password");
+            resultMap.put("status", 403);
+            resultMap.put("message", "您没有管理员权限,登录失败");
+            return resultMap;
         }
 
         resultMap.put("status", 200);
         resultMap.put("url", "/admin_main");
-        resultMap.put("message", "login success");
+        resultMap.put("message", "登录成功");
         session.setAttribute("tName", tName);
 
         return resultMap;
