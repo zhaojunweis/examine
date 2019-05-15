@@ -36,6 +36,14 @@ public class PaperController {
         this.examService = examService;
     }
 
+    /**
+     * 没用
+     *
+     * @param multipartFile
+     * @param session
+     * @return
+     * @throws FileNotFoundException
+     */
     @RequestMapping("/savePaper")
     @ResponseBody
     public ResponseResult savePaper(@RequestParam(value = "multipartFile",required = false) MultipartFile multipartFile, HttpSession session) throws FileNotFoundException {
@@ -44,6 +52,14 @@ public class PaperController {
         return rr;
     }
 
+    /**
+     * 没用
+     *
+     * @param request
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
     @RequestMapping("/downloadPaper")
     public ResponseEntity<byte[]> downloadPaper(HttpServletRequest request, @RequestParam("fileName") String fileName) throws IOException {
         File downloadFilePath = new File(

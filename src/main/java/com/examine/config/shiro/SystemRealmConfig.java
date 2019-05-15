@@ -47,7 +47,6 @@ public class SystemRealmConfig {
         filterChainDefinitionMap.put("/saveStudent","perms[/saveStudent]");
         filterChainDefinitionMap.put("/updateDirtyData","perms[/updateDirtyData]");
         filterChainDefinitionMap.put("/doUnbinding","perms[/doUnbinding]");
-
         filterChainDefinitionMap.put("/insertMessage","perms[/insertMessage]");
         filterChainDefinitionMap.put("/selectAllMessage","perms[/selectAllMessage]");
         filterChainDefinitionMap.put("/examinfo_modifier","perms[/examinfo_modifier]");
