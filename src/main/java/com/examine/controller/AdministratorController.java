@@ -94,6 +94,7 @@ public class AdministratorController extends BaseController {
             @RequestParam(value = "adminpass", defaultValue = "admin") String tPass,
             HttpSession session) {
 
+
         String username = "";
         String password = "";
 
@@ -103,17 +104,20 @@ public class AdministratorController extends BaseController {
             password = tPass;
            }else {
                resultMap.put("status", 500);
-               resultMap.put("message", "您的密码错误，登录失败");
+               resultMap.put("message", "您的账号密码错误，登录失败");
                return resultMap;
            }
-
         } else {
             if (("admin".equals(tName)) && ("admin".equals(tPass))) {
-                username = "admin";
-                password = "admin";
+                    username = "admin";
+                    password = "admin";
+            }else {
+                resultMap.put("status", 500);
+                resultMap.put("message", "您的账号密码错误，登录失败");
+                return resultMap;
             }
         }
-
+        //认证和授权
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
@@ -124,12 +128,10 @@ public class AdministratorController extends BaseController {
             resultMap.put("message", "您没有管理员权限,登录失败");
             return resultMap;
         }
-
         resultMap.put("status", 200);
         resultMap.put("url", "/admin_main");
         resultMap.put("message", "登录成功");
         session.setAttribute("tName", tName);
-
         return resultMap;
     }
 

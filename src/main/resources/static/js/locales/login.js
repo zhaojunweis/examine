@@ -53,12 +53,14 @@ function studentLogin(){
                 success: function(data) {
                     debugger
                     var str = data.status;
+                    debugger
                     switch (str){
-                        case 200:
+                        case "200":
+                            debugger
                             layer.confirm('您已登录成功，确定要进入学生主页吗？',{
                                 btn:['确定','取消']
                             },function(){
-                                window.location.href = "/"+data.url;
+                                window.location.href = data.url;
                             },function(){
                                 layer.msg('已取消登录',{
                                     time:1500,
@@ -66,13 +68,14 @@ function studentLogin(){
                                 })
                             });
                             break;
-                        case 404:
+                        case "404":
+                            debugger
                             layer.alert(data.message,{
                                 icon:2,
                                 skin:'layer-ext-moon',
                             });
                             break;
-                        case 500:
+                        case "500":
                             layer.alert(data.message,{
                                 icon:2,
                                 skin:'layer-ext-moon',
@@ -80,13 +83,18 @@ function studentLogin(){
                             $("input[name='sno']").val("");
                             $("input[name='sname']").val("");
                             break;
-                        case 403:
+                        case "403":
+                            layer.alert(data.message,{
+                                icon:0,
+                                skin:'layer-ext-moon',
+                            });
+                            break;
+                        default:
                             layer.alert(data.message,{
                                 icon:2,
                                 skin:'layer-ext-moon',
                             });
                             break;
-
                     }
 
                 },
@@ -116,7 +124,7 @@ function teacherLogin(){
                 url: "/submitTeacherLogin",
                 data: {
                     tName:name,
-                    tPass:pass,
+                    tPass:MD5(pass),
                 },
                 success: function(data) {
                     debugger
@@ -167,12 +175,18 @@ function adminLogin(){
         tag = false;
         var name = $("#adminname").val() ;
         var pass = $("#adminpass").val();
+        if (pass!="admin"||name!="admin"){
+            pass = MD5(pass);
+        }
         debugger;
         if((name!="")&&(pass!="")){
             $.ajax({
                 type: 'post',
                 url: "/submitAdminLogin",
-                data: $("#form_administrator").serialize(),
+                data: {
+                    "adminname":name,
+                    "adminpass":pass,
+                },
                 success: function(data) {
                     debugger
                     var str = data.status;

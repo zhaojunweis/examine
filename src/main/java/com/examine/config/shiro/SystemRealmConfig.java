@@ -58,11 +58,13 @@ public class SystemRealmConfig {
         filterChainDefinitionMap.put("/clearExam","perms[/clearExam]");
 
         //学生的URL权限设置
-        filterChainDefinitionMap.put("/success","perms[/success]");
+        filterChainDefinitionMap.put("/student_main","perms[/student_main]");
         filterChainDefinitionMap.put("/studentListdir","perms[/studentListdir]");
         filterChainDefinitionMap.put("/student_exam_upload","perms[/student_exam_upload]");
-        filterChainDefinitionMap.put("/studentsubmit","perms[/studentsubmit]");
+       // filterChainDefinitionMap.put("/studentsubmit","perms[/studentsubmit]");
         filterChainDefinitionMap.put("/studentdoloadpage","perms[/studentdoloadpage]");
+        filterChainDefinitionMap.put("/downloadPaper","perms[/downloadPaper]");
+
         //管理员的URL权限设置
 
         filterChainDefinitionMap.put("/admin_main","perms[/admin_main]");

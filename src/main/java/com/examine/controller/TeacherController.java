@@ -15,6 +15,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -259,9 +260,10 @@ public ModelAndView manage_notify(HttpSession session) throws ParseException {
   * @return
  */
 @RequestMapping("/teacher_exam_modify")
-public ModelAndView exam_modify(@Param(value = "Id")int Id){
+public ModelAndView exam_modify(@Param(value = "Id")int Id, HttpSession session){
     ModelAndView mv = new ModelAndView();
     TExam exam = examService.selectOneExamInfoById(Id);
+    session.setAttribute("examName",exam.getExamName());
     mv.addObject("examinfo",exam);
     mv.setViewName("/teacher_exam_modify");
     return mv;

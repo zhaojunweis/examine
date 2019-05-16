@@ -195,12 +195,7 @@ $(document).ready(function () {
                     dataType:'json',
                     mimeType:'multipart/form-data',
                     success:function (result) {
-                        if(result.status == 200){
-                            layer.alert(result.data,{
-                                icon:0,
-                                skin:'layer-ext-moon',
-                            })
-                        }
+                            layer.alert(result.data);
                     },
                     error:function(result){
                         layer.alert("发生未知错误，请重试",{
@@ -211,7 +206,7 @@ $(document).ready(function () {
                 });
 			}else {
                 layer.alert("请选择文件",{
-                    icon:2,
+                    icon:0,
                     skin:'layer-ext-moon',
                 })
 			}
