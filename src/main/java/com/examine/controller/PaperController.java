@@ -53,8 +53,7 @@ public class PaperController {
     }
 
     /**
-     * 学生下载
-     *
+
      * @param request
      * @param fileName
      * @return
@@ -66,9 +65,10 @@ public class PaperController {
                 new File(ResourceUtils.getURL("src/main/resources/static").getPath())
                         .getAbsolutePath() + "/upload", fileName);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentDispositionFormData("attachment", new String(fileName.getBytes("UTF-8"),"ISO-8859-1"));
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity<>(FileUtils.readFileToByteArray(downloadFilePath), headers, HttpStatus.CREATED);
     }
 
 }
+

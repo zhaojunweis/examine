@@ -143,6 +143,7 @@ body {
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/layer/layer.js"></script>
 	<script src="js/locales/common_js.js "></script>
+	<script src="js/MD5.js"></script>
 	<script type="text/javascript">
 
 		$(document).ready(function () {
@@ -307,7 +308,7 @@ body {
                         url:'/saveTeacher',
                         data:{
                             tName:name,
-                            tPass:pass,
+                            tPass:MD5(pass),
                             tRealName:funname,
                             tIsAdmin:admin,
                         },

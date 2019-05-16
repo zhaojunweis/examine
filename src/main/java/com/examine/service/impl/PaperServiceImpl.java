@@ -57,12 +57,15 @@ public class PaperServiceImpl extends BaseService implements PaperService {
         long minUploadSize = systemService.selectMinUploadSize();
         //上传文件的大小
         long fileSize = multipartFile.getSize();
-
+        //上传的文件夹名称
+        String folderName = "";
+        //上传的文件名及后缀
+        String originalFileName="";
         //上传判断，防止恶意上传
         if (fileSize > 0 && !multipartFile.isEmpty()) {
             //判断系统上传的最大和最小上限
             if (fileSize >= minUploadSize && fileSize <= maxUploadSize) {
-                String originalFileName = multipartFile.getOriginalFilename();
+                originalFileName = multipartFile.getOriginalFilename();
                 String baseUrl = SiteConfig.BASE_URL;
                 File targetFilePath = null;
                 TStudent student = null;
@@ -71,7 +74,7 @@ public class PaperServiceImpl extends BaseService implements PaperService {
                     //从session中获取学生信息
                     student = (TStudent) session.getAttribute("student");
                     teacher = (String) session.getAttribute("tName");
-                    String folderName = "";
+
                     //设置学生文件夹名称
                     if (student != null) {
                         folderName = student.getsSno() + "_" + student.getsName();
@@ -106,8 +109,9 @@ public class PaperServiceImpl extends BaseService implements PaperService {
                 //当上传者为教师的话，设置文件路径
                 Map<String, String> paramMap = new HashMap<>();
                 if (teacher != null) {
-                    paramMap.put("examPaperUrl", targetFilePath.getAbsolutePath());
+                    paramMap.put("examPaperUrl",folderName+"/"+originalFileName );
                     paramMap.put("examName", (String) session.getAttribute("examName"));
+                    String str =  (String) session.getAttribute("examName");
                     examMapper.uploadExamPaper(paramMap);
                 }
                 //当上传者为学生的时候，设置文件路径
