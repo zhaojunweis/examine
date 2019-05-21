@@ -24,4 +24,7 @@ public interface ExamService {
 
     boolean startExamById(Integer id);
 
+    List<TExam> selectAutoStartExams();
+
+    boolean isExistExam();
 }

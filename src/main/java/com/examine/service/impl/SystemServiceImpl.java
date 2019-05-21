@@ -64,4 +64,15 @@ public class SystemServiceImpl implements SystemService {
 
         return systemMapper.selectMinUploadSize();
     }
+
+    /**
+     * 获取系统考试时间
+     *
+     * @return
+     */
+    @Override
+    public int selectSystemTimer() {
+
+        return systemMapper.selectSystemTimer();
+    }
 }

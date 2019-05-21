@@ -33,4 +33,11 @@ public interface SystemMapper {
      * @return
      */
     long selectMinUploadSize();
+
+    /**
+     * 获取系统考试时间
+     *
+     * @return
+     */
+    int selectSystemTimer();
 }

@@ -74,4 +74,18 @@ public interface ExamMapper {
      * @return
      */
     Integer startExamById(Integer id);
+
+    /**
+     * 筛选考试自动开始并且is_finish为0的考试
+     *
+     * @return
+     */
+    List<TExam> selectAutoStartExams();
+
+    /**
+     * 是否已经有考试正在进行
+     *
+     * @return
+     */
+    Integer isExistExam();
 }

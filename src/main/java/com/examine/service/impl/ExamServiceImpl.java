@@ -141,4 +141,29 @@ public class ExamServiceImpl implements ExamService {
         }
         return flag;
     }
+
+    /**
+     * 查询是否有自动考试的考试
+     *
+     * @return
+     */
+    @Override
+    public List<TExam> selectAutoStartExams() {
+        return examMapper.selectAutoStartExams();
+    }
+
+    /**
+     * 查看是有存在已经开启的考试
+     *
+     * @return
+     */
+    @Override
+    public boolean isExistExam() {
+        boolean flag = false;
+        int count = examMapper.isExistExam();
+        if(count == 1){
+            flag = true;
+        }
+        return flag;
+    }
 }

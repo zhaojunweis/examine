@@ -67,4 +67,8 @@
     <select id = "selectSystemConfigure" resultMap="systemBaseMap">
         select  * from t_system limit 0,1
     </select>
+
+    <select id="selectSystemTimer" resultType="Integer">
+        select s_exam_time from t_system
+    </select>
 </mapper>

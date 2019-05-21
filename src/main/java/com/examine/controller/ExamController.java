@@ -170,11 +170,11 @@ public class ExamController extends BaseController {
     @ResponseBody
     public Map<String,Object> stopExam(@RequestParam(value = "Id")Integer id){
         boolean status = examService.stopOneExamById(id);
-
         if(!status){
             resultMap.put("status",500);
             resultMap.put("message","停止考试失败");
         }
+
         resultMap.put("status",200);
         resultMap.put("message","停止考试成功");
         return resultMap;

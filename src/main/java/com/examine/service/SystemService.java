@@ -11,4 +11,6 @@ public interface SystemService {
     long selectMaxUploadSize();
 
     long selectMinUploadSize();
+
+    int selectSystemTimer();
 }
