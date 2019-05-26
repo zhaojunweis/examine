@@ -1,5 +1,7 @@
 package com.examine.test;
 
+import java.util.Scanner;
+
 public class SetUpDaemon {
 
     public void setup(){
@@ -10,6 +12,8 @@ public class SetUpDaemon {
     }
 
     public static void main(String[] args) {
-        new SetUpDaemon().setup();
+        new Daemon().start();
+        System.out.println("===============================");
+        new Daemon().start();
     }
 }

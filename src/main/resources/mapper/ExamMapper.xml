@@ -99,11 +99,11 @@
             is_delete = 0
     </update>
 
-    <select id = "selectAutoStartExams">
-        select * from t_exam where is_auto_start = 1 and is_finished = 0
+    <select id = "selectAutoStartExams" resultMap="examBaseMapper">
+        select * from t_exam where is_auto_start = 1 and is_finished = 0 order by exam_start_time asc
     </select>
 
-    <select id = "isExistExam" parameterType="Integer">
+    <select id = "isExistExam" parameterType="Integer" resultType="Integer">
         select count(*) from t_exam where is_delete = 0 and is_start = 1
     </select>
 </mapper>

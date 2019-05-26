@@ -30,10 +30,14 @@ public class ExamController extends BaseController {
     private final PaperService paperService;
 
     private final SystemService systemService;
-     private final CommonController commonController;
+
+    private final CommonController commonController;
 
     @Autowired
-    public ExamController(TeacherService teacherService, ExamService examService, PaperService paperService,SystemService systemService,CommonController commonController) {
+    public DaemonService daemonService;
+
+    @Autowired
+    public ExamController(TeacherService teacherService, ExamService examService, PaperService paperService, SystemService systemService, CommonController commonController) {
         this.teacherService = teacherService;
         this.examService = examService;
         this.paperService = paperService;
@@ -41,36 +45,29 @@ public class ExamController extends BaseController {
         this.commonController = commonController;
     }
 
-
-   
-
-    /*
-    *
-    * */
     /**
-      *教师在考前管理界面进入的
-      * 考试编辑界面修改考试信息
-      * @parame:
-      * @return
+     * 教师在考前管理界面进入的
+     * 考试编辑界面修改考试信息
+     *
+     * @return
+     * @parame:
      */
-
-
     @RequestMapping(value = "/examinfo_modifier")
     @ResponseBody
-    public Map<String,Object> examinfo_modifier(TExam tExame){
-        int id = (int)tExame.getId();
+    public Map<String, Object> examinfo_modifier(TExam tExame) {
+        int id = (int) tExame.getId();
         TExam exam = examService.selectOneExamInfoById(id);
-        if(exam.getExamName().equals(tExame.getExamName())&&exam.getExamStartTime().equals(tExame.getExamStartTime())){
-            resultMap.put("status",200);
-            resultMap.put("message","考试信息未变动，无需修改");
-        }else{
+        if (exam.getExamName().equals(tExame.getExamName()) && exam.getExamStartTime().equals(tExame.getExamStartTime())) {
+            resultMap.put("status", 200);
+            resultMap.put("message", "考试信息未变动，无需修改");
+        } else {
             boolean tag = examService.updateExamInfo(tExame);
-            if(tag){
-                resultMap.put("status",200);
-                resultMap.put("message","您的考试信息修改成功");
-            }else{
-                resultMap.put("status",500);
-                resultMap.put("massage","考试信息修改失败，请重试");
+            if (tag) {
+                resultMap.put("status", 200);
+                resultMap.put("message", "您的考试信息修改成功");
+            } else {
+                resultMap.put("status", 500);
+                resultMap.put("massage", "考试信息修改失败，请重试");
             }
         }
 
@@ -78,30 +75,27 @@ public class ExamController extends BaseController {
 
     }
 
-
-
     /**
-      *考试清理界面初始化
-      * @parame:
-      * @return
+     * 考试清理界面初始化
+     *
+     * @return
+     * @parame:
      */
-
-
-    @RequestMapping(value="/admin_exam")
+    @RequestMapping(value = "/admin_exam")
     public ModelAndView admin_exam() throws ParseException {
         ModelAndView mv = new ModelAndView();
-       List<Map> listmap  = commonController.getExamineInfo("");
-        mv.addObject("examlists",listmap);
+        List<Map> listmap = commonController.getExamineInfo("");
+        mv.addObject("examlists", listmap);
         mv.setViewName("/admin_exam");
         return mv;
     }
+
     /**
-      * 根据考试名称清理该场考试
-      * @parame:
-      * @return
+     * 根据考试名称清理该场考试
+     *
+     * @return
+     * @parame:
      */
-
-
     @RequestMapping("/clearExam")
     @ResponseBody
     public Map<String, Object> clearExam(Integer id) {
@@ -116,30 +110,28 @@ public class ExamController extends BaseController {
         return resultMap;
     }
 
-
     /**
-      *添加考试
-      * @parame:
-      * @return
+     * 添加考试
+     *
+     * @return
+     * @parame:
      */
-
-
     @RequestMapping("/saveExam")
     public Object saveExam(TExam exam, HttpSession session) throws ParseException {
         //考试信息中包括老师信息
-       // String tName = (String) session.getAttribute("tName");
-      //  exam.settName(tName);
-       boolean flag =  examService.saveExaminationInfo(exam);
-       List<Map> mapList  = commonController.getExamineInfo(exam.gettName());
-       if(flag){
-           resultMap.put("status","200");
-           resultMap.put("message","添加考试成功");
-           resultMap.put("examlists",mapList);
-       }else {
-           resultMap.put("status","500");
-           resultMap.put("message","添加考试失败");
-       }
-       return resultMap;
+        // String tName = (String) session.getAttribute("tName");
+        //  exam.settName(tName);
+        boolean flag = examService.saveExaminationInfo(exam);
+        List<Map> mapList = commonController.getExamineInfo(exam.gettName());
+        if (flag) {
+            resultMap.put("status", "200");
+            resultMap.put("message", "添加考试成功");
+            resultMap.put("examlists", mapList);
+        } else {
+            resultMap.put("status", "500");
+            resultMap.put("message", "添加考试失败");
+        }
+        return resultMap;
     }
 
     /**
@@ -151,10 +143,10 @@ public class ExamController extends BaseController {
      */
     @RequestMapping("/uploadExamPaper")
     @ResponseBody
-    public void uploadExamPaper(String examName,MultipartFile multipartFile,HttpSession session){
-        session.setAttribute("examName",examName);
+    public void uploadExamPaper(String examName, MultipartFile multipartFile, HttpSession session) {
+        session.setAttribute("examName", examName);
         try {
-            paperService.SavePaperService(multipartFile,session);
+            paperService.SavePaperService(multipartFile, session);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -168,17 +160,19 @@ public class ExamController extends BaseController {
      */
     @RequestMapping("/stopExam")
     @ResponseBody
-    public Map<String,Object> stopExam(@RequestParam(value = "Id")Integer id){
+    public Map<String, Object> stopExam(@RequestParam(value = "Id") Integer id) {
         boolean status = examService.stopOneExamById(id);
-        if(!status){
-            resultMap.put("status",500);
-            resultMap.put("message","停止考试失败");
+        if (!status) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "停止考试失败");
+        } else {
+            resultMap.put("status", 200);
+            resultMap.put("message", "停止考试成功");
+            daemonService.changeStatus();
         }
-
-        resultMap.put("status",200);
-        resultMap.put("message","停止考试成功");
         return resultMap;
     }
+
     /**
      * 开始考试
      *
@@ -187,14 +181,14 @@ public class ExamController extends BaseController {
      */
     @RequestMapping("/startExam")
     @ResponseBody
-    public Map<String,Object> startExam(@RequestParam(value = "Id") Integer id){
+    public Map<String, Object> startExam(@RequestParam(value = "Id") Integer id) {
         boolean status = examService.startExamById(id);
-        if(!status){
-            resultMap.put("status",500);
-            resultMap.put("message","开启考试失败");
+        if (!status) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "开启考试失败");
         }
-        resultMap.put("status",200);
-        resultMap.put("message","开启考试成功");
+        resultMap.put("status", 200);
+        resultMap.put("message", "开启考试成功");
         return resultMap;
     }
 
@@ -205,26 +199,20 @@ public class ExamController extends BaseController {
      * @return
      */
     @RequestMapping("/updateExamInfo")
-    public Map<String,Object> updateExamInfo(TExam exam){
+    public Map<String, Object> updateExamInfo(TExam exam) {
         boolean flag = examService.updateExamInfo(exam);
-        if(!flag){
-            resultMap.put("status",500);
+        if (!flag) {
+            resultMap.put("status", 500);
         }
-        resultMap.put("status",200);
+        resultMap.put("status", 200);
         return resultMap;
     }
 
-   /* @RequestMapping("/selectAllExamInfo")
+    @RequestMapping("/selectExamInfoByTName")
     @ResponseBody
-    public List<TExam> selectAllExamInfo(){
-
-        return examService.selectAllExamInfo();
-    }*/
-   @RequestMapping("/selectExamInfoByTName")
-   @ResponseBody
-   public List<TExam> selectExamInfoByTName(){
+    public List<TExam> selectExamInfoByTName() {
 
         String tName = "xwc";
-       return examService.selectExamInfoByTName(tName);
-   }
+        return examService.selectExamInfoByTName(tName);
+    }
 }

@@ -37,47 +37,44 @@ public class StudentController extends BaseController {
     private final ExamService examService;
 
     @Autowired
-    public StudentController(SubmitService submitService, StudentService studentService,ExamService examService) {
+    public StudentController(SubmitService submitService, StudentService studentService, ExamService examService) {
         this.submitService = submitService;
         this.studentService = studentService;
         this.examService = examService;
     }
 
-
-
-
     /**
-      * 考前管理界面的考试编辑中添加学生名单
-      * @parame:
-      * @return
+     * 考前管理界面的考试编辑中添加学生名单
+     *
+     * @return
+     * @parame:
      */
-
-
     @RequestMapping("/teacher_addstudent")
-    public ModelAndView showAddStudent(@RequestParam(value = "Id")int id){
+    public ModelAndView showAddStudent(@RequestParam(value = "Id") int id) {
 
         ModelAndView mv = new ModelAndView();
-        mv.addObject("Id",id);
+        mv.addObject("Id", id);
         mv.setViewName("/teacher_addstudent");
         return mv;
     }
 
     /**
      * 学生首页初始化
+     *
      * @param session
      * @return
      */
     @RequestMapping(value = "/student_main")
     public ModelAndView stu_Success(HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        TStudent tStudent= (TStudent) session.getAttribute("student");
+        TStudent tStudent = (TStudent) session.getAttribute("student");
         session.setAttribute("sno", tStudent.getsSno());
-        session.setAttribute("examId",tStudent.getScoreId());
+        session.setAttribute("examId", tStudent.getScoreId());
         TExam tExam = examService.selectOneExamInfoById(tStudent.getScoreId());
-        if(tExam.getIsStart()==1 && tExam.getIsFinished()==0){ //判断该学生的考试是否已经开启了
-            mv.addObject("examinfo",tExam);
+        if (tExam.getIsStart() == 1 && tExam.getIsFinished() == 0) { //判断该学生的考试是否已经开启了
+            mv.addObject("examinfo", tExam);
             mv.setViewName("/student_main");
-        }else{
+        } else {
             mv.setViewName("/success");
         }
         return mv;
@@ -85,22 +82,22 @@ public class StudentController extends BaseController {
 
     /**
      * 查看提交初始化
+     *
      * @return
      */
     @RequestMapping("/student_exam_listdir")
-    public ModelAndView student_exam_listdir(){
+    public ModelAndView student_exam_listdir() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/student_exam_listdir");
         return mv;
     }
 
     /**
-      * 学生登录验证
-      * @parame:
-      * @return
+     * 学生登录验证
+     *
+     * @return
+     * @parame:
      */
-
-
     @RequestMapping(value = "/submitStudentLogin", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> submitLogin(TStudent student, HttpSession session) {
@@ -109,44 +106,44 @@ public class StudentController extends BaseController {
         TStudent tStudent;
         tStudent = studentService.selectStudentEntityByUsername(sno);
         logger.info(student.getsSno() + " " + student.getsName());
-            String loginIp = studentService.selectIpAddressByUsername(student.getsSno());
-            String ip = IpUtil.getLocalIp();
-            if(tStudent!=null){
-                if (!student.getsName().equals(tStudent.getsName())){
-                    resultMap.put("status", 500);
-                    resultMap.put("message", "账号密码错误，登录失败");
-                    return resultMap;
-                }else if (StringUtils.isBlank(loginIp) || loginIp.equals(ip)) {
-                    //如果登陆Ip为空，则插入，否者不变
-                    if(StringUtils.isBlank(loginIp)){
-                        submitService.insertStudentLoginMessage(sno, ip);
-                    }
-                    sname = student.getsName();
-
-                } else {
-                    resultMap.put("status", 404);
-                    resultMap.put("message", "IP已被绑定，登录失败");
-                    return resultMap;
+        String loginIp = studentService.selectIpAddressByUsername(student.getsSno());
+        String ip = IpUtil.getLocalIp();
+        if (tStudent != null) {
+            if (!student.getsName().equals(tStudent.getsName())) {
+                resultMap.put("status", 500);
+                resultMap.put("message", "账号密码错误，登录失败");
+                return resultMap;
+            } else if (StringUtils.isBlank(loginIp) || loginIp.equals(ip)) {
+                //如果登陆Ip为空，则插入，否者不变
+                if (StringUtils.isBlank(loginIp)) {
+                    submitService.insertStudentLoginMessage(sno, ip);
                 }
-            }else {
-                resultMap.put("status", 403);
-                resultMap.put("message", "当前学生用户不存在");
+                sname = student.getsName();
+
+            } else {
+                resultMap.put("status", 404);
+                resultMap.put("message", "IP已被绑定，登录失败");
                 return resultMap;
             }
+        } else {
+            resultMap.put("status", 403);
+            resultMap.put("message", "当前学生用户不存在");
+            return resultMap;
+        }
 
         org.apache.shiro.subject.Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(sno,sname);
-        try{
+        UsernamePasswordToken token = new UsernamePasswordToken(sno, sname);
+        try {
             subject.login(token);
-           if(subject.isAuthenticated()){
-               session.setAttribute("student",tStudent);
-               resultMap.put("status", "200");
-               resultMap.put("url", "/student_main");
-               resultMap.put("message", "登录成功");
-           }
-        }catch (AuthenticationException e){
+            if (subject.isAuthenticated()) {
+                session.setAttribute("student", tStudent);
+                resultMap.put("status", "200");
+                resultMap.put("url", "/student_main");
+                resultMap.put("message", "登录成功");
+            }
+        } catch (AuthenticationException e) {
             e.printStackTrace();
-            resultMap.put("message","您没有学生权限,登录失败");
+            resultMap.put("message", "您没有学生权限,登录失败");
             return resultMap;
         }
         return resultMap;
@@ -154,51 +151,48 @@ public class StudentController extends BaseController {
 
     /**
      * 学生查看提交情况初始化
+     *
      * @return
      */
     @RequestMapping("/studentListdir")
-    public ModelAndView studentListdir(){
+    public ModelAndView studentListdir() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/student_exam_listdir");
-        return  mv;
+        return mv;
     }
+
     /**
      * 学生提交界面初始化
+     *
      * @return
      */
     @RequestMapping("/student_exam_upload")
-    public ModelAndView student_exam_upload(){
+    public ModelAndView student_exam_upload() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/student_exam_listdir");
-        return  mv;
+        return mv;
     }
+
     /**
      * 学生提交答案
+     *
      * @return
      */
     @RequestMapping("/studentsubmit")
     @ResponseBody
-    public Map<String,Object> studentsubmit(){
-       return null;
+    public Map<String, Object> studentsubmit() {
+        return null;
     }
+
     /**
      * 学生下载试卷
+     *
      * @return
      */
     @RequestMapping("/studentdoloadpage")
     @ResponseBody
-    public Map<String,Object> studentdoloadpage(){
+    public Map<String, Object> studentdoloadpage() {
         return null;
     }
-
-
-  /*  @RequestMapping(value = "/getStudentLogin")
-    @ResponseBody
-    public TStudent getStudentLogin(){
-
-        String sSno = "1610120001";
-        return studentService.selectStudentRoleAndPerm(sSno);
-    }*/
-
 
 }

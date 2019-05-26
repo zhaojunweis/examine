@@ -7,6 +7,9 @@ public interface DaemonService {
      */
     void changeStatus();
 
-
+    /**
+     * 查询考试信息
+     */
+    void scanMySQL();
 
 }

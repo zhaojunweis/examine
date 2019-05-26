@@ -1,115 +1,112 @@
 <!DOCTYPE html>
 <html xmlns:th="http://java.sun.com/jsf/composite">
 <head>
-<meta charset="utf-8">
-<title>上机考试系统</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-	<link rel="stylesheet" href="/exam/struts/xhtml/styles.css" type="text/css"/>
-<script src="/exam/struts/utils.js" type="text/javascript"></script>
-	
+    <meta charset="utf-8">
+    <title>上机考试系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="/exam/struts/xhtml/styles.css" type="text/css"/>
+    <script src="/exam/struts/utils.js" type="text/javascript"></script>
 
 
+    <script type="text/javascript" src="/exam/struts/js/base/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/exam/struts/js/base/jquery.ui.core.min.js?s2j=3.7.0"></script>
+    <script type="text/javascript" src="/exam/struts/js/plugins/jquery.subscribe.min.js?s2j=3.7.0"></script>
+
+    <script type="text/javascript" src="/exam/struts/js/struts2/jquery.struts2.min.js?s2j=3.7.0"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            jQuery.struts2_jquery.version = "3.7.0";
+            jQuery.scriptPath = "/exam/struts/";
+            jQuery.ajaxSettings.traditional = true;
+
+            jQuery.ajaxSetup({
+                cache: false
+            });
+
+            jQuery.struts2_jquery.require("js/struts2/jquery.ui.struts2.min.js?s2j=3.7.0");
+
+        });
+    </script>
+
+    <link id="jquery_theme_link" rel="stylesheet" href="/exam/struts/themes/smoothness/jquery-ui.css?s2j=3.7.0"
+          type="text/css"/>
 
 
-	<script type="text/javascript" src="/exam/struts/js/base/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="/exam/struts/js/base/jquery.ui.core.min.js?s2j=3.7.0"></script>
-  <script type="text/javascript" src="/exam/struts/js/plugins/jquery.subscribe.min.js?s2j=3.7.0"></script>
-
-  <script type="text/javascript" src="/exam/struts/js/struts2/jquery.struts2.min.js?s2j=3.7.0"></script>
-
-<script type="text/javascript">
-$(function() {
-	jQuery.struts2_jquery.version="3.7.0";
-  	jQuery.scriptPath = "/exam/struts/";
-	jQuery.ajaxSettings.traditional = true;
-
-	jQuery.ajaxSetup ({
-		cache: false
-	});
-	
-	jQuery.struts2_jquery.require("js/struts2/jquery.ui.struts2.min.js?s2j=3.7.0");
-	
-});
-</script>
-
-        <link id="jquery_theme_link" rel="stylesheet" href="/exam/struts/themes/smoothness/jquery-ui.css?s2j=3.7.0" type="text/css"/>
-
-
-<!-- le styles -->
-<link href="css/bootstrap.css" rel="stylesheet">
-<link href="css/exam.css" rel="stylesheet">
-<style>
-body {
-	padding-top: 60px;
-	/* 60px to make the container go all the way to the bottom of the topbar */
-}
-</style>
-<link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/exam.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 60px;
+            /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
 
 </head>
 
 <body>
 
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<span class="brand"><strong>上机考试系统</strong></span>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <span class="brand"><strong>上机考试系统</strong></span>
 
-				<ul class="nav navbar-nav">
-					<li><a href="/student_main"><i class="icon-home icon-white"></i>首页</a></li>
-					<li><a href="/student_exam_listdir"><i class="icon-eye-open icon-white"></i>查看提交</a></li>
-				</ul>
-				<ul class="nav navbar-nav pull-right">
-					<li><span  class="brand">欢迎，</span><span id="brandname" class="brand" th:text="${session.sno}"></span></li>
-					<input type="hidden" th:value="${session.examId}"/>
+            <ul class="nav navbar-nav">
+                <li><a href="/student_main"><i class="icon-home icon-white"></i>首页</a></li>
+                <li><a href="/student_exam_listdir"><i class="icon-eye-open icon-white"></i>查看提交</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li><span class="brand">欢迎，</span><span id="brandname" class="brand" th:text="${session.sno}"></span>
+                </li>
+                <input type="hidden" th:value="${session.examId}"/>
 
-				</ul>
+            </ul>
 
-				<!--/.nav-collapse -->
-			</div>
-		</div>
-	</div>
-
-	<div class="container">
-		<h1>
-			<img src="img/exam-student.png" /> 期末测试 上机考试中...
-		</h1>
-
-
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span6">
-			<h3>试卷下载</h3>
-			<br/>
-				<p style="margin-top: 30px" th:if="${examinfo.examPaperUrl==null}" class="exam-info">本次考试没有电子试卷。</p>
-				<input  name="examPaperUrl" style="border: 1px solid silver;padding:6px;" th:if="${examinfo.examPaperUrl!=null}" th:value="${examinfo.examPaperUrl}" readonly/>
-				<input type="button" id="btn_upload"  class="btn btn-primary" value="下载试卷" />
-		</div>
-		<div class="span6">
-			<h3>答案上传</h3>
-			<br/>
-			<p>请按照考试要求将答案文件打包，再次进行上传。同名文件多次上传将会覆盖。</p>
-			<form class="form-inline" enctype="multipart/form-data" method="post">
-				<input type="file" name="paper"  id="paper"/>
-				<input id="submitfile" type="button" class="btn btn-primary" value="上传" />
-			</form>
-		</div>
-	</div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
 </div>
 
+<div class="container">
+    <h1>
+        <img src="img/exam-student.png"/> 期末测试 上机考试中...
+    </h1>
 
 
-  	<div id="div_793651990" class="exam-notify"></div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span6">
+                <h3>试卷下载</h3>
+                <br/>
+                <p style="margin-top: 30px" th:if="${examinfo.examPaperUrl==null}" class="exam-info">本次考试没有电子试卷。</p>
+                <input name="examPaperUrl" style="border: 1px solid silver;padding:6px;"
+                       th:if="${examinfo.examPaperUrl!=null}" th:value="${examinfo.examPaperUrl}" readonly/>
+                <input type="button" id="btn_upload" class="btn btn-primary" value="下载试卷"/>
+            </div>
+            <div class="span6">
+                <h3>答案上传</h3>
+                <br/>
+                <p>请按照考试要求将答案文件打包，再次进行上传。同名文件多次上传将会覆盖。</p>
+                <form class="form-inline" enctype="multipart/form-data" method="post">
+                    <input type="file" name="paper" id="paper"/>
+                    <input id="submitfile" type="button" class="btn btn-primary" value="上传"/>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
+    <div id="div_793651990" class="exam-notify"></div>
 
 
-	</div>
-	<!-- /container -->
-	<!-- placed at the end of the document so the pages load faster -->
+</div>
+<!-- /container -->
+<!-- placed at the end of the document so the pages load faster -->
 
 </body>
 <script src="js/jquery.min.js"></script>
@@ -123,39 +120,39 @@ body {
         $("#btn_upload").click(function () {
 
             var examPaperUrl = $("input[name='examPaperUrl']").val();
-			//var examPaperUrl = "新建 Microsoft Excel 工作表 - 副本.xlsx";
-            window.location.href = "/downloadPaper?fileName="+examPaperUrl;
+            //var examPaperUrl = "新建 Microsoft Excel 工作表 - 副本.xlsx";
+            window.location.href = "/downloadPaper?fileName=" + examPaperUrl;
         });
         /*
   * 学生答案上传
   * */
         $("#submitfile").click(function () {
-            if($("input[name='paper']").val().length!=0){
+            if ($("input[name='paper']").val().length != 0) {
                 var formdata = new FormData();
-                formdata.append("multipartFile",$("#paper")[0].files[0]);
+                formdata.append("multipartFile", $("#paper")[0].files[0]);
                 $.ajax({
-                    type:'post',
-                    url:'/savePaper',
-                    data:formdata,
-                    contentType:false,
-                    processData:false,
-                    dataType:'json',
-                    mimeType:'multipart/form-data',
-                    success:function (result) {
+                    type: 'post',
+                    url: '/savePaper',
+                    data: formdata,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    mimeType: 'multipart/form-data',
+                    success: function (result) {
                         layer.alert(result.data);
                         $("input[name='paper']").val("");
                     },
-                    error:function(result){
-                        layer.alert("发生未知错误，请重试",{
-                            icon:2,
-                            skin:'layer-ext-moon',
+                    error: function (result) {
+                        layer.alert("发生未知错误，请重试", {
+                            icon: 2,
+                            skin: 'layer-ext-moon',
                         })
                     }
                 });
-            }else {
-                layer.alert("请选择文件",{
-                    icon:0,
-                    skin:'layer-ext-moon',
+            } else {
+                layer.alert("请选择文件", {
+                    icon: 0,
+                    skin: 'layer-ext-moon',
                 })
             }
 
@@ -172,7 +169,7 @@ body {
         options_div_793651990.href = "student_notify.action";
 
 
-        jQuery.struts2_jquery.bind(jQuery('#div_793651990'),options_div_793651990);
+        jQuery.struts2_jquery.bind(jQuery('#div_793651990'), options_div_793651990);
 
     });
 

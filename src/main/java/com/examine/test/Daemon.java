@@ -1,11 +1,39 @@
 package com.examine.test;
 
+import com.examine.service.impl.DaemonServiceImpl;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Daemon implements Runnable {
 
     //private ExamService examService = new ExamServiceImpl();
 
+    private static int count = 0;
+
+    public void timer(){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                count ++;
+                System.out.println(count + "：123");
+            }
+        },0,12);
+    }
+
+    public void start(){
+        if(count == 0){
+            timer();
+        }
+        System.out.println("123");
+    }
+
+
     @Override
     public void run() {
+        DaemonServiceImpl im = new DaemonServiceImpl();
+
 
 
        /* boolean flag = true;
