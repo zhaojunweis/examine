@@ -113,4 +113,12 @@ public interface StudentMapper {
      * @return
      */
     TStudent selectIpByStudentId(String sSno);
+
+    /**
+     * 通过IP查询学生信息
+     *
+     * @param ip
+     * @return
+     */
+    TStudent selectStudentByIp(String ip);
 }

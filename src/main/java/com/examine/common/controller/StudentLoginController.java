@@ -12,6 +12,7 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -124,4 +125,14 @@ public class StudentLoginController extends BaseController{
        return resultMap;
     }
 
+    /**
+     * 用于测试
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/testStudetn")
+    public TStudent getInfo(){
+        return studentService.selectStudentByIp("192.168.1.1");
+    }
 }

@@ -190,4 +190,16 @@ public class StudentServiceImpl implements StudentService {
 
         return studentMapper.selectStudentRoleAndPerm(sSno);
     }
+
+    /**
+     * 通过用户IP查询学生绑定信息
+     *
+     * @param ip
+     * @return
+     */
+    @Override
+    public TStudent selectStudentByIp(String ip) {
+
+        return studentMapper.selectStudentByIp(ip);
+    }
 }
