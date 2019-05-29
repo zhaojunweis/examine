@@ -27,4 +27,8 @@ public interface ExamService {
     List<TExam> selectAutoStartExams();
 
     boolean isExistExam();
+
+    List<TExam> selectBeforeExamInfo(String tName);
+
+    List<TExam> selectAfterExamInfo(String tName);
 }

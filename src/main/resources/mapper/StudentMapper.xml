@@ -2,13 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.examine.dao.StudentMapper">
 
-    <resultMap id="studentBaseMap" type="com.examine.domain.TStudent">
+    <resultMap id="studentBaseMap" type="com.examine.domain.TSubmit">
         <id property="id" column="id"/>
         <result property="sSno" column="s_sno"/>
         <result property="sName" column="s_name"/>
         <result property="sClassId" column="s_class_id"/>
         <result property="sScoreId" column="s_score_Id"/>
         <result property="sIsDelete" column="s_is_delete"/>
+    </resultMap>
+
+    <resultMap id="submitBaseMap" type="com.examine.domain.TStudent">
+        <result property="sSno" column="s_sno"/>
+        <result property="ipAddress" column="s_login_address"/>
+    </resultMap>
+
+    <resultMap id="studentBaseMapWithIp" type="com.examine.domain.TStudent">
+        <id property="id" column="id"/>
+        <result property="sSno" column="s_sno"/>
+        <result property="sName" column="s_name"/>
+        <result property="sClassId" column="s_class_id"/>
+        <result property="sScoreId" column="s_score_Id"/>
+        <result property="sIsDelete" column="s_is_delete"/>
+        <association property="tSubmit" column="s_sno"
+                     select="com.examine.dao.StudentMapper.selectIpByStudentId"
+                     javaType="com.examine.domain.TSubmit"/>
     </resultMap>
 
     <resultMap id="studentBaseShiro" type="com.examine.domain.TStudent">
@@ -66,9 +83,15 @@
         select s_login_address from t_submit where s_sno = #{sSno}
     </select>
 
-    <select id="selectStudentEntityByUsername" parameterType="String" resultMap="studentBaseMap">
+    <!--修改，需要查出IP地址-->
+    <select id="selectStudentEntityByUsername" parameterType="String" resultMap="studentBaseMapWithIp">
         select * from t_student where s_sno = #{sSno}
     </select>
+    <!-- 级联t_submit表查出ip-->
+    <select id="selectIpByStudentId" parameterType="String" resultMap="submitBaseMap">
+      select * from t_submit where s_sno = #{sSno}
+    </select>
+    <!--通过IP查找学号姓名班级ip地址-->
 
     <update id="nonphysicalDeleteStudents">
         update t_student set s_is_delete = 1

@@ -105,4 +105,12 @@ public interface StudentMapper {
      * @return
      */
     TStudent selectStudentRoleAndPerm(String sSno);
+
+    /**
+     * 关联IP
+     *
+     * @param sSno
+     * @return
+     */
+    TStudent selectIpByStudentId(String sSno);
 }

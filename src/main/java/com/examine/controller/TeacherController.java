@@ -124,7 +124,7 @@ public class TeacherController extends BaseController {
     @RequestMapping("/teacher_exam_before")
     public ModelAndView exam_Befor(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("examlists", commonController.getExamineInfo(t_name));
+        mv.addObject("examlists", commonController.getExamineInfo(t_name,1));
         mv.setViewName("/teacher_exam_before");
         return mv;
     }
@@ -138,7 +138,7 @@ public class TeacherController extends BaseController {
     @RequestMapping("/teacher_exam_after")
     public ModelAndView exam_after(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("examlists", commonController.getExamineInfo(t_name));
+        mv.addObject("examlists", commonController.getExamineInfo(t_name,0));
         mv.setViewName("/teacher_exam_after");
         return mv;
     }
@@ -153,7 +153,7 @@ public class TeacherController extends BaseController {
     public ModelAndView manage_summary(HttpSession session) throws ParseException {
         ModelAndView mv = new ModelAndView();
         String tname = (String) session.getAttribute("tName");
-        List<Map> exams = commonController.getExamineInfo(tname);
+        List<Map> exams = commonController.getExamineInfo(tname,2);
         String sScoreName = null;
         for (Map exam : exams) {
             /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
@@ -184,7 +184,7 @@ public class TeacherController extends BaseController {
     public ModelAndView manage_student(HttpSession session) throws ParseException {
         ModelAndView mv = new ModelAndView();
         String tname = (String) session.getAttribute("tName");
-        List<Map> exams = commonController.getExamineInfo(tname);
+        List<Map> exams = commonController.getExamineInfo(tname,2);
         String sScoreName = null;
         for (Map exam : exams) {
             /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
@@ -215,7 +215,7 @@ public class TeacherController extends BaseController {
     public ModelAndView manage_unlock(HttpSession session) throws ParseException {
         ModelAndView mv = new ModelAndView();
         String tname = (String) session.getAttribute("tName");
-        List<Map> exams = commonController.getExamineInfo(tname);
+        List<Map> exams = commonController.getExamineInfo(tname,2);
         String sScoreName = null;
         for (Map exam : exams) {
             /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
@@ -245,7 +245,7 @@ public class TeacherController extends BaseController {
     public ModelAndView manage_notify(HttpSession session) throws ParseException {
         ModelAndView mv = new ModelAndView();
         String tname = (String) session.getAttribute("tName");
-        List<Map> exams = commonController.getExamineInfo(tname);
+        List<Map> exams = commonController.getExamineInfo(tname,2);
         String sScoreName = null;
         for (Map exam : exams) {
             /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/

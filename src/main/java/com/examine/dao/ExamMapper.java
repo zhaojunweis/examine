@@ -88,4 +88,18 @@ public interface ExamMapper {
      * @return
      */
     Integer isExistExam();
+
+    /**
+     * 查询考前考试信息
+     * @return
+     */
+    List<TExam> selectBeforeExamInfo(String tName);
+
+    /**
+     * 查询考试后的考试信息
+     *
+     * @return
+     */
+    List<TExam> selectAfterExamInfo(String tName);
+
 }

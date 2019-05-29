@@ -1,10 +1,13 @@
 package com.examine.controller;
 
 import com.examine.domain.TExam;
+import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 import com.examine.service.DaemonService;
 import com.examine.service.ExamService;
+import com.examine.service.StudentService;
 import com.examine.service.TeacherService;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,9 @@ public class TestController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private StudentService service;
 
     @Autowired
     private DaemonService daemonService;
@@ -49,6 +55,12 @@ public class TestController {
     public boolean finishedExam() {
         int TMP = 58;
         return examService.stopOneExamById(TMP);
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public TStudent test(){
+        return service.selectStudentEntityByUsername("1610120002");
     }
 
 }

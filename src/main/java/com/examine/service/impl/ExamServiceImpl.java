@@ -136,7 +136,7 @@ public class ExamServiceImpl implements ExamService {
     public boolean startExamById(Integer id) {
         boolean flag = false;
         Integer startStatus = examMapper.startExamById(id);
-        if(startStatus == 1){
+        if (startStatus == 1) {
             flag = true;
         }
         return flag;
@@ -161,9 +161,31 @@ public class ExamServiceImpl implements ExamService {
     public boolean isExistExam() {
         boolean flag = false;
         int count = examMapper.isExistExam();
-        if(count == 1){
+        if (count == 1) {
             flag = true;
         }
         return flag;
+    }
+
+    /**
+     * 查询考试之前的考试信息
+     *
+     * @return
+     */
+    @Override
+    public List<TExam> selectBeforeExamInfo(String tName) {
+
+        return examMapper.selectBeforeExamInfo(tName);
+    }
+
+    /**
+     * 查询考试之后的考试信息
+     *
+     * @return
+     */
+    @Override
+    public List<TExam> selectAfterExamInfo(String tName) {
+
+        return examMapper.selectAfterExamInfo(tName);
     }
 }

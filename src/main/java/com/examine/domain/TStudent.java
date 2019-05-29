@@ -25,6 +25,8 @@ public class TStudent implements Serializable {
 
     private TRole role;
 
+    private TSubmit tSubmit;
+
     public TStudent() {
     }
 
@@ -98,5 +100,13 @@ public class TStudent implements Serializable {
 
     public void setRole(TRole role) {
         this.role = role;
+    }
+
+    public void settSubmit(TSubmit tSubmit) {
+        this.tSubmit = tSubmit;
+    }
+
+    public TSubmit gettSubmit() {
+        return tSubmit;
     }
 }

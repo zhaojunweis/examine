@@ -84,7 +84,7 @@ public class ExamController extends BaseController {
     @RequestMapping(value = "/admin_exam")
     public ModelAndView admin_exam() throws ParseException {
         ModelAndView mv = new ModelAndView();
-        List<Map> listmap = commonController.getExamineInfo("");
+        List<Map> listmap = commonController.getExamineInfo("",-1);
         mv.addObject("examlists", listmap);
         mv.setViewName("/admin_exam");
         return mv;
@@ -122,7 +122,7 @@ public class ExamController extends BaseController {
         // String tName = (String) session.getAttribute("tName");
         //  exam.settName(tName);
         boolean flag = examService.saveExaminationInfo(exam);
-        List<Map> mapList = commonController.getExamineInfo(exam.gettName());
+        List<Map> mapList = commonController.getExamineInfo(exam.gettName(),2);
         if (flag) {
             resultMap.put("status", "200");
             resultMap.put("message", "添加考试成功");
