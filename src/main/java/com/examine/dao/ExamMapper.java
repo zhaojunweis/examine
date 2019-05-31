@@ -102,4 +102,11 @@ public interface ExamMapper {
      */
     List<TExam> selectAfterExamInfo(String tName);
 
+    /**
+     * 修改标志位t_isdelete
+     * @param Id
+     * @return
+     */
+    boolean finishedIsDelete(Integer Id);
+
 }

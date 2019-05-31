@@ -63,58 +63,6 @@ public class TeacherController extends BaseController {
         this.notificationService = notificationService;
     }
 
-    /*
-     *//**
-     *有考试进行时，考中管理的考试概况初始化
-     * @parame:
-     * @return
-     *//*
-
-
-    @RequestMapping(value = "/manageNotifyinExam")
-    public ModelAndView manageNotifyinExam(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/teacher_manage_notify_inexam");
-        return mv;
-    }
-
-    *//**
-     *有考试进行时，考中管理的学生信息初始化
-     * @parame:
-     * @return
-     *//*
-
-
-    @RequestMapping(value = "/manageStudentinExam")
-    public ModelAndView manageStudentinExam(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/teacher_manage_student_inexam");
-        return mv;
-    }
-    *//**
-     * 有考试进行时，考中管理的通知管理初始化
-     * @parame:
-     * @return
-     *//*
-
-    @RequestMapping(value = "/manageSummaryinExam")
-    public ModelAndView manageSummaryinExam(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/teacher_manage_summary_inexam");
-        return mv;
-    }
-    *//**
-     *有考试进行时，考中管理的解除绑定初始化
-     * @parame:
-     * @return
-     *//*
-    @RequestMapping(value = "/manageUnlockinExam")
-    public ModelAndView manageUnlockinExam(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/teacher_manage_unlock_inexam");
-        return mv;
-    }*/
-
     /**
      * 考前操作初始化
      *
@@ -385,8 +333,9 @@ public class TeacherController extends BaseController {
      *
      * @param response
      */
-    @RequestMapping(value = "/downLoadZipFile")
-    public void downLoadZipFile(HttpServletResponse response) {
+    @RequestMapping(value = "/downLoadZipFile",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public void downLoadZipFile(HttpServletResponse response){
         String zipName = UUID.randomUUID().toString() + ".zip";
         List<String> fileList = submitService.downloadSubmitZip();
         response.setContentType("APPLICATION/OCTET-STREAM");
@@ -403,6 +352,22 @@ public class TeacherController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @RequestMapping("/doPageOnhole")
+    @ResponseBody
+    public Map<String, Object> doPageOnhole(HttpSession session,@RequestParam(value = "Id") Integer id) throws ParseException {
+        //修改exam的标志位pageonwhole
+        boolean b = submitService.finishedPageOnHole(id);
+        String t_name = (String) session.getAttribute("tName");
+        if(b){
+            resultMap.put("status",200);
+            resultMap.put("examlists", commonController.getExamineInfo(t_name,0));
+            resultMap.put("onloadUrl","/downLoadZipFile");
+        }else {
+            resultMap.put("status",500);
+            resultMap.put("message","归档失败，请重试");
+        }
+        return resultMap;
     }
 
     /**
@@ -452,12 +417,15 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/doUnbinding")
     @ResponseBody
-    public Map<String, Object> doUnbinding(String sSno) {
+    public Map<String, Object> doUnbinding(@RequestParam(value = "sSno")String sSno) {
         Integer integer = submitService.doUnbinding(sSno);
         if (integer != 1) {
             resultMap.put("status", 500);
+            resultMap.put("message","解绑失败");
+            return resultMap;
         }
         resultMap.put("status", 200);
+        resultMap.put("message","解绑成功");
         return resultMap;
     }
 
@@ -494,6 +462,11 @@ public class TeacherController extends BaseController {
         return resultMap;
     }
 
+    /**
+     * 添加通知信息
+     * @param tNotification
+     * @return
+     */
     @RequestMapping("/addNotifycation")
     @ResponseBody
     public Map<String, Object> addNotifycation(TNotification tNotification) {
@@ -508,9 +481,38 @@ public class TeacherController extends BaseController {
         resultMap.put("status", 500);
         resultMap.put("message", "添加通知失败");
         return resultMap;
-
-
     }
 
+    /**
+     * 根据Ip查找学生信息
+     * @param Ip
+     * @return
+     */
+    @RequestMapping("/selectStudentByIp")
+    @ResponseBody
+    public Map<String,Object> selectStudentByIp( @RequestParam(value = "IpAddress")String Ip){
+        TStudent tStudent = studentService.selectStudentByIp(Ip);
+        if(tStudent != null){
+            resultMap.put("status",200);
+            resultMap.put("studentinfo", tStudent);
+            return resultMap;
+        }
+        resultMap.put("status", 500);
+        resultMap.put("message", "未找到该学生的相关信息");
+        return resultMap;
+    }
+    /*@RequestMapping(value = "/doUnbinding")
+    public Map<String,Object> doUnbinding(@RequestParam(value = "sSno") String Sno){
+
+        boolean b = submitService.doUnbinding(Sno);
+        if (b){
+            resultMap.put("status",200);
+            resultMap.put("message","解绑成功");
+        }else {
+            resultMap.put("status",500);
+            resultMap.put("message","解绑失败");
+        }
+        return resultMap;
+    }*/
 
 }

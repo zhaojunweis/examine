@@ -38,7 +38,7 @@ public interface StudentMapper {
      *
      * @return
      */
-    Integer nonphysicalDeleteStudents();
+    Integer nonphysicalDeleteStudents(Integer Id);
 
     /**
      * 按照记录添加学生信息

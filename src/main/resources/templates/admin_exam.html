@@ -98,22 +98,42 @@ body {
 			<th>已清理</th>
 			<th>操作</th>
 		</tr>
+	<!--	<tr th:if="${examlists}!= null" th:each="user,userStat:${examlists}">
+			<input class="examId" type="hidden" th:value="${user.examId}">
+			<th class="span3 examname" th:text="${user.examname}"></th>
+			<th class="span3 examtime" th:text="${user.exam_time}"></th>
+			<th class="creatname" th:text="${user.create_name}"></th>
+			<th th:if="${user.exampaper_url!=null}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.exampaper_url==null}"></th>
+			<th claass="isautostart" th:if="${user.isautostart==1}"><img src="img/gouxuan1.png"></th>
+			<th claass="isautostart" th:if="${user.isautostart!=1}"></th>
+			<th th:if="${user.isexam==1}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isexam!=1}"></th>
+			<th th:if="${user.isfinished==1}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isfinished!=1}"></th>
+			<th th:if="${user.ispageonhole==1}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.ispageonhole!=1}"></th>
+			<th th:if="${user.isdelete==1}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isdelete!=1}"></th>
+			<th><a class="btn edit_exam"><span class="icon-edit"></span></a></th>
+		</tr>-->
 		<tr th:if="${examlists}!= null" th:each="user,userStat:${examlists}">
-			<input class="Id" type="hidden" th:valur="${user.examId}"/>
-			<th class="span3" th:text="${user.examname}"></th>
-			<th class="span3" th:text="${user.exam_time}"></th>
-			<th th:text="${user.create_name}"></th>
-			<th th:text="${user.exampaper_url}"></th>
-			<th th:if="${user.isautostart=='1'}"><img src="img/gouxuan1.png"></th>
-			<th th:if="${user.isautostart!='1'}"></th>
-			<th th:if="${user.isexam=='1'}"><img src="img/gouxuan1.png"></th>
-			<th th:if="${user.isexam!='1'}"></th>
-			<th th:if="${user.isfinished=='1'}"><img src="img/gouxuan1.png"></th>
-			<th th:if="${user.isfinished!='1'}"></th>
-			<th class="is_pageonhole" th:if="${user.ispageonhole=='1'}"><img src="img/gouxuan1.png"></th>
-			<th class="is_pageonhole" th:if="${user.ispageonhole!='1'}"></th>
-			<th class="is_delete" th:if="${user.isdelete=='1'}"><img src="img/gouxuan1.png"></th>
-			<th class="is_delete" th:if="${user.isdelete!='1'}"></th>
+			<input class="examId" type="hidden" th:value="${user.examId}">
+			<th class="span3 examname" th:text="${user.examname}"></th>
+			<th class="span3 examtime" th:text="${user.exam_time}"></th>
+			<th class="creatname" th:text="${user.create_name}"></th>
+			<th th:if="${user.exampaper_url!=null}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.exampaper_url==null}"></th>
+			<th claass="isautostart" th:if="${user.isautostart==1}"><img src="img/gouxuan1.png"></th>
+			<th claass="isautostart" th:if="${user.isautostart!=1}"></th>
+			<th th:if="${user.isexam==1}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isexam!=1}"></th>
+			<th th:if="${user.isfinished==1}"><img src="img/gouxuan1.png"></th>
+			<th th:if="${user.isfinished!=1}"></th>
+			<th class="is_pageonhole" th:if="${user.ispageonhole==1}"><img src="img/gouxuan1.png"></th>
+			<th class="is_pageonhole" th:if="${user.ispageonhole!=1}"></th>
+			<th class="is_delete" th:if="${user.isdelete==1}"><img src="img/gouxuan1.png"></th>
+			<th class="is_delete" th:if="${user.isdelete!=1}"></th>
 			<th> <button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button></th>
 		</tr>
 	</thead>
@@ -134,7 +154,8 @@ body {
 			$(document).on("click",".delete",function () {
 				var is_delete = $(this).parent().parent().children(".is_delete").children("img");
                 var pageonhole = $(this).parent().parent().children(".is_pageonhole").children("img");
-                var Id = $(this).parent().parent().children(".Id").val();
+                var Id = $(this).parent().parent().children(".examId").val();
+                debugger;
                if(is_delete.length!=0){//is_delete.lenth=0为未被清理
                    layer.alert("该考试已经被清理",{
                        icon:0,
@@ -147,7 +168,7 @@ body {
 				   });
 			   }else{
                    /*在清理之前最后提示用户一次*/
-                   layer.alert('是否确定删除该教师用户',{
+                   layer.alert('是否确定清理该场考试',{
                        btn:['确定','取消']
                    },function(){
 					   //点击确定后进行清理操作

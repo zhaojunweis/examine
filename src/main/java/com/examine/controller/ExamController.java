@@ -98,14 +98,16 @@ public class ExamController extends BaseController {
      */
     @RequestMapping("/clearExam")
     @ResponseBody
-    public Map<String, Object> clearExam(Integer id) {
+    public Map<String, Object> clearExam(HttpSession session,@RequestParam(value = "Id")Integer id) throws ParseException {
         boolean isSuccess = teacherService.clearExamInfo(id);
+        String t_name = (String) session.getAttribute("tName");
         if (isSuccess) {
             resultMap.put("status", 200);
-            resultMap.put("message", "delete failed");
+            resultMap.put("message", "清理成功");
+            resultMap.put("examlists", commonController.getExamineInfo(t_name,0));
         } else {
             resultMap.put("status", 500);
-            resultMap.put("message", "delete exam failed");
+            resultMap.put("message", "清理失败");
         }
         return resultMap;
     }
@@ -208,11 +210,12 @@ public class ExamController extends BaseController {
         return resultMap;
     }
 
-    @RequestMapping("/selectExamInfoByTName")
+
+    /*@RequestMapping("/selectExamInfoByTName")
     @ResponseBody
     public List<TExam> selectExamInfoByTName() {
 
         String tName = "xwc";
         return examService.selectExamInfoByTName(tName);
-    }
+    }*/
 }

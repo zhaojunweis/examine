@@ -94,7 +94,7 @@ body {
 		</h1>
 
 <table class="table table-striped table-bordered">
-	<thead>
+	<thead id="appen_tr">
 		<tr>
 			<th class="span3">考试名称</th>
 			<th class="span3">考试时间</th>
@@ -105,7 +105,7 @@ body {
 			<th>已结束</th>
 			<th>已归档</th>
 			<th>已清理</th>
-			<th>&nbsp;</th>
+			<th>考试管理</th>
 		</tr>
 		<tr th:if="${examlists}!= null" th:each="user,userStat:${examlists}">
 			<input class="examId" type="hidden" th:value="${user.examId}">
@@ -120,11 +120,14 @@ body {
 			<th th:if="${user.isexam!=1}"></th>
 			<th th:if="${user.isfinished==1}"><img src="img/gouxuan1.png"></th>
 			<th th:if="${user.isfinished!=1}"></th>
-			<th th:if="${user.ispageonhole==1}"><img src="img/gouxuan1.png"></th>
-			<th th:if="${user.ispageonhole!=1}"></th>
-			<th th:if="${user.isdelete==1}"><img src="img/gouxuan1.png"></th>
-			<th th:if="${user.isdelete!=1}"></th>
-			<th><a class="btn edit_exam"><span class="icon-edit"></span></a></th>
+			<th  class="is_pageonhole" th:if="${user.ispageonhole==1}"><img src="img/gouxuan1.png"></th>
+			<th  class="is_pageonhole" th:if="${user.ispageonhole!=1}"></th>
+			<th  class="is_delete" th:if="${user.isdelete==1}"><img src="img/gouxuan1.png"></th>
+			<th  class="is_delete" th:if="${user.isdelete!=1}"></th>
+			<th>
+				<button class='btn btn-primary pageonhole' style='padding: 1px 6px;margin-left:2px;'>归档</button>
+				<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>
+			</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -143,6 +146,218 @@ body {
 	<script src="js/layer/layer.js"></script>
 	<script src="js/locales/common_js.js "></script>
 	<script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click",".delete",function () {
+                var is_delete = $(this).parent().parent().children(".is_delete").children("img");
+                var pageonhole = $(this).parent().parent().children(".is_pageonhole").children("img");
+                var Id = $(this).parent().parent().children(".examId").val();
+                debugger;
+                if(is_delete.length!=0){//is_delete.lenth=0为未被清理
+                    layer.alert("该考试已经被清理",{
+                        icon:0,
+                        skin:'layer-ext-moon',
+                    });
+                }else if(pageonhole.length==0){//pageonhole.length=0为还未归档
+                    layer.alert("该场考试还未归档，请归档后清理",{
+                        icon:0,
+                        skin:'layer-ext-moon',
+                    });
+                }else{
+                    /*在清理之前最后提示用户一次*/
+                    layer.alert('是否确定清理该场考试',{
+                        btn:['确定','取消']
+                    },function(){
+                        //点击确定后进行清理操作
+						$.ajax({
+                            type:'post',
+                            url:"/clearExam",
+                            data:{
+                                Id:Id,
+                            },
+                            success:function (data) {
+                                if(data.status == 200){
+									debugger
+                                    layer.alert(data.message,{
+                                        icon:1,
+                                        skin:'layer-ext-moon',
+                                    });
+                                    //异步刷新考试列表信息
+                                    $("#appen_tr").empty();
+                                    $("#appen_tr").append("<tr>" +
+                                        "<th class=\"span3\">考试名称</th>" +
+                                        "<th class=\"span3\">考试时间</th>" +
+                                        "<th>创建人</th>" +
+                                        "<th>上传试卷</th>" +
+                                        "<th>自动开始</th>" +
+                                        "<th>进行中</th>" +
+                                        "<th>已结束</th>" +
+                                        "<th>已归档</th>" +
+                                        "<th>已清理</th>" +
+                                        "<th>考试管理</th></tr>");
+                                    var list = data.examlists;
+                                    for (var i = 0; i < list.length; i++) {
+                                        debugger;
+                                        var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
+                                        if(list[i].isautostart == '1'){
+                                            str_isauto="<th><img src='img/gouxuan1.png'></th>";
+                                        }else{
+                                            str_isauto = "<th></th>";
+                                        }
+                                        if(list[i].isexam == '1'){
+                                            str_inexam="<th><img src='img/gouxuan1.png'></th>";
+                                        }else{
+                                            str_inexam = "<th></th>";
+                                        }
+                                        if(list[i].isfinished == '1'){
+                                            str_isfinish="<th><img src='img/gouxuan1.png'></th>";
+                                        }else{
+                                            str_isfinish = "<th></th>";
+                                        }
+                                        if(list[i].ispageonhole == '1'){
+                                            str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
+                                        }else{
+                                            str_pageonhole = "<th  class='is_pageonhole'></th>";
+                                        }
+                                        if(list[i].isdelete == '1'){
+                                            str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
+                                        }else{
+                                            str_isdelete = "<th class='is_delete'></th>";
+                                        }
+                                        if(list[i].exampaper_url !=null){
+                                            exam_url="<th><img src='img/gouxuan1.png'></th>";
+                                        }else{
+                                            exam_url = "<th></th>";
+                                        }
+                                        $("#appen_tr").append("<tr>" +
+                                            "<input class='examId' type='hidden' value="+ list[i].examId+">"+
+
+                                            "<th class=\"span3\">" + list[i].examname + "</th>" +
+                                            "<th class=\"span3\">" + list[i].exam_time + "</th>" +
+                                            "<th>" + list[i].create_name + "</th>" +
+                                            exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
+                                            "<th>" +
+                                            "<button class='btn btn-primary pageonhole' style='padding: 1px 6px;margin-left:2px;'>归档</button>" +
+                                            "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>" +
+                                            "</th></tr>");
+                                    }
+                                }else{
+                                    layer.alert(data.message,{
+                                        icon:2,
+                                        skin:'layer-ext-moon',
+                                    })
+                                }
+                            },
+                            error:function (data) {
+                                layer.alert("系统错误，清理失败",{
+                                    icon:2,
+                                    skin:'layer-ext-moon',
+                                })
+                            }
+                        });
+
+                    },function (){
+
+                    });
+
+                }
+            })
+			$(document).on("click",".pageonhole",function () {
+			    debugger
+                var pageonhole = $(this).parent().parent().children(".is_pageonhole").children("img");
+                var Id = $(this).parent().parent().children(".examId").val();
+                if(pageonhole.length != 0){
+                    layer.alert("该场考试已归档",{
+                        icon:0,
+                        skin:'layer-ext-moon',
+                    });
+				}else {
+                    $.ajax({
+                        type:'post',
+                        url:"/doPageOnhole",
+                        data:{
+                            Id:Id,
+                        },
+                        success:function (data) {
+                            if(data.status == 200){
+                                debugger;
+								window.location.href = data.onloadUrl;
+                                //异步刷新考试列表信息
+                                $("#appen_tr").empty();
+                                $("#appen_tr").append("<tr>" +
+                                    "<th class=\"span3\">考试名称</th>" +
+                                    "<th class=\"span3\">考试时间</th>" +
+                                    "<th>创建人</th>" +
+                                    "<th>上传试卷</th>" +
+                                    "<th>自动开始</th>" +
+                                    "<th>进行中</th>" +
+                                    "<th>已结束</th>" +
+                                    "<th>已归档</th>" +
+                                    "<th>已清理</th>" +
+                                    "<th>考试管理</th></tr>");
+                                var list = data.examlists;
+                                for (var i = 0; i < list.length; i++) {
+                                    debugger;
+                                    var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
+                                    if(list[i].isautostart == '1'){
+                                        str_isauto="<th><img src='img/gouxuan1.png'></th>";
+                                    }else{
+                                        str_isauto = "<th></th>";
+                                    }
+                                    if(list[i].isexam == '1'){
+                                        str_inexam="<th><img src='img/gouxuan1.png'></th>";
+                                    }else{
+                                        str_inexam = "<th></th>";
+                                    }
+                                    if(list[i].isfinished == '1'){
+                                        str_isfinish="<th><img src='img/gouxuan1.png'></th>";
+                                    }else{
+                                        str_isfinish = "<th></th>";
+                                    }
+                                    if(list[i].ispageonhole == '1'){
+                                        str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
+                                    }else{
+                                        str_pageonhole = "<th  class='is_pageonhole'></th>";
+                                    }
+                                    if(list[i].isdelete == '1'){
+                                        str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
+                                    }else{
+                                        str_isdelete = "<th class='is_delete'></th>";
+                                    }
+                                    if(list[i].exampaper_url !=null){
+                                        exam_url="<th><img src='img/gouxuan1.png'></th>";
+                                    }else{
+                                        exam_url = "<th></th>";
+                                    }
+                                    $("#appen_tr").append("<tr>" +
+                                        "<input class='examId' type='hidden' value="+ list[i].examId+">"+
+
+                                        "<th class=\"span3\">" + list[i].examname + "</th>" +
+                                        "<th class=\"span3\">" + list[i].exam_time + "</th>" +
+                                        "<th>" + list[i].create_name + "</th>" +
+                                        exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
+                                        "<th>" +
+										"<button class='btn btn-primary pageonhole' style='padding: 1px 6px;margin-left:2px;'>归档</button>" +
+                                        "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>" +
+										"</th></tr>");
+                                }
+                            }else{
+                                layer.alert(data.message,{
+                                    icon:2,
+                                    skin:'layer-ext-moon',
+                                })
+                            }
+                        },
+                        error:function (data) {
+                            layer.alert("系统错误，清理失败",{
+                                icon:2,
+                                skin:'layer-ext-moon',
+                            })
+                        }
+                    });
+                  // window.location.href = "/downLoadZipFile";
+				}
+            })
+        });
 
 	</script>
 </body>

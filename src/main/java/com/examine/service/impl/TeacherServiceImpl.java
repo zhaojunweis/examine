@@ -127,17 +127,19 @@ public class TeacherServiceImpl implements TeacherService {
         //查询是否归档
         Integer isPigeonhole = teacherMapper.selectIsPigeonhole(id);
         if (isPigeonhole == 1) {
-            //非物理删除考试信息
-            boolean examDelete = examService.nonphysicalDeleteOneExamById(id);
             //非物理删除学生信息
-            boolean studentDelete = studentService.nonphysicalDeleteStudents();
+            boolean studentDelete = studentService.nonphysicalDeleteStudents(id);
             //非物理删除提交信息
-            boolean submitDelete = submitService.nonphysicalDeleteAllSubmit();
+            boolean submitDelete = submitService.nonphysicalDeleteAllSubmit(id);
             //删除成功
-            if (examDelete && studentDelete && submitDelete) {
-                flag = true;
+            if (studentDelete && submitDelete) {
+                    //非物理删除考试信息
+                   boolean examDelete = examService.nonphysicalDeleteOneExamById(id);
+                   if (examDelete){
+                       flag = true;
+                   }
+                }
             }
-        }
         return flag;
     }
 

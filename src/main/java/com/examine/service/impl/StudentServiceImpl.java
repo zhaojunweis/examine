@@ -61,9 +61,9 @@ public class StudentServiceImpl implements StudentService {
      * @return
      */
     @Override
-    public boolean nonphysicalDeleteStudents() {
+    public boolean nonphysicalDeleteStudents(Integer Id) {
         boolean flag = false;
-        Integer affectCount = studentMapper.nonphysicalDeleteStudents();
+        Integer affectCount = studentMapper.nonphysicalDeleteStudents(Id);
         if (affectCount >= 1) {
             flag = true;
         }

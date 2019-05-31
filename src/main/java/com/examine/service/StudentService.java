@@ -12,7 +12,7 @@ public interface StudentService {
 
     TStudent selectStudentEntityByUsername(String sSno);
 
-    boolean nonphysicalDeleteStudents();
+    boolean nonphysicalDeleteStudents(Integer Id);
 
     boolean importStudentInfo(String localExcelPath);
 
