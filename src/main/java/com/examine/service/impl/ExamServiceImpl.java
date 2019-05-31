@@ -188,4 +188,9 @@ public class ExamServiceImpl implements ExamService {
 
         return examMapper.selectAfterExamInfo(tName);
     }
+
+    @Override
+    public boolean finishedIsDelete(Integer Id) {
+        return examMapper.finishedIsDelete(Id);
+    }
 }

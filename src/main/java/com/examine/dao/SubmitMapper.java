@@ -20,7 +20,7 @@ public interface SubmitMapper {
      *
      * @return
      */
-    Integer nonphysicalDeleteAllSubmit();
+    Integer nonphysicalDeleteAllSubmit(Integer Id);
 
     /**
      * 学生提交信息
@@ -44,4 +44,10 @@ public interface SubmitMapper {
      * @return
      */
     Integer doUnbinding(String sSno);
+
+    /**
+     * 修改exam的pageonhole标志位,成功归档后改为1
+     * @param id
+     */
+    boolean finishedPageOnHole(Integer id);
 }

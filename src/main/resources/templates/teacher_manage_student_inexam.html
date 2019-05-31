@@ -227,15 +227,23 @@ body {
 						},
 						success:function (data) {
 							if (data.status == 200){
-							    var studentinfo = data.studentinfo;
-								$("tbody").empty();
+                                var studentinfo = data.studentinfo;
+                                var studentIp = studentinfo.tSubmit;
+                                var IpAddress;
+                                if(studentinfo.tSubmit==null){
+                                    IpAddress = "用户暂无登录"
+                                }else {
+                                    IpAddress = studentIp.ipAddress;
+                                }
+                                $("tbody").empty();
                                 $(".notfindinfo").empty();
-								$("tbody").append("<tr>\n" +
+                                $("tbody").append("<tr>\n" +
                                     "\t\t\t\t\t\t<th class=\"span3\">"+studentinfo.sSno+"</th>\n" +
                                     "\t\t\t\t\t\t<th class=\"span2\">"+studentinfo.sName+"</th>\n" +
                                     "\t\t\t\t\t\t<th class=\"span3\">"+studentinfo.sClassId+"</th>\n" +
-                                    "\t\t\t\t\t\t<th class=\"span3\">"+studentinfo.sScoreName+"</th>\n" +
-                                    "\t\t\t\t\t</tr>")
+                                    "\t\t\t\t\t\t<th class=\"span3\">"+IpAddress+"</th>\n" +
+                                    "<th class=\"span3\"></th>"+
+                                    "\t\t\t\t\t</tr>");
 							}else {
                                 $("tbody").empty();
                                	$(".notfindinfo").append("<label style='font-size: 30px;color: #555555'>没有找到该学号的学生</label>")

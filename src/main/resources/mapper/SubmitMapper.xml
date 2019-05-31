@@ -27,10 +27,11 @@
           )
     </insert>
 
-    <update id="nonphysicalDeleteAllSubmit">
+    <update id="nonphysicalDeleteAllSubmit" parameterType="Integer">
          update
          t_submit
          set s_is_delete = 1
+         where exam_Id = #{Id}
     </update>
 
     <select id="studentSubmitInfo" resultMap="submitBaseMap">
@@ -56,4 +57,7 @@
     <delete id = "doUnbinding" parameterType="String">
         delete from t_submit where s_sno = #{sSno}
     </delete>
+    <update id="finishedPageOnHole" parameterType="Integer">
+      update t_exam set is_pigeonhole = 1 where id = #{id}
+    </update>
 </mapper>

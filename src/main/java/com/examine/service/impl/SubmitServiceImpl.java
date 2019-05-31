@@ -39,9 +39,9 @@ public class SubmitServiceImpl implements SubmitService {
      * @return
      */
     @Override
-    public boolean nonphysicalDeleteAllSubmit() {
+    public boolean nonphysicalDeleteAllSubmit(Integer id) {
         boolean flag = false;
-        Integer affectCount = submitMapper.nonphysicalDeleteAllSubmit();
+        Integer affectCount = submitMapper.nonphysicalDeleteAllSubmit(id);
         if (affectCount >= 1) {
             flag = true;
         }
@@ -69,5 +69,14 @@ public class SubmitServiceImpl implements SubmitService {
     public Integer doUnbinding(String sSno) {
 
         return submitMapper.doUnbinding(sSno);
+    }
+
+    /**
+     * 修改归档完成标志位pageonhole为1
+     * @param id
+     */
+    @Override
+    public boolean finishedPageOnHole(Integer id) {
+        return submitMapper.finishedPageOnHole(id);
     }
 }

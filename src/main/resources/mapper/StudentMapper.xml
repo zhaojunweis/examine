@@ -108,8 +108,8 @@
           t2.s_login_address = #{ip}
     </select>
 
-    <update id="nonphysicalDeleteStudents">
-        update t_student set s_is_delete = 1
+    <update id="nonphysicalDeleteStudents" parameterType="Integer">
+        update t_student set s_is_delete = 1 where s_score_Id = #{Id}
     </update>
 
     <insert id="saveStudentOneByOne" parameterType="com.examine.domain.TStudent">
