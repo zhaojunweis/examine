@@ -32,4 +32,8 @@ public interface TeacherService {
     TTeacher selectTeacherEntityByUsername(String tName);
 
     TTeacher selectTeacherRoleAndPerm(String tName);
+
+    Integer selectCountByExamId(Integer examId);
+
+    List<TStudent> selectByLimit(Map map);
 }

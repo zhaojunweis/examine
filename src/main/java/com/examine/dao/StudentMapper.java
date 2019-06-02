@@ -121,4 +121,11 @@ public interface StudentMapper {
      * @return
      */
     TStudent selectStudentByIp(String ip);
+
+    /**
+     * 删除某次考试学生
+     * @param studentId
+     * @return
+     */
+    boolean deleteOneStudent(Integer studentId);
 }

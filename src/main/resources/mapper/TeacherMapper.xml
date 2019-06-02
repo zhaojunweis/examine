@@ -10,6 +10,14 @@
         <result property="tIsAdmin" column="t_is_admin"/>
         <result property="tIsDelete" column="t_is_delete"/>
     </resultMap>
+    <resultMap id="studentMapForLimit" type="com.examine.domain.TStudent">
+        <id property="id" column="id"/>
+        <result property="sSno" column="s_sno"/>
+        <result property="sName" column="s_name"/>
+        <result property="sClassId" column="s_class_id"/>
+        <result property="sScoreId" column="s_score_Id"/>
+        <result property="sIsDelete" column="s_is_delete"/>
+    </resultMap>
 
     <resultMap id="teacherBaseShiro" type="com.examine.domain.TTeacher">
         <id property="id" column="id"/>
@@ -149,4 +157,13 @@
 
         where id = #{id}
     </update>
+    <!--分页查询-->
+    <!--先查询出该场考试Id对应多少学生-->
+    <select id="selectCountByExamId" parameterType="Integer" resultType="Integer">
+        select count(*) from t_student where s_score_Id = #{examId} and s_is_delete = 0
+    </select>
+    <!--查询出每页limit startNum,pageSize对应的数据-->
+    <select id="selectByLimit" parameterType="Map" resultMap="studentMapForLimit">
+        select * from t_student where s_score_Id = #{examId} limit #{startNum},#{pageSize}
+    </select>
 </mapper>
