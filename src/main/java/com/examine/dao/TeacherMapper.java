@@ -1,5 +1,6 @@
 package com.examine.dao;
 
+import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 import org.springframework.stereotype.Component;
 
@@ -99,4 +100,18 @@ public interface TeacherMapper {
      * @return
      */
     TTeacher selectTeacherRoleAndPerm(String tName);
+
+    /**
+     * 查询该场考试对应的学生数量
+     * @param examId
+     * @return
+     */
+    Integer selectCountByExamId(Integer examId);
+
+    /**
+     * 分页查询
+     * @param map
+     * @return
+     */
+    List<TStudent> selectByLimit(Map map);
 }

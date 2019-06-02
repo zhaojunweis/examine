@@ -220,4 +220,24 @@ public class TeacherServiceImpl implements TeacherService {
 
         return teacherMapper.selectTeacherRoleAndPerm(tName);
     }
+
+    /**
+     * 查询该场考试对应的学生数量
+     * @param examId
+     * @return
+     */
+    @Override
+    public Integer selectCountByExamId(Integer examId) {
+        return teacherMapper.selectCountByExamId(examId);
+    }
+
+    /**
+     * 分页查询
+     * @param map
+     * @return
+     */
+    @Override
+    public List<TStudent> selectByLimit(Map map) {
+        return teacherMapper.selectByLimit(map);
+    }
 }
