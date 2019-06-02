@@ -228,7 +228,7 @@ public class StudentController extends BaseController {
     @RequestMapping("/getLimitPage")
     @ResponseBody
     public Map<String,Object> getLimitPage(@RequestParam(value = "Id") Integer id,@RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
-                                            @RequestParam(value = "nowPage" ,defaultValue = "1") Integer nowPage,@RequestParam(value = "type") int type)
+                                            @RequestParam(value = "nowPage" ,defaultValue = "1") Integer nowPage,@RequestParam(value = "type",defaultValue = "2") int type)
     {
         int startNum = 0,pSize = 0;
         List<TStudent> studentlist = null;
@@ -240,9 +240,15 @@ public class StudentController extends BaseController {
                 int abovecount = count%pageSize;
                 if(abovecount!=0){
                     startNum = page*pageSize-1;
+                    if(startNum<=0){
+                        startNum = 0;
+                    }
                     pSize = abovecount;
                 }else if (abovecount == 0){
                     startNum = (page-1)*pageSize-1;
+                    if(startNum<=0){
+                        startNum = 0;
+                    }
                     pSize = pageSize;
                 }
                 break;
@@ -281,6 +287,33 @@ public class StudentController extends BaseController {
         studentlist = teacherService.selectByLimit(resultMap);
         resultMap.put("studentlist",studentlist);
         return resultMap;
+    }
+
+    /**
+     * 删除学生
+     * @param studentId
+     * @param id
+     * @param pageSize
+     * @param nowPage
+     * @return
+     */
+    @RequestMapping("/deleteOneStudent")
+    @ResponseBody
+    public Map<String,Object> deleteOneStudent(@RequestParam(value = "stuId") Integer studentId,@RequestParam(value = "Id") Integer id,@RequestParam(value = "pageSize",
+                                                 defaultValue = "10") Integer pageSize,
+                                               @RequestParam(value = "nowPage" ,defaultValue = "1") Integer nowPage){
+
+        boolean b = studentService.deleteOneStudent(studentId);
+        if(b){
+            resultMap.put("status",200);
+            resultMap.put("message","删除成功");
+            resultMap.put("resultmap",getLimitPage(id,pageSize,nowPage,2));
+            return resultMap;
+        }else {
+            resultMap.put("status",500);
+            resultMap.put("message","删除失败");
+        }
+        return  resultMap;
     }
 
 }

@@ -212,5 +212,9 @@
             s_name = #{sName}
         </if>
     </sql>
+    <!--删除某次单个学生-->
+    <update id="deleteOneStudent" parameterType="Integer">
+        update t_student set s_is_delete = 1 where id = #{studentId}
+    </update>
 
 </mapper>

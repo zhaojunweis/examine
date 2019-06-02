@@ -202,4 +202,14 @@ public class StudentServiceImpl implements StudentService {
 
         return studentMapper.selectStudentByIp(ip);
     }
+
+    /**
+     * 删除一个学生
+     * @param studentId
+     * @return
+     */
+    @Override
+    public boolean deleteOneStudent(Integer studentId) {
+        return studentMapper.deleteOneStudent(studentId);
+    }
 }

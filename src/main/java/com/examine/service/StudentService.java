@@ -29,4 +29,6 @@ public interface StudentService {
     TStudent selectStudentRoleAndPerm(String sSno);
 
     TStudent selectStudentByIp(String ip);
+
+    boolean deleteOneStudent(Integer studentId);
 }
