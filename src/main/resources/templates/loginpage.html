@@ -21,10 +21,8 @@
 }
 </style>
 	</head>
-
-
 	<body>
-
+		<input id="HostUrl" type="hidden" th:value="${application.global_url}"/>
 		<div class="container">
 		<ul id="loginTab" class="nav nav-tabs">
 			<li class="active"><a href="#student" data-toggle="tab">学生登录</a>
@@ -49,6 +47,7 @@
 										type="password" name="t_pass" placeholder="口令" />
 								</p>
 								<p>
+
 									<input id="btn_teacher" type="button" class="btn btn-primary" value="登录"
 										style="width: 100%" />
 								</p>
@@ -117,8 +116,6 @@
 			</div>
 		</div>
 	</div>
-	<!--	<span th:text="${application.global_url}">123</span>-->
-
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/layer/layer.js"></script>
