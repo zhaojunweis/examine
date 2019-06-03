@@ -9,7 +9,7 @@ function setType(typeId,type){
 
 $(document).ready(function () {
 
-    //设置
+    //设置 对页面大小及页号进行正则判断
     $(document).on("click", "#config_btn", function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
@@ -344,20 +344,26 @@ $(document).ready(function () {
     //删除某个学生
     $(document).on("click", ".delete", function () {
         var studentId = $(this).parent().parent().children(".studentId").val();
+        var examId = $("input[name='examId']").val();
+        var pagesize = $("input[name='pageSize']").val();
+        var nowpage = $("input[name='pageNo']").val();
+        $(".notfindinfo").empty();
         $.ajax({
             type: 'post',
             url: '/deleteOneStudent',
             data: {
                 stuId: studentId,
+                Id:examId,
+                pageSize:pagesize,
+                nowPage:nowpage,
             },
             success: function (data) {
                 if (data.status == 200) {
                     layer.alert(data.message, {
-                        icon: 2,
+                        icon: 1,
                         skin: 'layer-ext-moon',
                     })
-                    var resultmap = data.resultmap;
-                    var studenglist = resultmap.studentlist;
+                    var studenglist = data.studentlist;
                     debugger;
                     if (studenglist != null) {
                         $("thead").empty();

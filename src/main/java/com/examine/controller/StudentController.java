@@ -2,6 +2,7 @@ package com.examine.controller;
 
 import com.examine.common.controller.BaseController;
 import com.examine.common.util.IpUtil;
+import com.examine.common.util.LimitPage;
 import com.examine.common.util.StringUtils;
 import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
@@ -230,61 +231,14 @@ public class StudentController extends BaseController {
     public Map<String,Object> getLimitPage(@RequestParam(value = "Id") Integer id,@RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
                                             @RequestParam(value = "nowPage" ,defaultValue = "1") Integer nowPage,@RequestParam(value = "type",defaultValue = "2") int type)
     {
-        int startNum = 0,pSize = 0;
         List<TStudent> studentlist = null;
+        Map<String,Object> map = new HashMap<>();
         int count = teacherService.selectCountByExamId(id);
-
-        switch (type){
-            case 0:
-                int page = count/pageSize;
-                int abovecount = count%pageSize;
-                if(abovecount!=0){
-                    startNum = page*pageSize-1;
-                    if(startNum<=0){
-                        startNum = 0;
-                    }
-                    pSize = abovecount;
-                }else if (abovecount == 0){
-                    startNum = (page-1)*pageSize-1;
-                    if(startNum<=0){
-                        startNum = 0;
-                    }
-                    pSize = pageSize;
-                }
-                break;
-            case 1:
-                if (count>pageSize){
-                    startNum = 0;
-                    pSize = pageSize;
-                }else{
-                    startNum = 0;
-                    pSize = count;
-                }
-                break;
-            default:
-                int precount = pageSize*(nowPage-1),lastcount = pageSize*nowPage;
-                if((precount<count) && (lastcount<=count)){
-                    startNum = precount-1;
-                    if(startNum<=0){
-                        startNum = 0;
-                    }
-                    pSize = pageSize;
-                }else if(precount<count && lastcount>count){
-                    startNum = precount-1;
-                    if(startNum<=0){
-                        startNum = 0;
-                    }
-                    pSize = count-precount;
-                }else if (precount>=count){
-                    return null;
-                }
-                break;
+        map = LimitPage.limitPage(id,count,pageSize,nowPage,type);
+        if(map == null){
+            return null;
         }
-
-        resultMap.put("examId",id);
-        resultMap.put("startNum",startNum);
-        resultMap.put("pageSize",pSize);
-        studentlist = teacherService.selectByLimit(resultMap);
+        studentlist = teacherService.selectByLimit(map);
         resultMap.put("studentlist",studentlist);
         return resultMap;
     }
@@ -304,10 +258,17 @@ public class StudentController extends BaseController {
                                                @RequestParam(value = "nowPage" ,defaultValue = "1") Integer nowPage){
 
         boolean b = studentService.deleteOneStudent(studentId);
+        int count = teacherService.selectCountByExamId(id);
+        List<TStudent> studentlist = null;
+        Map<String,Object> map = new HashMap<>();
         if(b){
+            map = LimitPage.limitPage(id,count,pageSize,nowPage,2);
+            if(map != null){
+                studentlist = teacherService.selectByLimit(map);
+            }
             resultMap.put("status",200);
             resultMap.put("message","删除成功");
-            resultMap.put("resultmap",getLimitPage(id,pageSize,nowPage,2));
+            resultMap.put("studentlist",studentlist);
             return resultMap;
         }else {
             resultMap.put("status",500);
