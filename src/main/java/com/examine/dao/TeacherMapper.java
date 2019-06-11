@@ -1,5 +1,6 @@
 package com.examine.dao;
 
+import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 import org.springframework.stereotype.Component;
@@ -114,4 +115,33 @@ public interface TeacherMapper {
      * @return
      */
     List<TStudent> selectByLimit(Map map);
+
+    /**
+     * 查询考前考试数量
+     * @param tname
+     * @return
+     */
+    Integer selectCountExamBefore(String tname);
+
+    /**
+     * 查询考后考试数量
+     * @param tname
+     * @return
+     */
+    Integer selectCountExamAfter(String tname);
+
+
+    /**
+     *  考前操作的考試分頁
+     * @param map
+     * @return
+     */
+    List<TExam> selectExamLimitBefore(Map map);
+
+    /**
+     *  考後操作的考試分頁
+     * @param map
+     * @return
+     */
+    List<TExam> selectExamLimitAfter(Map map);
 }

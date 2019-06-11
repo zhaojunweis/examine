@@ -51,35 +51,6 @@ public class StudentController extends BaseController {
         this.teacherService = teacherService;
     }
 
-    /**
-     * 考前管理界面的考试编辑中添加学生名单
-     *
-     * @return
-     * @parame:
-     */
-    @RequestMapping("/teacher_addstudent")
-    public ModelAndView showAddStudent(@RequestParam(value = "Id") int id) {
-
-        ModelAndView mv = new ModelAndView();
-        //读取第一页的数据limit 0,10 默认查询如果当前的数据总数count<= 10 则查询limit 0,count，如果count>10查询limit 0,10
-        int count = teacherService.selectCountByExamId(id);
-        List<TStudent> studentlist = null;
-
-        resultMap.put("examId",id);
-        if(count<=10){
-            resultMap.put("startNum",0);
-            resultMap.put("pageSize",count);
-            studentlist = teacherService.selectByLimit(resultMap);
-        }else {
-            resultMap.put("startNum",0);
-            resultMap.put("pageSize",10);
-            studentlist = teacherService.selectByLimit(resultMap);
-        }
-        mv.addObject("Id", id);
-        mv.addObject("studentlist",studentlist);
-        mv.setViewName("/teacher_addstudent");
-        return mv;
-    }
 
     /**
      * 学生首页初始化
@@ -218,30 +189,6 @@ public class StudentController extends BaseController {
         return null;
     }
 
-    /**
-     * 根据前台传来的数据进行分页，获取后台数据
-     * @param id 该场考试的
-     * @param pageSize 传来的每页的大小
-     * @param nowPage 第几页
-     * @param type 判断是第一页，最后一页，还是正常分页 type = 1:首页，type=0:最后一页,type=2:正常分页
-     * @return
-     */
-    @RequestMapping("/getLimitPage")
-    @ResponseBody
-    public Map<String,Object> getLimitPage(@RequestParam(value = "Id") Integer id,@RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
-                                            @RequestParam(value = "nowPage" ,defaultValue = "1") Integer nowPage,@RequestParam(value = "type",defaultValue = "2") int type)
-    {
-        List<TStudent> studentlist = null;
-        Map<String,Object> map = new HashMap<>();
-        int count = teacherService.selectCountByExamId(id);
-        map = LimitPage.limitPage(id,count,pageSize,nowPage,type);
-        if(map == null){
-            return null;
-        }
-        studentlist = teacherService.selectByLimit(map);
-        resultMap.put("studentlist",studentlist);
-        return resultMap;
-    }
 
     /**
      * 删除学生

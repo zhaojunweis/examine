@@ -3,6 +3,7 @@ package com.examine.controller;
 import com.examine.common.controller.BaseController;
 import com.examine.common.controller.CommonController;
 import com.examine.common.util.ExcelUtils;
+import com.examine.common.util.LimitPage;
 import com.examine.common.util.StringUtils;
 import com.examine.common.util.ZipUtils;
 import com.examine.domain.TExam;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -63,33 +65,9 @@ public class TeacherController extends BaseController {
         this.notificationService = notificationService;
     }
 
-    /**
-     * 考前操作初始化
-     *
-     * @return
-     * @parame:
-     */
-    @RequestMapping("/teacher_exam_before")
-    public ModelAndView exam_Befor(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("examlists", commonController.getExamineInfo(t_name,1));
-        mv.setViewName("/teacher_exam_before");
-        return mv;
-    }
 
-    /**
-     * 靠后操作初始化
-     *
-     * @return
-     * @parame:
-     */
-    @RequestMapping("/teacher_exam_after")
-    public ModelAndView exam_after(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("examlists", commonController.getExamineInfo(t_name,0));
-        mv.setViewName("/teacher_exam_after");
-        return mv;
-    }
+
+
 
     /**
      * 考试概况初始化
@@ -501,18 +479,170 @@ public class TeacherController extends BaseController {
         resultMap.put("message", "未找到该学生的相关信息");
         return resultMap;
     }
-    /*@RequestMapping(value = "/doUnbinding")
-    public Map<String,Object> doUnbinding(@RequestParam(value = "sSno") String Sno){
-
-        boolean b = submitService.doUnbinding(Sno);
-        if (b){
-            resultMap.put("status",200);
-            resultMap.put("message","解绑成功");
-        }else {
-            resultMap.put("status",500);
-            resultMap.put("message","解绑失败");
+    /**
+     * 根据前台传来的数据进行分页，获取后台数据
+     * @param id 该场考试的
+     * @param pageSize 传来的每页的大小
+     * @param nowPage 第几页
+     * @param type 判断是第一页，最后一页，还是正常分页 type = 1:首页，type=0:最后一页,type=2:正常分页
+     * @return
+     */
+    @RequestMapping("/getLimitPage")
+    @ResponseBody
+    public Map<String,Object> getStudentLimitPage(@RequestParam(value = "Id") Integer id,@RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
+                                           @RequestParam(value = "nowPage" ,defaultValue = "1") Integer nowPage,@RequestParam(value = "type",defaultValue = "2") int type)
+    {
+        List<TStudent> studentlist = null;
+        Map<String,Object> map = new HashMap<>();
+        int count = teacherService.selectCountByExamId(id);
+        map = LimitPage.limitPage(id,count,pageSize,nowPage,type);
+        if(map == null){
+            return null;
         }
+        studentlist = teacherService.selectByLimit(map);
+        resultMap.put("studentlist",studentlist);
         return resultMap;
-    }*/
+    }
+    /**
+     * 考前管理界面的考试编辑中添加学生名单
+     *
+     * @return
+     * @parame:
+     */
+    @RequestMapping("/teacher_addstudent")
+    public ModelAndView showAddStudent(@RequestParam(value = "Id") int id) {
+
+        ModelAndView mv = new ModelAndView();
+        //读取第一页的数据limit 0,10 默认查询如果当前的数据总数count<= 10 则查询limit 0,count，如果count>10查询limit 0,10
+        int count = teacherService.selectCountByExamId(id);
+        List<TStudent> studentlist = null;
+
+        resultMap.put("examId",id);
+        if(count<=10){
+            resultMap.put("startNum",0);
+            resultMap.put("pageSize",count);
+            studentlist = teacherService.selectByLimit(resultMap);
+        }else {
+            resultMap.put("startNum",0);
+            resultMap.put("pageSize",10);
+            studentlist = teacherService.selectByLimit(resultMap);
+        }
+        mv.addObject("Id", id);
+        mv.addObject("studentlist",studentlist);
+        mv.setViewName("/teacher_addstudent");
+        return mv;
+    }
+    /**
+     * 考前操作初始化
+     *
+     * @return
+     * @parame:
+     */
+    @RequestMapping("/teacher_exam_before")
+    public ModelAndView exam_Befor(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
+        ModelAndView mv = new ModelAndView();
+        //查询出该教师对应有多少考前考试
+        int count = teacherService.selectCountExamBefore(t_name);
+        List<TExam> tExamList = null;
+        resultMap.put("tname",t_name);
+        resultMap.put("isStart",0);
+        resultMap.put("isFinished",0);
+        resultMap.put("isDelete",0);
+        if(count<=10){
+            resultMap.put("startNum",0);
+            resultMap.put("pageSize",count);
+            tExamList = teacherService.selectExamLimitBefore(resultMap);
+        }else {
+            resultMap.put("startNum",0);
+            resultMap.put("pageSize",10);
+            tExamList = teacherService.selectExamLimitBefore(resultMap);
+        }
+
+        mv.addObject("examlists", LimitPage.TransforToMap(tExamList));
+        mv.setViewName("/teacher_exam_before");
+        return mv;
+    }
+    /**
+     * 根据前台传来的数据进行分页，获取后台数据
+     * @param pageSize 传来的每页的大小
+     * @param nowPage 第几页
+     * @param type 判断是第一页，最后一页，还是正常分页 type = 1:首页，type=0:最后一页,type=2:正常分页
+     * @return
+     */
+    @RequestMapping("/getExamLimitPageBefore")
+    @ResponseBody
+    public Map<String,Object> getExamLimitPageBefore(HttpSession session,@RequestParam(value = "pageSize",
+                                                             defaultValue = "10") Integer pageSize, @RequestParam(value = "nowPage" ,defaultValue = "1")
+                                                             Integer nowPage,@RequestParam(value = "type",defaultValue = "2") int type)
+    {
+        String tName = (String) session.getAttribute("tName");
+        List<TExam> examList = null;
+        Map<String,Object> map = new HashMap<>();
+
+        int count = teacherService.selectCountExamBefore(tName);
+        map = LimitPage.limitPage(0,count,pageSize,nowPage,type);
+        if(map == null){
+            return null;
+        }
+        //flag=1為考前操作，=0為靠後操作
+        map.put("tname",tName);
+        examList = teacherService.selectExamLimitBefore(map);
+        resultMap.put("examlists",LimitPage.TransforToMap(examList));
+        return resultMap;
+    }
+
+
+    /**
+     * 靠后操作初始化
+     *
+     * @return
+     * @parame:
+     */
+    @RequestMapping("/teacher_exam_after")
+    public ModelAndView exam_after(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
+        ModelAndView mv = new ModelAndView();
+        //查询出该教师对应有多少考前考试
+        int count = teacherService.selectCountExamAfter(t_name);
+        List<TExam> tExamList = null;
+        resultMap.put("tname",t_name);
+        resultMap.put("isStart",0);
+        resultMap.put("isFinished",0);
+        if(count<=10){
+            resultMap.put("startNum",0);
+            resultMap.put("pageSize",count);
+            tExamList = teacherService.selectExamLimitAfter(resultMap);
+        }else {
+            resultMap.put("startNum",0);
+            resultMap.put("pageSize",10);
+            tExamList = teacherService.selectExamLimitAfter(resultMap);
+        }
+
+        mv.addObject("examlists", LimitPage.TransforToMap(tExamList));
+        mv.setViewName("/teacher_exam_after");
+        return mv;
+    }
+
+    @RequestMapping("/getExamLimitPageAfter")
+    @ResponseBody
+    public Map<String,Object> getExamLimitPageAfter(HttpSession session,@RequestParam(value = "pageSize",
+            defaultValue = "10") Integer pageSize, @RequestParam(value = "nowPage" ,defaultValue = "1")
+                                                       Integer nowPage,@RequestParam(value = "type",defaultValue = "2") int type)
+    {
+        String tName = (String) session.getAttribute("tName");
+        List<TExam> examList = null;
+        Map<String,Object> map = new HashMap<>();
+
+        int count = teacherService.selectCountExamAfter(tName);
+        map = LimitPage.limitPage(0,count,pageSize,nowPage,type);
+        if(map == null){
+            return null;
+        }
+        //flag=1為考前操作，=0為靠後操作
+        map.put("tname",tName);
+        examList = teacherService.selectExamLimitAfter(map);
+        resultMap.put("examlists",LimitPage.TransforToMap(examList));
+        return resultMap;
+    }
+
 
 }

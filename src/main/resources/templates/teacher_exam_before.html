@@ -120,6 +120,43 @@
             <li class = "error_info" id="ttimespan"></li>
         </div>
     </form>
+    <div class="row-fluid">
+        <div class="span6">
+            <form class="form-inline"  action="teacher_student" method="post">
+                分页大小 <input type="text" name="pageSize"
+                            value="10"
+                            class="input-small" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                            onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/> <input id="config_btn" type="button" class="btn" value="设置" />
+            </form>
+        </div>
+        <form style="text-align: right" class="form-inline"  action="teacher_student" method="get">
+            <a id="firstPage" title="第一页"
+               class="btn">
+                <i class="icon-fast-backward"></i>
+            </a>
+            <a id="prePage" title="前一页"
+               class="btn">
+                <i class="icon-step-backward"></i>
+            </a>
+            <input type="hidden" name="eid" value="1" />
+            <input type="text" name="pageNo"
+                   placeholder="请输入页码"
+                   class="input-small" value="1" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+            <button id="goPage" type="button" title="前往" class="btn">
+                <i class="icon-play"></i>
+            </button>
+            <a id="nextPage" title="后一页" class="btn disabled"
+            >
+                <i class="icon-step-forward"></i>
+            </a>
+            <a id="lastPage" title="最后一页"
+               class="btn disabled
+">
+                <i class="icon-fast-forward"></i>
+            </a>
+        </form>
+    </div>
 
     <table class="table table-striped table-bordered">
         <thead id="appen_tr">
@@ -159,7 +196,7 @@
 
         </tbody>
     </table>
-
+    <div style="margin-top: 20px;width: 100%;height: 100px;padding:40px;text-align: center" class="notfindinfo"></div>
 
 </div>
 <!-- /container -->
@@ -170,6 +207,7 @@
 <script src="js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="js/layer/layer.js"></script>
 <script src="js/locales/common_js.js "></script>
+<script src="js/examlimit.js"></script>
 <script type="text/javascript">
 
     $("#datetimepicker").datetimepicker({

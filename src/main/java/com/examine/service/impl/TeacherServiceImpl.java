@@ -2,6 +2,7 @@ package com.examine.service.impl;
 
 import com.examine.dao.SubmitMapper;
 import com.examine.dao.TeacherMapper;
+import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 import com.examine.service.ExamService;
@@ -239,5 +240,39 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<TStudent> selectByLimit(Map map) {
         return teacherMapper.selectByLimit(map);
+    }
+    /**
+     * 查询考前考试数量
+     * @param tname
+     * @return
+     */
+    @Override
+    public Integer selectCountExamBefore(String tname) {
+        return teacherMapper.selectCountExamBefore(tname);
+    }
+    /**
+     * 查询考后考试数量
+     * @param tname
+     * @return
+     */
+
+    @Override
+    public Integer selectCountExamAfter(String tname) {
+        return teacherMapper.selectCountExamAfter(tname);
+    }
+
+    /**
+     *  考前考後操作的考試分頁
+     * @param map
+     * @return
+     */
+    @Override
+    public List<TExam> selectExamLimitBefore(Map map) {
+        return teacherMapper.selectExamLimitBefore(map);
+    }
+
+    @Override
+    public List<TExam> selectExamLimitAfter(Map map) {
+        return teacherMapper.selectExamLimitAfter(map);
     }
 }
