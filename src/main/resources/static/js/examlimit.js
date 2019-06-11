@@ -16,6 +16,9 @@ $(document).ready(function () {
       /*  var examId = $("input[name='examId']").val();*/
         var pagesize = $("input[name='pageSize']").val();
         var nowpage = $("input[name='pageNo']").val();
+        if(nowpage==null){
+            $("input[name='pageNo']").val("1");
+        }
         $(".notfindinfo").empty();
 
         $.ajax({
@@ -113,6 +116,8 @@ $(document).ready(function () {
         //var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         // var nowpage = $("input[name='pageNo']").val();
+        //设置nowpage=1
+         $("input[name='pageNo']").val("1");
         var type = 1;
         $(".notfindinfo").empty();
         $.ajax({
@@ -220,6 +225,7 @@ $(document).ready(function () {
                 type: type,
             },
             success: function (data) {
+                $("input[name='pageNo']").val(data.lastpage);
                 //异步刷新考试列表信息
                 $("#appen_tr").empty();
                 $("#appen_tr").append("<tr>" +
