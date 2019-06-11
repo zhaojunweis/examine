@@ -143,7 +143,7 @@ body {
 	<input type="hidden" name="id" value="1">
     
 				<p id="exampaper" th:if="${examinfo.examPaperUrl==null}" class="text-warning">尚未上传试卷。</p>
-				<button   th:if="${examinfo.isStart==0 and examinfo.isFinished==0}" type="button" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> <span>开启</span></button>
+				<button   th:if="${examinfo.isStart==0 and examinfo.isFinished==0}" type="button" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> 开启</button>
 				<button  th:if="${examinfo.isStart==1 and examinfo.isFinished==0}" type="button" style="background: red" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i> 停止</button>
 				<button  th:if="${examinfo.isStart==0 and examinfo.isFinished==1}" type="button" style="background: gray" class="StartOrStop btn btn-warning btn-large"><i class="icon-off"></i>考试已结束 </button>
 
@@ -269,7 +269,7 @@ $(document).ready(function () {
 	/*
 	* 开启考试*/
 	$(".StartOrStop").click(function () {
-	    debugger
+
 		var tag = $(".StartOrStop").text().trim();
 	   var str = $("#exampaper").length;
 		if(tag == "开启"){
@@ -286,7 +286,7 @@ $(document).ready(function () {
                                 icon:1,
                                 skin:'layer-ext-moon',
                             });
-                            $(".StartOrStop").children("span").text("停止");
+                            $(".StartOrStop").text("停止");
                             $(".StartOrStop").css("background","red");
                         }else {
                             layer.alert(data.message,{
@@ -311,6 +311,7 @@ $(document).ready(function () {
 
 
 		}else if(tag == "停止"){
+            debugger;
             $.ajax({
                 type:'post',
                 url:'/stopExam',
@@ -324,7 +325,7 @@ $(document).ready(function () {
                             icon:1,
                             skin:'layer-ext-moon',
                         });
-                        $(".StartOrStop").children("span").text("考试已结束");
+                        $(".StartOrStop").text("考试已结束");
                         $(".StartOrStop").css("background","gray");
                     }else {
                         layer.alert(data.message,{

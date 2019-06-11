@@ -33,8 +33,7 @@ import java.util.Map;
 @Controller
 public class StudentController extends BaseController {
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(StudentController.class);
-
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(StudentController.class);   
     private final StudentService studentService;
 
     private final SubmitService submitService;

@@ -170,7 +170,8 @@ public class ExamController extends BaseController {
         } else {
             resultMap.put("status", 200);
             resultMap.put("message", "停止考试成功");
-            daemonService.changeStatus();
+            //daemonService.changeStatus();
+
         }
         return resultMap;
     }

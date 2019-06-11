@@ -99,6 +99,8 @@ public class AdministratorController extends BaseController {
         String password = "";
 
         if (teacherService.selectCountOtherAdminExceptAdmin()) {
+            //认证和授权
+
             username = tName;
            if(tPass.equals(teacherService.selectAdminByLoginMessage(tName))){
             password = tPass;
@@ -117,7 +119,6 @@ public class AdministratorController extends BaseController {
                 return resultMap;
             }
         }
-        //认证和授权
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
