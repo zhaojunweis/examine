@@ -2,6 +2,7 @@ package com.examine.controller;
 
 import com.examine.common.controller.BaseController;
 import com.examine.common.controller.CommonController;
+import com.examine.common.util.LimitPage;
 import com.examine.domain.TExam;
 import com.examine.domain.TSystem;
 import com.examine.service.*;
@@ -104,7 +105,14 @@ public class ExamController extends BaseController {
         if (isSuccess) {
             resultMap.put("status", 200);
             resultMap.put("message", "清理成功");
-            resultMap.put("examlists", commonController.getExamineInfo(t_name,0));
+            List<Map> examineInfo = null;
+            boolean isAdmin = teacherService.isAdmin(t_name);
+            if(isAdmin){
+                examineInfo = LimitPage.TransforToMap(examService.selectAllExamsInfo());
+            }else{
+                examineInfo = commonController.getExamineInfo(t_name, 0);
+            }
+            resultMap.put("examlists", examineInfo);
         } else {
             resultMap.put("status", 500);
             resultMap.put("message", "清理失败");

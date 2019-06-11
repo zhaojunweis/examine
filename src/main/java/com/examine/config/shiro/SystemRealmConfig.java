@@ -80,13 +80,12 @@ public class SystemRealmConfig {
         filterChainDefinitionMap.put("/admin_config","perms[/admin_config]");
 
         //test
-       // filterChainDefinitionMap.put("/success","perms[/test20]");
+        //filterChainDefinitionMap.put("/success","perms[/test20]");
 
-     /*   shiroFilterFactoryBean.setLoginUrl("/login");
-*/
+        shiroFilterFactoryBean.setLoginUrl("/");
         //shiroFilterFactoryBean.setSuccessUrl("/index");
 
-        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 

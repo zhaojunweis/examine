@@ -109,4 +109,10 @@ public interface ExamMapper {
      */
     boolean finishedIsDelete(Integer Id);
 
+    /**
+     * 查询所有考试
+     *
+     * @return
+     */
+    List<TExam> selectAllExamsInfo();
 }

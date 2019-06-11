@@ -46,5 +46,7 @@ public interface TeacherService {
 
     List<TExam> selectExamLimitAfter(Map map);
 
+    boolean isAdmin(String tName);
+
 
 }

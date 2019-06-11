@@ -28,9 +28,9 @@
             <span class="lab1">用户名称: &nbsp&nbsp</span>
             <input type="text" name="name" placeholder="用户名" th:value="${oneTeacher.tName}" style="width:70%;margin: 0px"  onblur="validateTest('name')" onkeyup="validateTest('name')" />
              <div class="error_div" id="namespan"></div>
-            <span class="lab1">初始口令: &nbsp&nbsp</span>
-            <input type="text" name="pass" placeholder="初始口令"   style="width:70%;margin: 0px" onblur="validateTest('pass')" onkeyup="validateTest('pass')"/>
-              <div class ="error_div" id="passspan"></div>
+          <!--  <span class="lab1">初始口令: &nbsp&nbsp</span>-->
+            <!--<input type="text" name="pass" placeholder="初始口令"   style="width:70%;margin: 0px" onblur="validateTest('pass')" onkeyup="validateTest('pass')"/>-->
+             <!-- <div class ="error_div" id="passspan"></div>-->
              <span class="lab1">真实姓名: &nbsp&nbsp</span>
             <input type="text" name="fullname" placeholder="真实姓名"  th:value="${oneTeacher.tRealName}" style="width:70%;margin: 0px"  onblur="validateTest('fullname')" onkeyup="validateTest('fullname')"/>
             <div  class ="error_div"  id="fullnamespan"></div>
@@ -71,7 +71,7 @@
                     return true;
                 }
                 break;
-            case "pass":
+           /* case "pass":
                 contentReg =  /^[a-zA-Z0-9]{6,10}$/;
                 if(!contentReg.test(content)){
                     debugger
@@ -86,7 +86,7 @@
                     $("#passspan").text("");
                     return true;
                 }
-                break;
+                break;*/
             case "fullname":
                 contentReg = /^[\u4e00-\u9fa5_a-zA-Z]{1,15}$/;
                 if(!contentReg.test(content)){
@@ -110,7 +110,7 @@
         $("#btn_change").click(function () {
             var Id = $(this).parent().children("#t_Id").val();
             var name = $("input[name='name']").val();
-            var pass = $("input[name='pass']").val();
+           /* var pass = $("input[name='pass']").val();*/
             var funname = $("input[name='fullname']").val();
             var admin ;
             var tatus = $("input[name='isadmin']").prop("checked");
@@ -121,14 +121,14 @@
                 admin = 0;
             }
             debugger
-            if(validateTest("name")&&validateTest("pass")&&validateTest("fullname")){
+            if(validateTest("name")/*&&validateTest("pass")*/&&validateTest("fullname")){
                 $.ajax({
                     type:'post',
                     url:'/updateTeacherById',
                     data:{
                         id:Id,
                         tName:name,
-                        tPass:pass,
+                        /*tPass:pass,*/
                         tRealName:funname,
                         tIsAdmin:admin,
                     },

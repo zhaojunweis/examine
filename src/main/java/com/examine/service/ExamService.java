@@ -33,4 +33,6 @@ public interface ExamService {
     List<TExam> selectAfterExamInfo(String tName);
 
     boolean finishedIsDelete(Integer Id);
+
+    List<TExam> selectAllExamsInfo();
 }

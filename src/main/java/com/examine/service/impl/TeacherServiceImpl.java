@@ -275,4 +275,22 @@ public class TeacherServiceImpl implements TeacherService {
     public List<TExam> selectExamLimitAfter(Map map) {
         return teacherMapper.selectExamLimitAfter(map);
     }
+
+    /**
+     * 判断是否是Admin
+     *
+     * @param tName
+     * @return
+     */
+    @Override
+    public boolean isAdmin(String tName) {
+       int isAdmin = teacherMapper.isAdmin(tName);
+       boolean flag = false;
+       if(isAdmin == 1){
+            flag = true;
+       }
+       return flag;
+    }
+
+
 }

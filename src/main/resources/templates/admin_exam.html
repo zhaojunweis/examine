@@ -85,7 +85,7 @@ body {
 
 
 <table class="table table-striped table-bordered">
-	<thead>
+	<thead id="appen_tr">
 		<tr>
 			<th class="span3">考试名称</th>
 			<th class="span3">考试时间</th>
@@ -180,10 +180,76 @@ body {
                            },
                            success:function (data) {
                                if(data.status == 200){
+
+
+                                   debugger
+                                   //异步刷新考试列表信息
+                                   $("#appen_tr").empty();
+                                   $("#appen_tr").append("<tr>" +
+                                       "<th class=\"span3\">考试名称</th>" +
+                                       "<th class=\"span3\">考试时间</th>" +
+                                       "<th>创建人</th>" +
+                                       "<th>上传试卷</th>" +
+                                       "<th>自动开始</th>" +
+                                       "<th>进行中</th>" +
+                                       "<th>已结束</th>" +
+                                       "<th>已归档</th>" +
+                                       "<th>已清理</th>" +
+                                       "<th>操作</th></tr>");
+                                   var list = data.examlists;
+                                   debugger
+                                   for (var i = 0; i < list.length; i++) {
+                                       debugger;
+                                       var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
+                                       if(list[i].isautostart == '1'){
+                                           str_isauto="<th><img src='img/gouxuan1.png'></th>";
+                                       }else{
+                                           str_isauto = "<th></th>";
+                                       }
+                                       if(list[i].isexam == '1'){
+                                           str_inexam="<th><img src='img/gouxuan1.png'></th>";
+                                       }else{
+                                           str_inexam = "<th></th>";
+                                       }
+                                       if(list[i].isfinished == '1'){
+                                           str_isfinish="<th><img src='img/gouxuan1.png'></th>";
+                                       }else{
+                                           str_isfinish = "<th></th>";
+                                       }
+                                       if(list[i].ispageonhole == '1'){
+                                           str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
+                                       }else{
+                                           str_pageonhole = "<th  class='is_pageonhole'></th>";
+                                       }
+                                       if(list[i].isdelete == '1'){
+                                           str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
+                                       }else{
+                                           str_isdelete = "<th class='is_delete'></th>";
+                                       }
+                                       if(list[i].exampaper_url !=null){
+                                           exam_url="<th><img src='img/gouxuan1.png'></th>";
+                                       }else{
+                                           exam_url = "<th></th>";
+                                       }
+                                       $("#appen_tr").append("<tr>" +
+                                           "<input class='examId' type='hidden' value="+ list[i].examId+">"+
+
+                                           "<th class=\"span3\">" + list[i].examname + "</th>" +
+                                           "<th class=\"span3\">" + list[i].exam_time + "</th>" +
+                                           "<th>" + list[i].create_name + "</th>" +
+                                           exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
+                                           "<th>" +
+                                           " <button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>" +
+                                           "</th></tr>");
+                                   }
+
+
                                    layer.alert(data.message,{
                                        icon:1,
                                        skin:'layer-ext-moon',
 								   });
+
+
                                }else{
                                    layer.alert(data.message,{
                                        icon:2,

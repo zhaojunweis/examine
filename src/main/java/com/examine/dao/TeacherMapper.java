@@ -144,4 +144,12 @@ public interface TeacherMapper {
      * @return
      */
     List<TExam> selectExamLimitAfter(Map map);
+
+    /**
+     * 判断教师是否为管理员
+     *
+     * @param tName
+     * @return
+     */
+    Integer isAdmin(String tName);
 }

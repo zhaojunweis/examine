@@ -256,7 +256,7 @@ public class AdministratorController extends BaseController {
          * */
         TTeacher teacherintable = teacherService.selectTeacherById((int) teacher.getId());
 
-        if (teacherintable.gettName().equals(teacher.gettName()) && teacherintable.gettPass().equals(teacher.gettPass()) &&
+        if (teacherintable.gettName().equals(teacher.gettName())/* && teacherintable.gettPass().equals(teacher.gettPass()) */&&
                 teacherintable.gettRealName().equals(teacher.gettRealName()) && teacherintable.gettIsAdmin() == teacher.gettIsAdmin()) {
             resultMap.put("status", "500");
             resultMap.put("message", "编辑信息未变动,请重新编辑");
