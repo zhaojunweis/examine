@@ -30,23 +30,27 @@ public  class LimitPage {
     public static Map<String,Object> limitPage(Integer examId,Integer count,Integer pageSize,Integer nowPage,Integer type){
 
         int startNum = 0,pSize = 0;
+        int lastpage = 0;
         Map<String,Object> map = new HashMap<>();
         switch (type){
             case 0:
                 int page = count/pageSize;
                 int abovecount = count%pageSize;
                 if(abovecount!=0){
-                    startNum = page*pageSize-1;
+                    startNum = page*pageSize;
                     if(startNum<=0){
                         startNum = 0;
                     }
                     pSize = abovecount;
+                    //最后一页
+                    lastpage = page+1;
                 }else if (abovecount == 0){
-                    startNum = (page-1)*pageSize-1;
+                    startNum = (page-1)*pageSize;
                     if(startNum<=0){
                         startNum = 0;
                     }
                     pSize = pageSize;
+                    lastpage = page;
                 }
                 break;
             case 1:
@@ -61,13 +65,13 @@ public  class LimitPage {
             default:
                 int precount = pageSize*(nowPage-1),lastcount = pageSize*nowPage;
                 if((precount<count) && (lastcount<=count)){
-                    startNum = precount-1;
+                    startNum = precount;
                     if(startNum<=0){
                         startNum = 0;
                     }
                     pSize = pageSize;
                 }else if(precount<count && lastcount>count){
-                    startNum = precount-1;
+                    startNum = precount;
                     if(startNum<=0){
                         startNum = 0;
                     }
@@ -80,6 +84,7 @@ public  class LimitPage {
         map.put("examId",examId);
         map.put("startNum",startNum);
         map.put("pageSize",pSize);
+        map.put("lastpage",lastpage);
         return map;
     }
 
