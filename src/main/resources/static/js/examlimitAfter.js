@@ -17,7 +17,9 @@ $(document).ready(function () {
         var pagesize = $("input[name='pageSize']").val();
         var nowpage = $("input[name='pageNo']").val();
         $(".notfindinfo").empty();
-
+        if(nowpage==null){
+            $("input[name='pageNo']").val("1");
+        }
         $.ajax({
             type: 'post',
             url: "/getExamLimitPageAfter",
@@ -43,6 +45,7 @@ $(document).ready(function () {
                 var list = data.examlists;
                 if(list!=null){
                     for (var i = 0; i < list.length; i++) {
+                        debugger;
                         var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
                         if(list[i].isautostart == '1'){
                             str_isauto="<th><img src='img/gouxuan1.png'></th>";
@@ -60,14 +63,14 @@ $(document).ready(function () {
                             str_isfinish = "<th></th>";
                         }
                         if(list[i].ispageonhole == '1'){
-                            str_pageonhole="<th><img src='img/gouxuan1.png'></th>";
+                            str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_pageonhole = "<th></th>";
+                            str_pageonhole = "<th  class='is_pageonhole'></th>";
                         }
                         if(list[i].isdelete == '1'){
-                            str_isdelete="<th><img src='img/gouxuan1.png'></th>";
+                            str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_isdelete = "<th></th>";
+                            str_isdelete = "<th class='is_delete'></th>";
                         }
                         if(list[i].exampaper_url !=null){
                             exam_url="<th><img src='img/gouxuan1.png'></th>";
@@ -81,7 +84,10 @@ $(document).ready(function () {
                             "<th class=\"span3\">" + list[i].exam_time + "</th>" +
                             "<th>" + list[i].create_name + "</th>" +
                             exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
-                            "<th><a class = 'btn edit_exam'><span class = \"icon-edit\"></span></a></th></tr>");
+                            "<th>" +
+                            "<button class='btn btn-primary pageonhole' style='padding: 1px 6px;margin-left:2px;'>归档</button>" +
+                            "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>" +
+                            "</th></tr>");
                     }
                 }else{
                     $("#appen_tr").empty();
@@ -115,6 +121,8 @@ $(document).ready(function () {
         // var nowpage = $("input[name='pageNo']").val();
         var type = 1;
         $(".notfindinfo").empty();
+        //设置nowpage=1
+        $("input[name='pageNo']").val("1");
         $.ajax({
             type: 'post',
             url: "/getExamLimitPageAfter",
@@ -140,6 +148,7 @@ $(document).ready(function () {
                 var list = data.examlists;
                 if(list!=null){
                     for (var i = 0; i < list.length; i++) {
+                        debugger;
                         var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
                         if(list[i].isautostart == '1'){
                             str_isauto="<th><img src='img/gouxuan1.png'></th>";
@@ -157,14 +166,14 @@ $(document).ready(function () {
                             str_isfinish = "<th></th>";
                         }
                         if(list[i].ispageonhole == '1'){
-                            str_pageonhole="<th><img src='img/gouxuan1.png'></th>";
+                            str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_pageonhole = "<th></th>";
+                            str_pageonhole = "<th  class='is_pageonhole'></th>";
                         }
                         if(list[i].isdelete == '1'){
-                            str_isdelete="<th><img src='img/gouxuan1.png'></th>";
+                            str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_isdelete = "<th></th>";
+                            str_isdelete = "<th class='is_delete'></th>";
                         }
                         if(list[i].exampaper_url !=null){
                             exam_url="<th><img src='img/gouxuan1.png'></th>";
@@ -223,6 +232,7 @@ $(document).ready(function () {
                 type: type,
             },
             success: function (data) {
+                $("input[name='pageNo']").val(data.lastpage);
                 //异步刷新考试列表信息
                 $("#appen_tr").empty();
                 $("#appen_tr").append("<tr>" +
@@ -239,6 +249,7 @@ $(document).ready(function () {
                 var list = data.examlists;
                 if(list!=null){
                     for (var i = 0; i < list.length; i++) {
+                        debugger;
                         var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
                         if(list[i].isautostart == '1'){
                             str_isauto="<th><img src='img/gouxuan1.png'></th>";
@@ -256,14 +267,14 @@ $(document).ready(function () {
                             str_isfinish = "<th></th>";
                         }
                         if(list[i].ispageonhole == '1'){
-                            str_pageonhole="<th><img src='img/gouxuan1.png'></th>";
+                            str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_pageonhole = "<th></th>";
+                            str_pageonhole = "<th  class='is_pageonhole'></th>";
                         }
                         if(list[i].isdelete == '1'){
-                            str_isdelete="<th><img src='img/gouxuan1.png'></th>";
+                            str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_isdelete = "<th></th>";
+                            str_isdelete = "<th class='is_delete'></th>";
                         }
                         if(list[i].exampaper_url !=null){
                             exam_url="<th><img src='img/gouxuan1.png'></th>";
@@ -277,7 +288,10 @@ $(document).ready(function () {
                             "<th class=\"span3\">" + list[i].exam_time + "</th>" +
                             "<th>" + list[i].create_name + "</th>" +
                             exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
-                            "<th><a class = 'btn edit_exam'><span class = \"icon-edit\"></span></a></th></tr>");
+                            "<th>" +
+                            "<button class='btn btn-primary pageonhole' style='padding: 1px 6px;margin-left:2px;'>归档</button>" +
+                            "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>" +
+                            "</th></tr>");
                     }
                 }else{
                     $("#appen_tr").empty();
@@ -335,6 +349,7 @@ $(document).ready(function () {
                 var list = data.examlists;
                 if(list!=null){
                     for (var i = 0; i < list.length; i++) {
+                        debugger;
                         var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
                         if(list[i].isautostart == '1'){
                             str_isauto="<th><img src='img/gouxuan1.png'></th>";
@@ -352,14 +367,14 @@ $(document).ready(function () {
                             str_isfinish = "<th></th>";
                         }
                         if(list[i].ispageonhole == '1'){
-                            str_pageonhole="<th><img src='img/gouxuan1.png'></th>";
+                            str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_pageonhole = "<th></th>";
+                            str_pageonhole = "<th  class='is_pageonhole'></th>";
                         }
                         if(list[i].isdelete == '1'){
-                            str_isdelete="<th><img src='img/gouxuan1.png'></th>";
+                            str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_isdelete = "<th></th>";
+                            str_isdelete = "<th class='is_delete'></th>";
                         }
                         if(list[i].exampaper_url !=null){
                             exam_url="<th><img src='img/gouxuan1.png'></th>";
@@ -373,7 +388,10 @@ $(document).ready(function () {
                             "<th class=\"span3\">" + list[i].exam_time + "</th>" +
                             "<th>" + list[i].create_name + "</th>" +
                             exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
-                            "<th><a class = 'btn edit_exam'><span class = \"icon-edit\"></span></a></th></tr>");
+                            "<th>" +
+                            "<button class='btn btn-primary pageonhole' style='padding: 1px 6px;margin-left:2px;'>归档</button>" +
+                            "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>" +
+                            "</th></tr>");
                     }
                 }else{
                     $("#appen_tr").empty();
@@ -434,6 +452,7 @@ $(document).ready(function () {
                 var list = data.examlists;
                 if(list!=null){
                     for (var i = 0; i < list.length; i++) {
+                        debugger;
                         var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
                         if(list[i].isautostart == '1'){
                             str_isauto="<th><img src='img/gouxuan1.png'></th>";
@@ -451,14 +470,14 @@ $(document).ready(function () {
                             str_isfinish = "<th></th>";
                         }
                         if(list[i].ispageonhole == '1'){
-                            str_pageonhole="<th><img src='img/gouxuan1.png'></th>";
+                            str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_pageonhole = "<th></th>";
+                            str_pageonhole = "<th  class='is_pageonhole'></th>";
                         }
                         if(list[i].isdelete == '1'){
-                            str_isdelete="<th><img src='img/gouxuan1.png'></th>";
+                            str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_isdelete = "<th></th>";
+                            str_isdelete = "<th class='is_delete'></th>";
                         }
                         if(list[i].exampaper_url !=null){
                             exam_url="<th><img src='img/gouxuan1.png'></th>";
@@ -472,7 +491,10 @@ $(document).ready(function () {
                             "<th class=\"span3\">" + list[i].exam_time + "</th>" +
                             "<th>" + list[i].create_name + "</th>" +
                             exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
-                            "<th><a class = 'btn edit_exam'><span class = \"icon-edit\"></span></a></th></tr>");
+                            "<th>" +
+                            "<button class='btn btn-primary pageonhole' style='padding: 1px 6px;margin-left:2px;'>归档</button>" +
+                            "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>" +
+                            "</th></tr>");
                     }
                 }else{
                     $("#appen_tr").empty();
@@ -535,6 +557,7 @@ $(document).ready(function () {
                 var list = data.examlists;
                 if(list!=null){
                     for (var i = 0; i < list.length; i++) {
+                        debugger;
                         var str_isauto,str_inexam,str_isfinish,str_pageonhole,str_isdelete,exam_url;
                         if(list[i].isautostart == '1'){
                             str_isauto="<th><img src='img/gouxuan1.png'></th>";
@@ -552,14 +575,14 @@ $(document).ready(function () {
                             str_isfinish = "<th></th>";
                         }
                         if(list[i].ispageonhole == '1'){
-                            str_pageonhole="<th><img src='img/gouxuan1.png'></th>";
+                            str_pageonhole="<th class='is_pageonhole'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_pageonhole = "<th></th>";
+                            str_pageonhole = "<th  class='is_pageonhole'></th>";
                         }
                         if(list[i].isdelete == '1'){
-                            str_isdelete="<th><img src='img/gouxuan1.png'></th>";
+                            str_isdelete="<th class='is_delete'><img src='img/gouxuan1.png'></th>";
                         }else{
-                            str_isdelete = "<th></th>";
+                            str_isdelete = "<th class='is_delete'></th>";
                         }
                         if(list[i].exampaper_url !=null){
                             exam_url="<th><img src='img/gouxuan1.png'></th>";
@@ -573,7 +596,10 @@ $(document).ready(function () {
                             "<th class=\"span3\">" + list[i].exam_time + "</th>" +
                             "<th>" + list[i].create_name + "</th>" +
                             exam_url+str_isauto+str_inexam+str_isfinish+str_pageonhole+str_isdelete+
-                            "<th><a class = 'btn edit_exam'><span class = \"icon-edit\"></span></a></th></tr>");
+                            "<th>" +
+                            "<button class='btn btn-primary pageonhole' style='padding: 1px 6px;margin-left:2px;'>归档</button>" +
+                            "<button class='btn btn-primary delete' style='padding: 1px 6px;margin-left:2px;'>清理</button>" +
+                            "</th></tr>");
                     }
                 }else{
                     $("#appen_tr").empty();

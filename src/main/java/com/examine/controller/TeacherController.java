@@ -545,9 +545,6 @@ public class TeacherController extends BaseController {
         int count = teacherService.selectCountExamBefore(t_name);
         List<TExam> tExamList = null;
         resultMap.put("tname",t_name);
-        resultMap.put("isStart",0);
-        resultMap.put("isFinished",0);
-        resultMap.put("isDelete",0);
         if(count<=10){
             resultMap.put("startNum",0);
             resultMap.put("pageSize",count);
@@ -588,6 +585,7 @@ public class TeacherController extends BaseController {
         map.put("tname",tName);
         examList = teacherService.selectExamLimitBefore(map);
         resultMap.put("examlists",LimitPage.TransforToMap(examList));
+        resultMap.put("lastpage",map.get("lastpage"));
         return resultMap;
     }
 
@@ -605,8 +603,6 @@ public class TeacherController extends BaseController {
         int count = teacherService.selectCountExamAfter(t_name);
         List<TExam> tExamList = null;
         resultMap.put("tname",t_name);
-        resultMap.put("isStart",0);
-        resultMap.put("isFinished",0);
         if(count<=10){
             resultMap.put("startNum",0);
             resultMap.put("pageSize",count);
@@ -640,6 +636,7 @@ public class TeacherController extends BaseController {
         //flag=1為考前操作，=0為靠後操作
         map.put("tname",tName);
         examList = teacherService.selectExamLimitAfter(map);
+        resultMap.put("lastpage",map.get("lastpage"));
         resultMap.put("examlists",LimitPage.TransforToMap(examList));
         return resultMap;
     }
