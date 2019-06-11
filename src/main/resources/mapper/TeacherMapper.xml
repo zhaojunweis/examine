@@ -18,6 +18,18 @@
         <result property="sScoreId" column="s_score_Id"/>
         <result property="sIsDelete" column="s_is_delete"/>
     </resultMap>
+    <resultMap id="examMapForLimit" type="com.examine.domain.TExam">
+        <id property="id" column="id"/>
+        <result property="examName" column="exam_name"/>
+        <result property="examStartTime" column="exam_start_time"/>
+        <result property="tName" column="t_name"/>
+        <result property="examPaperUrl" column="exam_paper_url"/>
+        <result property="isAutoStart" column="is_auto_start"/>
+        <result property="isStart" column="is_start"/>
+        <result property="isPigeonhole" column="is_pigeonhole"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="isFinished" column="is_finished"/>
+    </resultMap>
 
     <resultMap id="teacherBaseShiro" type="com.examine.domain.TTeacher">
         <id property="id" column="id"/>
@@ -166,4 +178,25 @@
     <select id="selectByLimit" parameterType="Map" resultMap="studentMapForLimit">
         select * from t_student where s_score_Id = #{examId} limit #{startNum},#{pageSize}
     </select>
+    <!--查询教师对应的考前考试数量-->
+    <select id="selectCountExamBefore" parameterType="String" resultType="Integer">
+        select count(*) from  t_exam  where t_name = #{tname} and is_start = 0 and is_finished = 0 and is_delete = 0
+    </select>
+    <!--查询教师对应的考后考试数量-->
+    <select id="selectCountExamAfter" parameterType="String" resultType="Integer">
+        select count(*) from  t_exam  where t_name = #{tname} and is_start = 0 and is_finished = 1
+    </select>
+    <!--考前靠后操作的分頁，傳入tname,startnum,pagesize-->
+    <select id="selectExamLimitBefore" parameterType="Map" resultMap="examMapForLimit">
+        select * from t_exam
+        where  t_name = #{tname} and is_start = 0 and is_finished = 0 and is_delete = 0 limit #{startNum},#{pageSize}
+    </select>
+    <select id="selectExamLimitAfter" parameterType="Map" resultMap="examMapForLimit">
+        select * from t_exam
+        where  t_name = #{tname} and is_start = 0 and is_finished = 0  limit #{startNum},#{pageSize}
+    </select>
+    <!--&lt;!&ndash;靠后操作的分頁，傳入tname,startnum,pagesize&ndash;&gt;
+    <select id="selectExamLimit" parameterType="Map" resultMap="examMapForLimit">
+        select * from t_exam where t_name = #{tname} and is_start = 0 and is_finished = 1  limit #{startNum},#{pageSize}
+    </select>-->
 </mapper>
