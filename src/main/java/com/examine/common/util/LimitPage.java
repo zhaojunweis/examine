@@ -1,11 +1,9 @@
 package com.examine.common.util;
 
+import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ProjectName: examine
@@ -78,6 +76,33 @@ public  class LimitPage {
         map.put("startNum",startNum);
         map.put("pageSize",pSize);
         return map;
+    }
+
+    /**
+     * 对获得的考试列表进行处理
+     * @param tExams
+     * @return
+     */
+    public static  List<Map>  TransforToMap(List<TExam> tExams){
+        List<Map> listmap = new ArrayList<>();
+        if (tExams != null) {
+            for (TExam tExam : tExams) {
+                Map<Object, Object> resultMap = new HashMap<>();
+                resultMap.put("examname", tExam.getExamName());
+                resultMap.put("exam_time", tExam.getExamStartTime());
+                resultMap.put("create_name", tExam.gettName());
+                resultMap.put("examId", tExam.getId());
+                resultMap.put("isautostart", tExam.getIsAutoStart());
+                resultMap.put("isexam", tExam.getIsStart());
+                resultMap.put("isfinished", tExam.getIsFinished());
+                resultMap.put("ispageonhole", tExam.getIsPigeonhole());
+                resultMap.put("isdelete", tExam.getIsDelete());
+                resultMap.put("exampaper_url", tExam.getExamPaperUrl());
+                listmap.add(resultMap);
+            }
+        }
+
+        return listmap;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.examine.service;
 
+import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
 import com.examine.domain.TTeacher;
 
@@ -36,4 +37,14 @@ public interface TeacherService {
     Integer selectCountByExamId(Integer examId);
 
     List<TStudent> selectByLimit(Map map);
+
+    Integer selectCountExamBefore(String tname);
+
+    Integer selectCountExamAfter(String tname);
+
+    List<TExam> selectExamLimitBefore(Map map);
+
+    List<TExam> selectExamLimitAfter(Map map);
+
+
 }

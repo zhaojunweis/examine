@@ -9,12 +9,15 @@ function setType(typeId,type){
 
 $(document).ready(function () {
 
+
+
     //设置 对页面大小及页号进行正则判断
     $(document).on("click", "#config_btn", function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         var nowpage = $("input[name='pageNo']").val();
         $(".notfindinfo").empty();
+
         $.ajax({
             type: 'post',
             url: "/getLimitPage",
