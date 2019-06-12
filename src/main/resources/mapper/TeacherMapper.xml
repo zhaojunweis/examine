@@ -195,6 +195,14 @@
         select * from t_exam
         where  t_name = #{tname} and is_start = 0 and is_finished = 1  limit #{startNum},#{pageSize}
     </select>
+    <!--&lt;!&ndash;靠后操作的分頁，傳入tname,startnum,pagesize&ndash;&gt;
+    <select id="selectExamLimit" parameterType="Map" resultMap="examMapForLimit">
+        select * from t_exam where t_name = #{tname} and is_start = 0 and is_finished = 1  limit #{startNum},#{pageSize}
+    </select>-->
+
+    <select id = "isAdmin" parameterType="String" resultType="Integer">
+        select role_id from t_teacher where t_name = #{tName}
+    </select>
     <!--查询所有的考试数量-->
     <select id="selectAllExamCount" resultType="Integer">
         select count(*) from t_exam

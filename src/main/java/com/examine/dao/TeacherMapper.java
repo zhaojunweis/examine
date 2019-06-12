@@ -146,6 +146,13 @@ public interface TeacherMapper {
     List<TExam> selectExamLimitAfter(Map map);
 
     /**
+     * 判断教师是否为管理员
+     *
+     * @param tName
+     * @return
+     */
+    Integer isAdmin(String tName);
+     /**
      * 查询所有考试数量
      * @return
      */

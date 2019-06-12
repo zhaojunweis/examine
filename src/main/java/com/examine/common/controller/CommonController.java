@@ -86,7 +86,7 @@ public class CommonController extends BaseController {
          * 根据type参数来区分管理员请求和单个教师请求
          * */
         if (type.equals("") && examTime == -1) {
-            tExams = examService.selectAllExamInfo();
+            tExams = examService.selectAllExamsInfo();
         } else {
             //考后
             if (examTime == 0) {

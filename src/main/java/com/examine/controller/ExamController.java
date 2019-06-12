@@ -93,7 +93,14 @@ public class ExamController extends BaseController {
         if (isSuccess) {
             resultMap.put("status", 200);
             resultMap.put("message", "清理成功");
-            resultMap.put("examlists", commonController.getExamineInfo(t_name,0));
+            List<Map> examineInfo = null;
+            boolean isAdmin = teacherService.isAdmin(t_name);
+            if(isAdmin){
+                examineInfo = LimitPage.TransforToMap(examService.selectAllExamsInfo());
+            }else{
+                examineInfo = commonController.getExamineInfo(t_name, 0);
+            }
+            resultMap.put("examlists", examineInfo);
         } else {
             resultMap.put("status", 500);
             resultMap.put("message", "清理失败");

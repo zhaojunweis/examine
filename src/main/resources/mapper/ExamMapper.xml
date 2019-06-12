@@ -64,6 +64,10 @@
          select * from t_exam where is_delete = 0
     </select>
 
+    <select id="selectAllExamsInfo" resultMap="examBaseMapper">
+         select * from t_exam
+    </select>
+
     <!--修改为考前考试-->
     <select id="selectBeforeExamInfo" resultMap="examBaseMapper" parameterType="String">
          select * from t_exam where is_delete = 0 and is_start = 0 and is_finished = 0 and t_name = #{tName}

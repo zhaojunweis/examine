@@ -193,4 +193,15 @@ public class ExamServiceImpl implements ExamService {
     public boolean finishedIsDelete(Integer Id) {
         return examMapper.finishedIsDelete(Id);
     }
+
+    /**
+     * 查询所有考试，包括删除的信息
+     *
+     * @return
+     */
+    @Override
+    public List<TExam> selectAllExamsInfo() {
+
+        return examMapper.selectAllExamsInfo();
+    }
 }
