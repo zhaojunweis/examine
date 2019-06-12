@@ -280,10 +280,10 @@ public class TeacherController extends BaseController {
             boolean importStatus = studentService.importStudentInfo(uploadexcel);
             if (!importStatus) {
                 resultMap.put("status", "500");
-                resultMap.put("message", "import failed");
+                resultMap.put("message", "学生名单导入失败");
             }
             resultMap.put("status", "200");
-            resultMap.put("message", "import success");
+            resultMap.put("message", "学生名单导入成功");
         }
         return resultMap;
     }
@@ -360,10 +360,10 @@ public class TeacherController extends BaseController {
         boolean flag = studentService.insertStudent(student);
         if (!flag) {
             resultMap.put("status", 500);
-            resultMap.put("message", "insert failed");
+            resultMap.put("message", "学生添加失败");
         }
         resultMap.put("status", 200);
-        resultMap.put("message", "insert success");
+        resultMap.put("message", "学生添加成功");
         return resultMap;
     }
 
@@ -501,6 +501,7 @@ public class TeacherController extends BaseController {
         }
         studentlist = teacherService.selectByLimit(map);
         resultMap.put("studentlist",studentlist);
+        resultMap.put("lastpage",map.get("lastpage"));
         return resultMap;
     }
     /**

@@ -31,10 +31,10 @@ public class SystemController extends BaseController {
         boolean flag = systemService.updateSystemConfigure(system);
         if(!flag){
             resultMap.put("status",500);
-            resultMap.put("message","insert system configure failed");
+            resultMap.put("message","系统配置修改失败");
         }
         resultMap.put("status",200);
-        resultMap.put("message","insert system configure success");
+        resultMap.put("message","系统配置修改成功");
         return resultMap;
     }
     /*
