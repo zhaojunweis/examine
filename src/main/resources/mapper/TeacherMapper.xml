@@ -195,8 +195,12 @@
         select * from t_exam
         where  t_name = #{tname} and is_start = 0 and is_finished = 1  limit #{startNum},#{pageSize}
     </select>
-    <!--&lt;!&ndash;靠后操作的分頁，傳入tname,startnum,pagesize&ndash;&gt;
-    <select id="selectExamLimit" parameterType="Map" resultMap="examMapForLimit">
-        select * from t_exam where t_name = #{tname} and is_start = 0 and is_finished = 1  limit #{startNum},#{pageSize}
-    </select>-->
+    <!--查询所有的考试数量-->
+    <select id="selectAllExamCount" resultType="Integer">
+        select count(*) from t_exam
+    </select>
+    <!--分页查询所有的考试-->
+    <select id="selectAllExamLimit" parameterType="Map" resultMap="examMapForLimit">
+        select * from t_exam  limit #{startNum},#{pageSize}
+    </select>
 </mapper>
