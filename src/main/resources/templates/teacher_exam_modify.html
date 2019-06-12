@@ -164,7 +164,7 @@ body {
 </html>
 
 <script type="text/javascript">
-
+	var index;
 
 $("#datetimepicker").datetimepicker({
     format: "yyyy-mm-dd hh:ii",
@@ -184,6 +184,8 @@ $(document).ready(function () {
     * */
         $("#submitfile").click(function () {
             if($("input[name='paper']").val().length!=0){
+                index = layer.load(1, {
+                    shade: [0.1,'#333']});
                 var formdata = new FormData();
                 formdata.append("multipartFile",$("#paper")[0].files[0]);
                 $.ajax({
@@ -195,6 +197,7 @@ $(document).ready(function () {
                     dataType:'json',
                     mimeType:'multipart/form-data',
                     success:function (result) {
+                        	layer.close(index);
                             layer.alert(result.data);
                     },
                     error:function(result){

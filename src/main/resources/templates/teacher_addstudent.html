@@ -218,12 +218,14 @@ body {
 
 	<script>
 		$(document).ready(function () {
-
+			var index;
 		    /*
 		    * 利用excel表导入学生对象
 		    * */
             $("#addStudents").click(function () {
                 if($("input[name='students']").val().length!=0){
+                    index = layer.load(1, {
+                        shade: [0.1,'#333']});
                     var formdata = new FormData();
                     formdata.append("multipartFile",$("#students")[0].files[0]);
                     $.ajax({
@@ -235,6 +237,7 @@ body {
                         dataType:'json',
                         mimeType:'multipart/form-data',
                         success:function (data) {
+                            layer.close(index);
                             if(data.status == 200){
                                 layer.alert(data.message,{
                                     icon:1,

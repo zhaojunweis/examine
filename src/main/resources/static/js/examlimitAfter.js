@@ -549,15 +549,20 @@ $(document).ready(function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         var nowpage = $("input[name='pageNo']").val();
-        if(nowpage==""){
-            $("input[name='pageNo']").val("1");
-        }
+
         if(pagesize==""){
             $("input[name='pageSize']").val("10");
         }
-        debugger
-        if (nowpage > 1) {
+
+        if (nowpage > 1&&nowpage!="") {
             nowpage--;
+            $("input[name='pageNo']").val(nowpage);
+        }
+
+        var setpage = $("input[name='pageNo']").val();
+        if(setpage==""){
+            $("input[name='pageNo']").val("1");
+            nowpage=1;
         }
         var type = 2;
         $(".notfindinfo").empty();

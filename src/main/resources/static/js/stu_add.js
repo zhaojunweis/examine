@@ -16,6 +16,12 @@ $(document).ready(function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         var nowpage = $("input[name='pageNo']").val();
+        if(nowpage==""){
+            $("input[name='pageNo']").val("1");
+        }
+        if(pagesize==""){
+            $("input[name='pageSize']").val("10");
+        }
         $(".notfindinfo").empty();
 
         $.ajax({
@@ -71,6 +77,10 @@ $(document).ready(function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         // var nowpage = $("input[name='pageNo']").val();
+        $("input[name='pageNo']").val("1");
+        if(pagesize==""){
+            $("input[name='pageSize']").val("10");
+        }
         var type = 1;
         $(".notfindinfo").empty();
         $.ajax({
@@ -125,6 +135,9 @@ $(document).ready(function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         // var nowpage = $("input[name='pageNo']").val();
+        if(pagesize==""){
+            $("input[name='pageSize']").val("10");
+        }
         var type = 0;
         $(".notfindinfo").empty();
         $.ajax({
@@ -137,6 +150,7 @@ $(document).ready(function () {
                 type: type,
             },
             success: function (data) {
+                $("input[name='pageNo']").val(data.lastpage);
                 var studenglist = data.studentlist;
                 debugger;
                 if (studenglist != null) {
@@ -179,6 +193,12 @@ $(document).ready(function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         var nowpage = $("input[name='pageNo']").val();
+        if(nowpage==""){
+            $("input[name='pageNo']").val("1");
+        }
+        if(pagesize==""){
+            $("input[name='pageSize']").val("10");
+        }
         var type = 2;
         $(".notfindinfo").empty();
         $.ajax({
@@ -233,6 +253,12 @@ $(document).ready(function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         var nowpage = $("input[name='pageNo']").val();
+        if(nowpage==""){
+            $("input[name='pageNo']").val("1");
+        }
+        if(pagesize==""){
+            $("input[name='pageSize']").val("10");
+        }
         debugger
         nowpage++;
         $("input[name='pageNo']").val(nowpage);
@@ -290,11 +316,19 @@ $(document).ready(function () {
         var examId = $("input[name='examId']").val();
         var pagesize = $("input[name='pageSize']").val();
         var nowpage = $("input[name='pageNo']").val();
-        debugger
-        if (nowpage > 1) {
-            nowpage--;
+        if(pagesize==""){
+            $("input[name='pageSize']").val("10");
         }
-        $("input[name='pageNo']").val(nowpage);
+        if (nowpage > 1&&nowpage!="") {
+            nowpage--;
+            $("input[name='pageNo']").val(nowpage);
+        }
+
+        var setpage = $("input[name='pageNo']").val();
+        if(setpage==""){
+            $("input[name='pageNo']").val("1");
+            nowpage=1;
+        }
         var type = 2;
         $(".notfindinfo").empty();
         $.ajax({

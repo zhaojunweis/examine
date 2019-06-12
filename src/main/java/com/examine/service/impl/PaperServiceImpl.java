@@ -120,11 +120,11 @@ public class PaperServiceImpl extends BaseService implements PaperService {
                     paramMap.put("sSno", student.getsSno());
                     studentMapper.submitAnswer(paramMap);
                 }
-                return ResponseResult.ok("upload file success");
+                return ResponseResult.ok("文件上传成功");
             } else {
-                return new ResponseResult("file is bigger or lower");
+                return new ResponseResult("文件大小不在规定范围内,请重新选择文件");
             }
         }
-        return new ResponseResult("upload file failed");
+        return new ResponseResult("文件上传失败");
     }
 }

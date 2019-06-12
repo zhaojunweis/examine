@@ -117,14 +117,22 @@ public class ExamController extends BaseController {
     @RequestMapping("/saveExam")
     public Object saveExam(TExam exam, HttpSession session) throws ParseException {
         //考试信息中包括老师信息
-        // String tName = (String) session.getAttribute("tName");
-        //  exam.settName(tName);
+        String tName = (String) session.getAttribute("tName");
         boolean flag = examService.saveExaminationInfo(exam);
-        List<Map> mapList = commonController.getExamineInfo(exam.gettName(),2);
+        List<TExam> tExamList = null;
+        Map<String,Object> map = new HashMap<>();
         if (flag) {
+            int count = teacherService.selectCountExamBefore(tName);
+            map = LimitPage.limitPage(0,count,10,0,0);
+            map.put("tname",tName);
+            if(map == null){
+                return null;
+            }
+            tExamList = teacherService.selectExamLimitBefore(map);
             resultMap.put("status", "200");
             resultMap.put("message", "添加考试成功");
-            resultMap.put("examlists", mapList);
+            resultMap.put("examlists", LimitPage.TransforToMap(tExamList));
+            resultMap.put("lastpage",map.get("lastpage"));
         } else {
             resultMap.put("status", "500");
             resultMap.put("message", "添加考试失败");

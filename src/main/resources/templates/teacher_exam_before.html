@@ -262,9 +262,14 @@
                             layer.alert(data.message, {
                                 icon: 1,
                                 skin: 'layer-ext-moon',
-                            })
+                            });
+
+                            //清空input
                             $("input").val('');
                             $("input[name='action']").val('添加');
+                            //把pagesize和nowpage填入值
+                            $("input[name='pageSize']").val("10");
+                            $("input[name='pageNo']").val(data.lastpage);
                             //异步刷新考试列表信息
                             $("#appen_tr").empty();
                             $("#appen_tr").append("<tr>" +
