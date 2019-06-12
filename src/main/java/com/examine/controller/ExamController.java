@@ -2,10 +2,12 @@ package com.examine.controller;
 
 import com.examine.common.controller.BaseController;
 import com.examine.common.controller.CommonController;
+import com.examine.common.util.LimitPage;
 import com.examine.domain.TExam;
 import com.examine.domain.TSystem;
 import com.examine.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,20 +77,7 @@ public class ExamController extends BaseController {
 
     }
 
-    /**
-     * 考试清理界面初始化
-     *
-     * @return
-     * @parame:
-     */
-    @RequestMapping(value = "/admin_exam")
-    public ModelAndView admin_exam() throws ParseException {
-        ModelAndView mv = new ModelAndView();
-        List<Map> listmap = commonController.getExamineInfo("",-1);
-        mv.addObject("examlists", listmap);
-        mv.setViewName("/admin_exam");
-        return mv;
-    }
+
 
     /**
      * 根据考试名称清理该场考试
@@ -212,11 +201,55 @@ public class ExamController extends BaseController {
     }
 
 
-    /*@RequestMapping("/selectExamInfoByTName")
-    @ResponseBody
-    public List<TExam> selectExamInfoByTName() {
+    /**
+     * 考试清理界面初始化
+     *
+     * @return
+     * @parame:
+     */
+    @RequestMapping(value = "/admin_exam")
+    public ModelAndView admin_exam() throws ParseException {
+        ModelAndView mv = new ModelAndView();
+        //查询出该教师对应有多少考前考试
+        int count = teacherService.selectAllExamCount();
+        List<TExam> tExamList = null;
+        if(count<=10){
+            resultMap.put("startNum",0);
+            resultMap.put("pageSize",count);
+            tExamList = teacherService.selectAllExamLimit(resultMap);
+        }else {
+            resultMap.put("startNum",0);
+            resultMap.put("pageSize",10);
+            tExamList = teacherService.selectAllExamLimit(resultMap);
+        }
 
-        String tName = "xwc";
-        return examService.selectExamInfoByTName(tName);
-    }*/
+        mv.addObject("examlists", LimitPage.TransforToMap(tExamList));
+        mv.setViewName("/admin_exam");
+        return mv;
+    }
+
+    /**
+     * 考试清理分页
+     * @return
+     */
+    @RequestMapping("/adminExamLimit")
+    @ResponseBody
+    public Map<String,Object> adminExamLimit(@RequestParam(value = "pageSize",
+                                                         defaultValue = "10") Integer pageSize, @RequestParam(value = "nowPage" ,defaultValue = "1")
+                                                         Integer nowPage,@RequestParam(value = "type",defaultValue = "2") int type){
+
+        List<TExam> examList = null;
+        Map<String,Object> map = new HashMap<>();
+        int count = teacherService.selectAllExamCount();
+        map = LimitPage.limitPage(0,count,pageSize,nowPage,type);
+        if(map == null){
+            return null;
+        }
+        examList = teacherService.selectAllExamLimit(map);
+        resultMap.put("examlists",LimitPage.TransforToMap(examList));
+        resultMap.put("lastpage",map.get("lastpage"));
+        return resultMap;
+
+
+}
 }

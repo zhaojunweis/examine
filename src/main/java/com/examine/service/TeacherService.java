@@ -46,5 +46,8 @@ public interface TeacherService {
 
     List<TExam> selectExamLimitAfter(Map map);
 
+    Integer selectAllExamCount();
+
+    List<TExam> selectAllExamLimit(Map map);
 
 }

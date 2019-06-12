@@ -144,4 +144,17 @@ public interface TeacherMapper {
      * @return
      */
     List<TExam> selectExamLimitAfter(Map map);
+
+    /**
+     * 查询所有考试数量
+     * @return
+     */
+    Integer selectAllExamCount();
+
+    /**
+     * 管理员考试清理分页
+     * @param map
+     * @return
+     */
+    List<TExam> selectAllExamLimit(Map map);
 }
