@@ -275,7 +275,6 @@ public class TeacherServiceImpl implements TeacherService {
     public List<TExam> selectExamLimitAfter(Map map) {
         return teacherMapper.selectExamLimitAfter(map);
     }
-<<<<<<< HEAD
 
     /**
      * 判断是否是Admin
@@ -293,8 +292,6 @@ public class TeacherServiceImpl implements TeacherService {
        return flag;
     }
 
-
-=======
     /**
      * 查询所有考试数量
      * @return
@@ -313,5 +310,4 @@ public class TeacherServiceImpl implements TeacherService {
     public List<TExam> selectAllExamLimit(Map map) {
         return teacherMapper.selectAllExamLimit(map);
     }
->>>>>>> refs/remotes/origin/master
 }

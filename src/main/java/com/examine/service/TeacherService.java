@@ -46,13 +46,9 @@ public interface TeacherService {
 
     List<TExam> selectExamLimitAfter(Map map);
 
-<<<<<<< HEAD
     boolean isAdmin(String tName);
 
-=======
     Integer selectAllExamCount();
 
     List<TExam> selectAllExamLimit(Map map);
->>>>>>> refs/remotes/origin/master
-
 }
