@@ -117,11 +117,13 @@
         into t_student(
            s_sno,
            s_name,
-           s_class_id
+           s_class_id,
+           s_score_Id
         )values (
            #{sSno},
            #{sName},
-           #{sClassId}
+           #{sClassId},
+           #{sScoreId}
         )
     </insert>
 
@@ -171,11 +173,13 @@
         into t_student(
            s_sno,
            s_name,
-           s_class_id
+           s_class_id,
+           s_score_Id
         )values (
            #{sSno},
            #{sName},
-           #{sClassId}
+           #{sClassId},
+           #{sScoreId}
         )
     </insert>
 

@@ -268,7 +268,7 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/importStudentInfo")
     @ResponseBody
-    public Map<String, Object> importStudentInfo(@RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) {
+    public Map<String, Object> importStudentInfo(@RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile,@RequestParam("examId") Integer examId) {
 
         /*首先上传excel文件,并返回excel的文件位置
          * */
@@ -277,7 +277,7 @@ public class TeacherController extends BaseController {
             resultMap.put("status", "500");
             resultMap.put("message", "上传excel错误，添加失败");
         } else {
-            boolean importStatus = studentService.importStudentInfo(uploadexcel);
+            boolean importStatus = studentService.importStudentInfo(uploadexcel,examId);
             if (!importStatus) {
                 resultMap.put("status", "500");
                 resultMap.put("message", "学生名单导入失败");
@@ -356,7 +356,8 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/saveStudent")
     @ResponseBody
-    public Map<String, Object> saveStudent(TStudent student) {
+    public Map<String, Object> saveStudent(TStudent student,@RequestParam("examId") Integer examId) {
+        student.setScoreId(examId);
         boolean flag = studentService.insertStudent(student);
         if (!flag) {
             resultMap.put("status", 500);
