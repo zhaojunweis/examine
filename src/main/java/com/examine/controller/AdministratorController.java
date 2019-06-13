@@ -94,21 +94,29 @@ public class AdministratorController extends BaseController {
             @RequestParam(value = "adminpass", defaultValue = "admin") String tPass,
             HttpSession session) {
 
-
         String username = "";
         String password = "";
 
-        if (teacherService.selectCountOtherAdminExceptAdmin()) {
-            //认证和授权
+        boolean otherAdmin = teacherService.selectCountOtherAdminExceptAdmin();
 
-            username = tName;
-           if(tPass.equals(teacherService.selectAdminByLoginMessage(tName))){
-            password = tPass;
-           }else {
-               resultMap.put("status", 500);
-               resultMap.put("message", "您的账号密码错误，登录失败");
-               return resultMap;
-           }
+        if (otherAdmin) {
+            //认证和授权
+            if("admin".equals(tName)){
+                resultMap.put("url","/");
+                resultMap.put("status", 500);
+                resultMap.put("message", "admin已经失效");
+                return resultMap;
+            }else{
+                username = tName;
+                String pass = teacherService.selectAdminByLoginMessage(tName);
+                if(tPass.equals(pass)){
+                    password = tPass;
+                }else {
+                    resultMap.put("status", 500);
+                    resultMap.put("message", "您的账号密码错误，登录失败");
+                    return resultMap;
+                }
+            }
         } else {
             if (("admin".equals(tName)) && ("admin".equals(tPass))) {
                     username = "admin";
@@ -153,6 +161,14 @@ public class AdministratorController extends BaseController {
             resultMap.put("type", "warning");
             resultMap.put("message", "该用户名已存在,请重新输入");
         } else {
+            Integer isAdmin = tTeacher.gettIsAdmin();
+            if(isAdmin == 1){
+                //管理员
+                tTeacher.setRoleId(1);
+            }else{
+                //教师
+                tTeacher.setRoleId(2);
+            }
             boolean flag = teacherService.saveTeacher(tTeacher);
             if (flag) {
                 List<TTeacher> teachers = teacherService.selectAllTeacher();
@@ -165,8 +181,6 @@ public class AdministratorController extends BaseController {
                 resultMap.put("message", "服务器错误，添加教师失败");
             }
         }
-
-
         return resultMap;
     }
 
