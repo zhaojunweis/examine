@@ -77,11 +77,12 @@ public class StudentServiceImpl implements StudentService {
      * @return
      */
     @Override
-    public boolean importStudentInfo(String localExcelPath) {
+    public boolean importStudentInfo(String localExcelPath,Integer examId) {
         boolean insertFlag = false;
         List<TStudent> students = ExcelUtils.importExcelToSQL(localExcelPath);
         if (students.size() > 0) {
             for (TStudent student : students) {
+                student.setScoreId(examId);
                 studentMapper.saveStudentOneByOne(student);
             }
             insertFlag = true;

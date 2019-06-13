@@ -14,7 +14,7 @@ public interface StudentService {
 
     boolean nonphysicalDeleteStudents(Integer Id);
 
-    boolean importStudentInfo(String localExcelPath);
+    boolean importStudentInfo(String localExcelPath,Integer examId);
 
     boolean insertStudent(TStudent student);
 
