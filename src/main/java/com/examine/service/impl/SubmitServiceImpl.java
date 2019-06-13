@@ -1,6 +1,7 @@
 package com.examine.service.impl;
 
 import com.examine.dao.SubmitMapper;
+import com.examine.domain.TSubmit;
 import com.examine.service.SubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,11 @@ public class SubmitServiceImpl implements SubmitService {
      * @param ipAddress
      */
     @Override
-    public void insertStudentLoginMessage(String sName, String ipAddress) {
+    public void insertStudentLoginMessage(String sName, String ipAddress,Integer examId) {
         Map<String, String> loginMessage = new HashMap<>();
         loginMessage.put("sName", sName);
         loginMessage.put("ipAddress", ipAddress);
+        loginMessage.put("examId",String.valueOf(examId));
         submitMapper.insertStudentLoginMessage(loginMessage);
     }
 
@@ -78,5 +80,15 @@ public class SubmitServiceImpl implements SubmitService {
     @Override
     public boolean finishedPageOnHole(Integer id) {
         return submitMapper.finishedPageOnHole(id);
+    }
+
+    /**
+     * 查出提交结果
+     * @param map
+     * @return
+     */
+    @Override
+    public List<TSubmit> selectSubmitResult(Map map) {
+        return submitMapper.selectSubmitResult(map);
     }
 }

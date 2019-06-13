@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    //返回登录
+    $("#back").click(function () {
+       window.location.href = "/";
+    });
+
     $("#admin_logout").click(function () {
         layer.alert('是否要退出登录',{
             btn:['确定','取消']

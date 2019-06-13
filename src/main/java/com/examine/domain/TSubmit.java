@@ -17,6 +17,8 @@ public class TSubmit implements Serializable {
 
     private int sIsDelete;
 
+    private int sFileSize;
+
     public long getId() {
         return id;
     }
@@ -63,5 +65,13 @@ public class TSubmit implements Serializable {
 
     public void setsIsDelete(int sIsDelete) {
         this.sIsDelete = sIsDelete;
+    }
+
+    public void setsFileSize(int sFileSize) {
+        this.sFileSize = sFileSize;
+    }
+
+    public int getsFileSize() {
+        return sFileSize;
     }
 }

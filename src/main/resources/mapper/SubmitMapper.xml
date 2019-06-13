@@ -12,18 +12,25 @@
         <result property="sIsDelete" column="s_is_delete"/>
         <result property="lastSubmit" column="g_gmt_create"/>
     </resultMap>
+    <resultMap id="submitResultMap" type="com.examine.domain.TSubmit">
+        <result property="createTime" column="g_gmt_create"/>
+        <result property="examPaper" column="s_exam_paper"/>
+        <result property="sFileSize" column="s_file_size"/>
+    </resultMap>
 
     <insert id="insertStudentLoginMessage" parameterType="Map">
           insert
             into t_submit(
                s_sno,
                g_gmt_create,
-               s_login_address
+               s_login_address,
+               exam_Id
             )
           values (
                #{sName},
                now(),
-               #{ipAddress}
+               #{ipAddress},
+               #{examId}
           )
     </insert>
 
@@ -60,4 +67,8 @@
     <update id="finishedPageOnHole" parameterType="Integer">
       update t_exam set is_pigeonhole = 1 where id = #{id}
     </update>
+    <!--查询出提交结果-->
+    <select id="selectSubmitResult" parameterType="Map" resultMap="submitResultMap">
+        select * from t_submit where s_sno = #{sno} and exam_Id = #{examId} and s_is_delete = 0
+    </select>
 </mapper>
