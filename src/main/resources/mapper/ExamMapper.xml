@@ -51,11 +51,6 @@
     </update>
 
     <!--已改-->
-    <update id="stopOneExamById" parameterType="Integer">
-        update  t_exam set is_start = 0, is_finished = 1 where id = #{id};
-    </update>
-
-    <!--已改-->
     <update id="clearExam">
         update t_exam set is_delete = 1 where is_delete = 0 and is_start = 0 and is_finished = 1
     </update>
@@ -98,7 +93,7 @@
         where id = #{id};
     </update>
 
-    <select id = "selectExamInfoByTName" parameterType="String" resultMap="examBaseMapper">
+    <select id="selectExamInfoByTName" parameterType="String" resultMap="examBaseMapper">
         select * from t_exam where t_name = #{tName} and is_delete = 0
     </select>
 
@@ -111,13 +106,22 @@
             id = #{id}
          and
             is_delete = 0
+         and
+            is_finished = 0
+         and
+            is_start = 0
     </update>
 
-    <select id = "selectAutoStartExams" resultMap="examBaseMapper">
+    <!--已改-->
+    <update id="stopOneExamById" parameterType="Integer">
+        update  t_exam set is_start = 0, is_finished = 1 where id = #{id}
+    </update>
+
+    <select id="selectAutoStartExams" resultMap="examBaseMapper">
         select * from t_exam where is_auto_start = 1 and is_finished = 0 order by exam_start_time asc
     </select>
 
-    <select id = "isExistExam" parameterType="Integer" resultType="Integer">
+    <select id="isExistExam" parameterType="Integer" resultType="Integer">
         select count(*) from t_exam where is_delete = 0 and is_start = 1
     </select>
     <!--删除考试信息成功后修改考试的is_delete标志位-->
