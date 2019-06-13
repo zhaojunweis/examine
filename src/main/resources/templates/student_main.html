@@ -64,7 +64,7 @@
                 <li><span class="brand">欢迎，</span><span id="brandname" class="brand" th:text="${session.sno}"></span>
                 </li>
                 <input type="hidden" th:value="${session.examId}"/>
-
+                <li id="admin_logout"><a  style="cursor: pointer"><i class="icon-share icon-white"></i>退出</a></li>
             </ul>
 
             <!--/.nav-collapse -->
@@ -86,7 +86,7 @@
                 <p style="margin-top: 30px" th:if="${examinfo.examPaperUrl==null}" class="exam-info">本次考试没有电子试卷。</p>
                 <input name="examPaperUrl" style="border: 1px solid silver;padding:6px;"
                        th:if="${examinfo.examPaperUrl!=null}" th:value="${examinfo.examPaperUrl}" readonly/>
-                <input type="button" id="btn_upload" class="btn btn-primary" value="下载试卷"/>
+                <input th:if="${examinfo.examPaperUrl!=null}"  type="button" id="btn_upload" class="btn btn-primary" value="下载试卷"/>
             </div>
             <div class="span6">
                 <h3>答案上传</h3>

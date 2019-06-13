@@ -118,6 +118,7 @@ public class PaperServiceImpl extends BaseService implements PaperService {
                 if (student != null) {
                     paramMap.put("examPaperUrl", targetFilePath.getAbsolutePath());
                     paramMap.put("sSno", student.getsSno());
+                    paramMap.put("filesize",String.valueOf(fileSize));
                     studentMapper.submitAnswer(paramMap);
                 }
                 return ResponseResult.ok("文件上传成功");

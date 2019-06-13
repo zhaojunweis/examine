@@ -1,9 +1,12 @@
 package com.examine.service;
 
+import com.examine.domain.TSubmit;
+
 import java.util.List;
+import java.util.Map;
 
 public interface SubmitService {
-    void insertStudentLoginMessage(String sName,String ipAddress);
+    void insertStudentLoginMessage(String sName,String ipAddress,Integer examId);
 
     boolean nonphysicalDeleteAllSubmit(Integer Id);
 
@@ -12,4 +15,6 @@ public interface SubmitService {
     Integer doUnbinding(String sSno);
 
     boolean finishedPageOnHole(Integer id);
+
+    List<TSubmit> selectSubmitResult(Map map);
 }

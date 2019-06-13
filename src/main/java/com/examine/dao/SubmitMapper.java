@@ -1,6 +1,7 @@
 package com.examine.dao;
 
 import com.examine.domain.TStudent;
+import com.examine.domain.TSubmit;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -50,4 +51,11 @@ public interface SubmitMapper {
      * @param id
      */
     boolean finishedPageOnHole(Integer id);
+
+    /**
+     * 查出提交结果
+     * @param map
+     * @return
+     */
+    List<TSubmit> selectSubmitResult(Map map);
 }
