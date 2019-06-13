@@ -9,7 +9,9 @@
         <result property="sClassId" column="s_class_id"/>
         <result property="sScoreId" column="s_score_Id"/>
         <result property="sIsDelete" column="s_is_delete"/>
+
     </resultMap>
+
 
     <resultMap id="studentBaseMapWithIp" type="com.examine.domain.TStudent">
         <id property="id" column="id"/>
@@ -201,7 +203,7 @@
     </insert>
 
     <update id="submitAnswer" parameterType="Map">
-       update t_submit set s_is_submit = 1,s_exam_paper=#{examPaperUrl} where s_sno=#{sSno}
+       update t_submit set s_is_submit = 1,s_exam_paper=#{examPaperUrl}, s_file_size = #{filesize} ,g_gmt_create = now()  where s_sno=#{sSno}
     </update>
 
     <!--not use-->
@@ -220,5 +222,7 @@
     <update id="deleteOneStudent" parameterType="Integer">
         update t_student set s_is_delete = 1 where id = #{studentId}
     </update>
+
+
 
 </mapper>

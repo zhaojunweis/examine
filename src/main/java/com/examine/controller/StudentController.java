@@ -6,6 +6,7 @@ import com.examine.common.util.LimitPage;
 import com.examine.common.util.StringUtils;
 import com.examine.domain.TExam;
 import com.examine.domain.TStudent;
+import com.examine.domain.TSubmit;
 import com.examine.service.ExamService;
 import com.examine.service.StudentService;
 import com.examine.service.SubmitService;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,13 +77,35 @@ public class StudentController extends BaseController {
     }
 
     /**
-     * 查看提交初始化
+     * 查看提交初始化sFileSize
      *
      * @return
      */
     @RequestMapping("/student_exam_listdir")
-    public ModelAndView student_exam_listdir() {
+    public ModelAndView student_exam_listdir(HttpSession session) {
         ModelAndView mv = new ModelAndView();
+        String sno = (String)session.getAttribute("sno");
+        Integer examId = (Integer) session.getAttribute("examId");
+        List<TSubmit> listsubmits = null;
+        List<Map> maplist = new ArrayList<Map>();
+        Map map = new HashMap();
+        map.put("sno",sno);
+        map.put("examId",examId);
+        listsubmits = submitService.selectSubmitResult(map);
+        for (TSubmit submit : listsubmits){
+            Map map1 = new HashMap();
+            //时间置换
+            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            map1.put("submitTime",sd.format(submit.getCreateTime()));
+            //获取filesize
+            map1.put("submitFileSize",submit.getsFileSize()+"KB");
+            //获取文件名
+            String filepath = submit.getExamPaper();
+            String filename = filepath.substring(filepath.lastIndexOf("\\")+1,filepath.length());
+            map1.put("fileName",filename);
+            maplist.add(map1);
+        }
+        mv.addObject("maplist",maplist);
         mv.setViewName("/student_exam_listdir");
         return mv;
     }
@@ -109,7 +134,7 @@ public class StudentController extends BaseController {
             } else if (StringUtils.isBlank(loginIp) || loginIp.equals(ip)) {
                 //如果登陆Ip为空，则插入，否者不变
                 if (StringUtils.isBlank(loginIp)) {
-                    submitService.insertStudentLoginMessage(sno, ip);
+                    submitService.insertStudentLoginMessage(sno, ip,tStudent.getScoreId());
                 }
                 sname = student.getsName();
 
@@ -142,17 +167,15 @@ public class StudentController extends BaseController {
         return resultMap;
     }
 
-    /**
-     * 学生查看提交情况初始化
-     *
-     * @return
-     */
-    @RequestMapping("/studentListdir")
+
+  /*  @RequestMapping("/studentListdir")
     public ModelAndView studentListdir() {
         ModelAndView mv = new ModelAndView();
+
+
         mv.setViewName("/student_exam_listdir");
         return mv;
-    }
+    }*/
 
     /**
      * 学生提交界面初始化

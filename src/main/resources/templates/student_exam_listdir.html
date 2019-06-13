@@ -66,7 +66,7 @@ body {
 				<ul class="nav navbar-nav pull-right">
 					<li><span  class="brand">欢迎，</span><span id="brandname" class="brand" th:text="${session.sno}"></span></li>
 					<input type="hidden" th:value="${session.examId}"/>
-
+                    <li id="admin_logout"><a  style="cursor: pointer"><i class="icon-share icon-white"></i>退出</a></li>
 				</ul>
 
 				<!--/.nav-collapse -->
@@ -93,23 +93,23 @@ body {
 				</tr>
 			</thead>
 			<tbody>
-				
-					<tr>
-						<td>6-1610120007-梁卫-实验一.docx</td>
-						<td>993961B</td>
-						<td>2019-4-15 21:48:48</td>
+
+				<tr th:if="${maplist}!= null" th:each="user,userStat:${maplist}">
+						<td th:text="${user.fileName}"></td>
+						<td th:text="${user.submitFileSize}"></td>
+						<td th:text="${user.submitTime}"></td>
 					</tr>
 				
 			</tbody>
 		</table>
 	</div>
-	<div class="row-fluid">
+	<!--<div class="row-fluid">
 		<h4>答案上传</h4>
 		<form class="form-inline" enctype="multipart/form-data" method="post">
 			<input type="file" name="paper"  id="paper"/>
 			<input id="submitfile" type="button" class="btn btn-primary" value="上传" />
 		</form>
-	</div>
+	</div>-->
 </div>
 
 
