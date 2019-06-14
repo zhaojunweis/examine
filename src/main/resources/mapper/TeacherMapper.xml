@@ -182,7 +182,7 @@
     </select>
     <!--查询教师对应的考前考试数量-->
     <select id="selectCountExamBefore" parameterType="String" resultType="Integer">
-        select count(*) from  t_exam  where t_name = #{tname} and is_start = 0 and is_finished = 0 and is_delete = 0
+        select count(*) from  t_exam  where t_name = #{tname} and is_finished = 0 and is_delete = 0
     </select>
     <!--查询教师对应的考后考试数量-->
     <select id="selectCountExamAfter" parameterType="String" resultType="Integer">
@@ -191,7 +191,7 @@
     <!--考前靠后操作的分頁，傳入tname,startnum,pagesize-->
     <select id="selectExamLimitBefore" parameterType="Map" resultMap="examMapForLimit">
         select * from t_exam
-        where  t_name = #{tname} and is_start = 0 and is_finished = 0 and is_delete = 0 limit #{startNum},#{pageSize}
+        where  t_name = #{tname}  and is_finished = 0 and is_delete = 0 limit #{startNum},#{pageSize}
     </select>
     <select id="selectExamLimitAfter" parameterType="Map" resultMap="examMapForLimit">
         select * from t_exam

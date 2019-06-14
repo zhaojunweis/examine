@@ -54,6 +54,9 @@ public class TeacherController extends BaseController {
     private NotificationService notificationService;
 
     @Autowired
+    private DaemonService daemonService;
+
+    @Autowired
     public TeacherController(TeacherService teacherService, StudentService studentService, SubmitService submitService, ExamService examService, SystemService systemService,
                              NotificationService notificationService, CommonController commonController) {
         this.teacherService = teacherService;
@@ -77,6 +80,9 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/teacher_manage_summary")
     public ModelAndView manage_summary(HttpSession session) throws ParseException {
+        daemonService.startThread();//设置cancel标志位为true
+        daemonService.changeStatus();//扫描并清理考试状态
+
         ModelAndView mv = new ModelAndView();
         String tname = (String) session.getAttribute("tName");
         List<Map> exams = commonController.getExamineInfo(tname,2);
@@ -108,6 +114,9 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/teacher_manage_student")
     public ModelAndView manage_student(HttpSession session) throws ParseException {
+        daemonService.startThread();//设置cancel标志位为true
+        daemonService.changeStatus();//扫描并清理考试状态
+
         ModelAndView mv = new ModelAndView();
         String tname = (String) session.getAttribute("tName");
         List<Map> exams = commonController.getExamineInfo(tname,2);
@@ -139,6 +148,9 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/teacher_manage_unlock")
     public ModelAndView manage_unlock(HttpSession session) throws ParseException {
+        daemonService.startThread();//设置cancel标志位为true
+        daemonService.changeStatus();//扫描并清理考试状态
+
         ModelAndView mv = new ModelAndView();
         String tname = (String) session.getAttribute("tName");
         List<Map> exams = commonController.getExamineInfo(tname,2);
@@ -169,6 +181,9 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/teacher_manage_notify")
     public ModelAndView manage_notify(HttpSession session) throws ParseException {
+        daemonService.startThread();//设置cancel标志位为true
+        daemonService.changeStatus();//扫描并清理考试状态
+
         ModelAndView mv = new ModelAndView();
         String tname = (String) session.getAttribute("tName");
         List<Map> exams = commonController.getExamineInfo(tname,2);
@@ -201,6 +216,9 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/teacher_exam_modify")
     public ModelAndView exam_modify(@Param(value = "Id") int Id, HttpSession session) {
+        daemonService.startThread();//设置cancel标志位为true
+        daemonService.changeStatus();//扫描并清理考试状态
+
         ModelAndView mv = new ModelAndView();
         TExam exam = examService.selectOneExamInfoById(Id);
         session.setAttribute("examName", exam.getExamName());
@@ -542,6 +560,9 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/teacher_exam_before")
     public ModelAndView exam_Befor(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
+        daemonService.startThread();//设置cancel标志位为true
+        daemonService.changeStatus();//扫描并清理考试状态
+
         ModelAndView mv = new ModelAndView();
         //查询出该教师对应有多少考前考试
         int count = teacherService.selectCountExamBefore(t_name);
@@ -600,6 +621,7 @@ public class TeacherController extends BaseController {
      */
     @RequestMapping("/teacher_exam_after")
     public ModelAndView exam_after(@RequestParam(defaultValue = "admin", value = "t_name") String t_name) throws ParseException {
+
         ModelAndView mv = new ModelAndView();
         //查询出该教师对应有多少考前考试
         int count = teacherService.selectCountExamAfter(t_name);

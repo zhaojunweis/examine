@@ -44,6 +44,7 @@ body {
 								<i class="icon-lock"></i>解除锁定</a></li>
 							<li><a th:href="@{/teacher_manage_notify?t_name={name}(name = ${session.tName})}">
 								<i class="icon-bell"></i>通知管理</a></li>
+							<li  id="stopExam"><a><i class="icon-bell"></i>关闭考试</a></li>
 						</ul>
 					</li>
 					<li><a th:href="@{/teacher_exam_after?t_name={name}(name = ${session.tName})}" ><i class="icon-check icon-white"></i>考后操作</a></li>
@@ -119,5 +120,14 @@ body {
 	<script src="js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="js/layer/layer.js"></script>
 	<script src="js/locales/common_js.js "></script>
+<script>
+
+	$(document).ready(function () {
+
+	    $("#stopExam").click(function(){
+
+		});
+    });
+</script>
 </body>
 </html>
