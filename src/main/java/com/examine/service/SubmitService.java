@@ -17,4 +17,8 @@ public interface SubmitService {
     boolean finishedPageOnHole(Integer id);
 
     List<TSubmit> selectSubmitResult(Map map);
+
+    TSubmit selectSubmitEntity(Map map);
+
+    boolean updateSubmitStudentIP(Map map);
 }

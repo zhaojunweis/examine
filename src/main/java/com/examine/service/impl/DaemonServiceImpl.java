@@ -84,6 +84,18 @@ public class DaemonServiceImpl implements DaemonService, Runnable {
     }
 
     /**
+     * 如果程序不是第一次启动，只扫描一次
+     */
+    public void scanOnce(){
+        examList = examMapper.selectAutoStartExams();
+        for (TExam exam : examList) {
+            if (!examQueue.contains(exam)) {
+                examQueue.add(exam);
+            }
+        }
+    }
+
+    /**
      * 考试扫描，开启考试并修改状态位
      */
     @Override

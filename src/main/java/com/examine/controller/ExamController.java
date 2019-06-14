@@ -122,8 +122,8 @@ public class ExamController extends BaseController {
         List<TExam> tExamList = null;
         Map<String, Object> map = new HashMap<>();
         if (flag) {
-            //添加考试需要扫描Sql
-            daemonService.scanMySQL();
+            //添加考试需要扫描Sql,不开启定时器
+            daemonService.scanOnce();
             //需要对队列进行扫描
             if(!examService.isExistExam()){
                 daemonService.startThread();

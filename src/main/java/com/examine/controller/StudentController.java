@@ -134,7 +134,16 @@ public class StudentController extends BaseController {
             } else if (StringUtils.isBlank(loginIp) || loginIp.equals(ip)) {
                 //如果登陆Ip为空，则插入，否者不变
                 if (StringUtils.isBlank(loginIp)) {
-                    submitService.insertStudentLoginMessage(sno, ip,tStudent.getScoreId());
+                    Map map = new HashMap();
+                    map.put("sno",sno);
+                    map.put("examId",tStudent.getScoreId());
+                    if(submitService.selectSubmitEntity(map)==null){
+                        submitService.insertStudentLoginMessage(sno, ip,tStudent.getScoreId());
+                    }else {
+                        map.put("IpAddress",ip);
+                        submitService.updateSubmitStudentIP(map);
+                    }
+
                 }
                 sname = student.getsName();
 
