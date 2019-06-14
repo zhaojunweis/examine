@@ -45,7 +45,7 @@ function studentLogin(){
         debugger;
         if(testSno() && testSname() ){
             index = layer.load(2, {
-                shade: [0.1,'#333']});
+                shade: [0.5,'#333']});
             $.ajax({
                 type: 'post',
                 url:"/submitStudentLogin",
@@ -131,7 +131,7 @@ function teacherLogin(){
 
         if((name!="")&&(pass!="")){
             index = layer.load(2, {
-                shade: [0.1,'#333']});
+                shade: [0.5,'#333']});
             $.ajax({
                 type: 'post',
                 url: "/submitTeacherLogin",
@@ -200,7 +200,7 @@ function adminLogin(){
         debugger;
         if((name!="")&&(pass!="")){
             index = layer.load(2, {
-                shade: [0.1,'#333']});
+                shade: [0.5,'#333']});
             $.ajax({
                 type: 'post',
                 url: "/submitAdminLogin",
