@@ -19,6 +19,7 @@ public class StartServlet implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("ApplicationRunner" + daemonService);
-        daemonService.changeStatus();
+        daemonService.scanMySQL();//开启扫描数据库
+        daemonService.changeStatus();//修改扫描过程中的考试状态
     }
 }

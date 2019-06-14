@@ -14,13 +14,9 @@ import java.util.*;
 @Service
 public class DaemonServiceImpl implements DaemonService, Runnable {
 
-    private static int isTimer = 0;
-
-    private static int delay = 0;
-
-    private static int period = 10 * 60 * 1000;
-
     private static List<TExam> examList;
+
+    private static boolean cancel = true;
 
     private static Queue<TExam> examQueue = new ArrayDeque<>();
 
@@ -33,22 +29,43 @@ public class DaemonServiceImpl implements DaemonService, Runnable {
     @Autowired
     private SystemService systemService;
 
+    /**
+     * 关闭线程
+     */
+    public void cancelThread() {
+        cancel = false;
+    }
+
+    /**
+     * 开启线程
+     */
+    @Override
+    public void startThread() {
+        cancel = true;
+    }
+
+    /**
+     * 状态修改
+     */
     @Override
     public void changeStatus() {
-        if (isTimer == 0) {
-            scanMySQL();
-            ++isTimer;
-        }
+        System.out.println("change exam Status");
         run();
     }
 
+    /**
+     * 数据库扫描
+     */
     @Override
     public void scanMySQL() {
+        System.out.println("scanMySQL");
         Timer timer = new Timer();
+        int period = 10 * 60 * 100;
+        int delay = 0;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("scanMySQL");
+                System.out.println("123");
                 examList = examMapper.selectAutoStartExams();
                 for (TExam exam : examList) {
                     if (!examQueue.contains(exam)) {
@@ -59,11 +76,16 @@ public class DaemonServiceImpl implements DaemonService, Runnable {
         }, delay, period);
     }
 
+    /**
+     * 考试扫描，开启考试并修改状态位
+     */
     @Override
     public void run() {
-        boolean flag = true;
+        //boolean flag = true;
         //long timeMillis = 0;
-        while (flag) {
+        System.out.println("Open Daemon");
+        while (cancel) {
+            System.out.println("456");
             if (!examService.isExistExam()) {
                 long systemTimer = systemService.selectSystemTimer();
                 //timeMillis = systemTimer * 60 * 100;
@@ -74,10 +96,11 @@ public class DaemonServiceImpl implements DaemonService, Runnable {
                     if (beginTimer != null) {
                         Date date = DateUtil.stringToDate(beginTimer, DateUtil.DATETIME_PATTERN);
                         long time = date.getTime();
-                        if ((currentTimer >= time) && (currentTimer <= time + systemTimer)) {
+                        if ((currentTimer >= time) && (currentTimer <= time + systemTimer * 60 * 1000)) {
                             boolean isSuccess = examService.startExamById((int) exam.getId());
                             if (isSuccess) {
-                                flag = false;
+                                //查询到之后，直接就终止线程
+                                cancel = false;
                             }
                         }
                     }

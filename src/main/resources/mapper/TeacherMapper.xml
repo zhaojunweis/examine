@@ -112,12 +112,14 @@
            t_name,
            t_real_name,
            t_pass,
-           t_is_admin
+           t_is_admin,
+           role_id
         ) values (
            #{tName},
            #{tRealName},
            #{tPass},
-           #{tIsAdmin}
+           #{tIsAdmin},
+           #{roleId}
         )
     </insert>
 

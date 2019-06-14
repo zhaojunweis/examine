@@ -78,7 +78,6 @@ public class ExamController extends BaseController {
     }
 
 
-
     /**
      * 根据考试名称清理该场考试
      *
@@ -87,7 +86,7 @@ public class ExamController extends BaseController {
      */
     @RequestMapping("/clearExam")
     @ResponseBody
-    public Map<String, Object> clearExam(HttpSession session,@RequestParam(value = "Id")Integer id) throws ParseException {
+    public Map<String, Object> clearExam(HttpSession session, @RequestParam(value = "Id") Integer id) throws ParseException {
         boolean isSuccess = teacherService.clearExamInfo(id);
         String t_name = (String) session.getAttribute("tName");
         if (isSuccess) {
@@ -95,9 +94,9 @@ public class ExamController extends BaseController {
             resultMap.put("message", "清理成功");
             List<Map> examineInfo = null;
             boolean isAdmin = teacherService.isAdmin(t_name);
-            if(isAdmin){
+            if (isAdmin) {
                 examineInfo = LimitPage.TransforToMap(examService.selectAllExamsInfo());
-            }else{
+            } else {
                 examineInfo = commonController.getExamineInfo(t_name, 0);
             }
             resultMap.put("examlists", examineInfo);
@@ -120,19 +119,19 @@ public class ExamController extends BaseController {
         String tName = (String) session.getAttribute("tName");
         boolean flag = examService.saveExaminationInfo(exam);
         List<TExam> tExamList = null;
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         if (flag) {
             int count = teacherService.selectCountExamBefore(tName);
-            map = LimitPage.limitPage(0,count,10,0,0);
-            map.put("tname",tName);
-            if(map == null){
+            map = LimitPage.limitPage(0, count, 10, 0, 0);
+            map.put("tname", tName);
+            if (map == null) {
                 return null;
             }
             tExamList = teacherService.selectExamLimitBefore(map);
             resultMap.put("status", "200");
             resultMap.put("message", "添加考试成功");
             resultMap.put("examlists", LimitPage.TransforToMap(tExamList));
-            resultMap.put("lastpage",map.get("lastpage"));
+            resultMap.put("lastpage", map.get("lastpage"));
         } else {
             resultMap.put("status", "500");
             resultMap.put("message", "添加考试失败");
@@ -174,8 +173,8 @@ public class ExamController extends BaseController {
         } else {
             resultMap.put("status", 200);
             resultMap.put("message", "停止考试成功");
-            //daemonService.changeStatus();
-
+            daemonService.startThread();//设置cancel标志位为true
+            daemonService.changeStatus();//扫描并清理考试状态
         }
         return resultMap;
     }
@@ -228,13 +227,13 @@ public class ExamController extends BaseController {
         //查询出该教师对应有多少考前考试
         int count = teacherService.selectAllExamCount();
         List<TExam> tExamList = null;
-        if(count<=10){
-            resultMap.put("startNum",0);
-            resultMap.put("pageSize",count);
+        if (count <= 10) {
+            resultMap.put("startNum", 0);
+            resultMap.put("pageSize", count);
             tExamList = teacherService.selectAllExamLimit(resultMap);
-        }else {
-            resultMap.put("startNum",0);
-            resultMap.put("pageSize",10);
+        } else {
+            resultMap.put("startNum", 0);
+            resultMap.put("pageSize", 10);
             tExamList = teacherService.selectAllExamLimit(resultMap);
         }
 
@@ -245,26 +244,25 @@ public class ExamController extends BaseController {
 
     /**
      * 考试清理分页
+     *
      * @return
      */
     @RequestMapping("/adminExamLimit")
     @ResponseBody
-    public Map<String,Object> adminExamLimit(@RequestParam(value = "pageSize",
-                                                         defaultValue = "10") Integer pageSize, @RequestParam(value = "nowPage" ,defaultValue = "1")
-                                                         Integer nowPage,@RequestParam(value = "type",defaultValue = "2") int type){
+    public Map<String, Object> adminExamLimit(@RequestParam(value = "pageSize",
+            defaultValue = "10") Integer pageSize, @RequestParam(value = "nowPage", defaultValue = "1")
+                                                      Integer nowPage, @RequestParam(value = "type", defaultValue = "2") int type) {
 
         List<TExam> examList = null;
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         int count = teacherService.selectAllExamCount();
-        map = LimitPage.limitPage(0,count,pageSize,nowPage,type);
-        if(map == null){
+        map = LimitPage.limitPage(0, count, pageSize, nowPage, type);
+        if (map == null) {
             return null;
         }
         examList = teacherService.selectAllExamLimit(map);
-        resultMap.put("examlists",LimitPage.TransforToMap(examList));
-        resultMap.put("lastpage",map.get("lastpage"));
+        resultMap.put("examlists", LimitPage.TransforToMap(examList));
+        resultMap.put("lastpage", map.get("lastpage"));
         return resultMap;
-
-
-}
+    }
 }

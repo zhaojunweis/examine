@@ -12,4 +12,14 @@ public interface DaemonService {
      */
     void scanMySQL();
 
+    /**
+     * 开启考试扫描线程
+     */
+    void startThread();
+
+    /**
+     * 开启考试关闭线程
+     */
+    void cancelThread();
+
 }
