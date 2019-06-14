@@ -292,12 +292,17 @@ $(document).ready(function () {
                             });
                             $(".StartOrStop").children("span").text("停止");
                             $(".StartOrStop").css("background","red");
+                        }else if(data.status==500){
+                            layer.alert(data.message,{
+                                icon:0,
+                                skin:'layer-ext-moon',
+                            });
                         }else {
                             layer.alert(data.message,{
                                 icon:0,
                                 skin:'layer-ext-moon',
                             });
-                        }
+						}
                     },
                     error:function (data) {
                         layer.alert("系统错误，请稍后再试",{

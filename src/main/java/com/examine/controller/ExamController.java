@@ -115,18 +115,23 @@ public class ExamController extends BaseController {
      */
     @RequestMapping("/saveExam")
     public Object saveExam(TExam exam, HttpSession session) throws ParseException {
+
         //考试信息中包括老师信息
         String tName = (String) session.getAttribute("tName");
         boolean flag = examService.saveExaminationInfo(exam);
         List<TExam> tExamList = null;
         Map<String, Object> map = new HashMap<>();
         if (flag) {
+            //添加考试需要扫描Sql
+            daemonService.scanMySQL();
+            //需要对队列进行扫描
+            if(!examService.isExistExam()){
+                daemonService.startThread();
+                daemonService.changeStatus();
+            }
             int count = teacherService.selectCountExamBefore(tName);
             map = LimitPage.limitPage(0, count, 10, 0, 0);
             map.put("tname", tName);
-            if (map == null) {
-                return null;
-            }
             tExamList = teacherService.selectExamLimitBefore(map);
             resultMap.put("status", "200");
             resultMap.put("message", "添加考试成功");
@@ -188,13 +193,23 @@ public class ExamController extends BaseController {
     @RequestMapping("/startExam")
     @ResponseBody
     public Map<String, Object> startExam(@RequestParam(value = "Id") Integer id) {
-        boolean status = examService.startExamById(id);
-        if (!status) {
-            resultMap.put("status", 500);
-            resultMap.put("message", "开启考试失败");
+
+        daemonService.startThread();//设置cancel标志位为true
+        daemonService.changeStatus();//扫描并清理考试状态
+
+        if(examService.isExistExam()){
+            resultMap.put("status", 403);
+            resultMap.put("message", "已存在开启考试");
+        }else {
+            boolean status = examService.startExamById(id);
+            if (!status) {
+                resultMap.put("status", 500);
+                resultMap.put("message", "开启考试失败");
+            }
+            resultMap.put("status", 200);
+            resultMap.put("message", "开启考试成功");
+
         }
-        resultMap.put("status", 200);
-        resultMap.put("message", "开启考试成功");
         return resultMap;
     }
 

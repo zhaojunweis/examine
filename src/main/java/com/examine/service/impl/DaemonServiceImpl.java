@@ -62,6 +62,13 @@ public class DaemonServiceImpl implements DaemonService, Runnable {
         Timer timer = new Timer();
         int period = 10 * 60 * 100;
         int delay = 0;
+        //模拟第一次timer
+        /*examList = examMapper.selectAutoStartExams();
+        for (TExam exam : examList) {
+            if (!examQueue.contains(exam)) {
+                examQueue.add(exam);
+            }
+        }*/
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -90,7 +97,7 @@ public class DaemonServiceImpl implements DaemonService, Runnable {
                 long systemTimer = systemService.selectSystemTimer();
                 //timeMillis = systemTimer * 60 * 100;
                 long currentTimer = System.currentTimeMillis();
-                if (!examQueue.isEmpty()) {
+                while(!examQueue.isEmpty()) {
                     TExam exam = ((ArrayDeque<TExam>) examQueue).pop();
                     String beginTimer = exam.getExamStartTime();
                     if (beginTimer != null) {
@@ -101,10 +108,16 @@ public class DaemonServiceImpl implements DaemonService, Runnable {
                             if (isSuccess) {
                                 //查询到之后，直接就终止线程
                                 cancel = false;
+                                return;
                             }
                         }
                     }
                 }
+                if(examQueue.isEmpty()){
+                    cancel = false;
+                }
+            }else{
+                cancel = false;
             }
         }
     }
