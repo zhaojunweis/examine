@@ -21,5 +21,8 @@ public interface DaemonService {
      * 开启考试关闭线程
      */
     void cancelThread();
-
+    /**
+     * 如果程序不是第一次启动，只扫描一次
+     */
+    void scanOnce();
 }

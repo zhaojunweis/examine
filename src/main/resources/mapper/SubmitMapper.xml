@@ -60,7 +60,6 @@
     <select id = "downloadSubmitZip" resultType="String">
         select s_exam_paper from t_submit where s_is_delete = 0
     </select>
-
     <delete id = "doUnbinding" parameterType="String">
         delete from t_submit where s_sno = #{sSno}
     </delete>
@@ -71,4 +70,11 @@
     <select id="selectSubmitResult" parameterType="Map" resultMap="submitResultMap">
         select * from t_submit where s_sno = #{sno} and exam_Id = #{examId} and s_is_delete = 0
     </select>
+    <!--查询该学生是否已经存在-->
+    <select id="selectSubmitEntity" parameterType="Map" resultMap="submitResultMap">
+        select * from t_submit where s_sno =#{sno} and exam_Id = #{examId}
+    </select>
+    <update id="updateSubmitStudentIP"  parameterType="Map">
+        update t_submit set s_login_address = #{IpAddress},g_gmt_create = now() where s_sno= #{sno} and exam_Id=#{examId}
+    </update>
 </mapper>

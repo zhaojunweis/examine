@@ -58,4 +58,19 @@ public interface SubmitMapper {
      * @return
      */
     List<TSubmit> selectSubmitResult(Map map);
+
+    /**
+     * 查询该学生是否登录过
+     * @param map
+     * @return
+     */
+    TSubmit selectSubmitEntity(Map map);
+
+    /**
+     * 对已登录的学生执行更新操作
+     * @param map
+     * @return
+     */
+    Integer updateSubmitStudentIP(Map map);
+
 }
