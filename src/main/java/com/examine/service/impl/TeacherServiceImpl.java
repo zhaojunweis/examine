@@ -310,4 +310,14 @@ public class TeacherServiceImpl implements TeacherService {
     public List<TExam> selectAllExamLimit(Map map) {
         return teacherMapper.selectAllExamLimit(map);
     }
+
+    /**
+     * 根据examname查询examID
+     * @param examName
+     * @return
+     */
+    @Override
+    public Integer selectExamIdByExamName(String examName) {
+        return teacherMapper.selectExamIdByExamName(examName);
+    }
 }

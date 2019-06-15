@@ -23,6 +23,7 @@ body {
 </head>
 
 <body>
+<input id="examId"  type="hidden" th:value="${examId}"/>
 
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
@@ -137,7 +138,7 @@ body {
 		$(document).ready(function () {
 
 		    $("#addNotifycation").click(function () {
-		        var Id = $("#userId").val();
+		        var Id = $("#examId").val();
 		        var message = $("input[name='notice']").val();
 		        if(message.trim()!=""){
                     $.ajax({

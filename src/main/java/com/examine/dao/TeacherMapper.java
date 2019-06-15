@@ -164,4 +164,11 @@ public interface TeacherMapper {
      * @return
      */
     List<TExam> selectAllExamLimit(Map map);
+
+    /**
+     * 根据examname查询examID
+     * @param examName
+     * @return
+     */
+    Integer selectExamIdByExamName(String examName);
 }

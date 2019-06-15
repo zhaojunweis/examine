@@ -59,11 +59,12 @@
             <ul class="nav navbar-nav">
                 <li><a href="/student_main"><i class="icon-home icon-white"></i>首页</a></li>
                 <li><a href="/student_exam_listdir"><i class="icon-eye-open icon-white"></i>查看提交</a></li>
+                <li id="showmessage"><a style="cursor:pointer"><i class="icon-eye-open icon-white"></i>考试通知</a></li>
             </ul>
             <ul class="nav navbar-nav pull-right">
                 <li><span class="brand">欢迎，</span><span id="brandname" class="brand" th:text="${session.sno}"></span>
                 </li>
-                <input type="hidden" th:value="${session.examId}"/>
+                <input id="examId" type="hidden" th:value="${session.examId}"/>
                 <li id="admin_logout"><a  style="cursor: pointer"><i class="icon-share icon-white"></i>退出</a></li>
             </ul>
 
@@ -123,9 +124,9 @@
             //var examPaperUrl = "新建 Microsoft Excel 工作表 - 副本.xlsx";
             window.location.href = "/downloadPaper?fileName=" + examPaperUrl;
         });
-        /*
-  * 学生答案上传
-  * */
+
+        // 学生答案上传
+
         $("#submitfile").click(function () {
             if ($("input[name='paper']").val().length != 0) {
                 var formdata = new FormData();
@@ -158,7 +159,35 @@
 
         });
 
+        //显示通知信息
+        $("#showmessage").click(function () {
 
+            $.ajax({
+               type:'post',
+               url:'/selectAllMessage',
+               data:{
+                   examId:$("#examId").val()
+               } ,
+                success:function (data) {
+                   debugger
+                    var notifies = data.notifies;
+                    if(notifies!=null){
+                        for (var i = 0; i <notifies.length ; i++) {
+                            layer.alert(notifies[i].message);
+                        }
+                    }else {
+                        layer.alert(data.message,{
+                            icon:0,
+                            skin:'layer-ext-moon',
+                        });
+                    }
+
+                },
+                error:function (data) {
+
+                }
+            });
+        });
     });
 
     jQuery(document).ready(function () {

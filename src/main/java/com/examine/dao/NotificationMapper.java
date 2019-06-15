@@ -21,6 +21,6 @@ public interface NotificationMapper {
      *
      * @return
      */
-    List<TNotification> showAllNotification();
+    List<TNotification> showAllNotification(Integer examId);
 
 }
