@@ -51,4 +51,6 @@ public interface TeacherService {
     Integer selectAllExamCount();
 
     List<TExam> selectAllExamLimit(Map map);
+
+    Integer selectExamIdByExamName(String examName);
 }

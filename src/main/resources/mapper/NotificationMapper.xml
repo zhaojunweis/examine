@@ -5,12 +5,12 @@
     <insert id="saveNotification" parameterType="com.examine.domain.TNotification">
          insert
             into
-              t_notification(message)
-              value(#{message});
+              t_notification(message,examId)
+              value(#{message},#{id});
     </insert>
 
     <select id = "showAllNotification" resultType="com.examine.domain.TNotification">
-        select * from t_notification
+        select * from t_notification where examId = #{examId}
     </select>
 
 </mapper>

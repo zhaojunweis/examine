@@ -15,5 +15,5 @@ public interface NotificationService {
 
     boolean saveNotification(TNotification notification);
 
-    List<TNotification> showAllNotification();
+    List<TNotification> showAllNotification(Integer examId);
 }

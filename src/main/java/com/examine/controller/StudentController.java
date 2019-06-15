@@ -5,12 +5,10 @@ import com.examine.common.util.IpUtil;
 import com.examine.common.util.LimitPage;
 import com.examine.common.util.StringUtils;
 import com.examine.domain.TExam;
+import com.examine.domain.TNotification;
 import com.examine.domain.TStudent;
 import com.examine.domain.TSubmit;
-import com.examine.service.ExamService;
-import com.examine.service.StudentService;
-import com.examine.service.SubmitService;
-import com.examine.service.TeacherService;
+import com.examine.service.*;
 import org.apache.fop.fonts.truetype.TTFSubSetFile;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -44,6 +42,9 @@ public class StudentController extends BaseController {
     private final ExamService examService;
 
     private final TeacherService teacherService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     public StudentController(SubmitService submitService, StudentService studentService, ExamService examService,TeacherService teacherService) {
@@ -253,6 +254,17 @@ public class StudentController extends BaseController {
             resultMap.put("message","删除失败");
         }
         return  resultMap;
+    }
+
+    @RequestMapping("/studentNotifyMessage")
+     public ModelAndView studentNotifyMessage(HttpSession session){
+
+        ModelAndView mv = new ModelAndView();
+        List<TNotification> tNotificationList = notificationService.showAllNotification
+                ((int)session.getAttribute("examId"));
+        mv.addObject("notifies",tNotificationList);
+        mv.setViewName("/student_notifymessage");
+        return mv;
     }
 
 }

@@ -38,8 +38,8 @@ public class NotificationServiceImpl implements NotificationService {
      * @return
      */
     @Override
-    public List<TNotification> showAllNotification() {
+    public List<TNotification> showAllNotification(Integer examId) {
 
-        return notificationMapper.showAllNotification();
+        return notificationMapper.showAllNotification(examId);
     }
 }

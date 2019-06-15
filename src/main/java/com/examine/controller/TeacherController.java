@@ -132,8 +132,8 @@ public class TeacherController extends BaseController {
         if (sScoreName == null) {
             mv.setViewName("/teacher_manage_student");
         } else {
-            Map<String, Integer> examinfo = studentService.studentCountOneExam(sScoreName);
-            mv.addObject("examinfo", examinfo);
+          /*  Map<String, Integer> examinfo = studentService.studentCountOneExam(sScoreName);
+            mv.addObject("examinfo", examinfo);*/
             mv.setViewName("/teacher_manage_student_inexam");
         }
 
@@ -166,8 +166,8 @@ public class TeacherController extends BaseController {
         if (sScoreName == null) {
             mv.setViewName("/teacher_manage_unlock");
         } else {
-            Map<String, Integer> examinfo = studentService.studentCountOneExam(sScoreName);
-            mv.addObject("examinfo", examinfo);
+           /* Map<String, Integer> examinfo = studentService.studentCountOneExam(sScoreName);
+            mv.addObject("examinfo", examinfo);*/
             mv.setViewName("/teacher_manage_unlock_inexam");
         }
         return mv;
@@ -200,10 +200,13 @@ public class TeacherController extends BaseController {
         if (sScoreName == null) {
             mv.setViewName("/teacher_manage_notify");
         } else {
-            Map<String, Integer> examinfo = studentService.studentCountOneExam(sScoreName);
-            mv.addObject("examinfo", examinfo);
+        /*    Map<String, Integer> examinfo = studentService.studentCountOneExam(sScoreName);
+            mv.addObject("examinfo", examinfo);*/
+            //根据scorename查询examId
+            int examId = teacherService.selectExamIdByExamName(sScoreName);
+            mv.addObject("examId",examId);
             mv.setViewName("/teacher_manage_notify_inexam");
-            mv.addObject("notifies", notificationService.showAllNotification());
+            mv.addObject("notifies", notificationService.showAllNotification(examId));
         }
         return mv;
     }
@@ -471,7 +474,7 @@ public class TeacherController extends BaseController {
         boolean b = notificationService.saveNotification(tNotification);
         if (b) {
             resultMap.put("status", 200);
-            resultMap.put("notifies", notificationService.showAllNotification());
+            resultMap.put("notifies", notificationService.showAllNotification((int)tNotification.getId()));
             resultMap.put("message", "添加通知成功");
             return resultMap;
         }
@@ -665,5 +668,22 @@ public class TeacherController extends BaseController {
         return resultMap;
     }
 
+    /**
+     * 查询所有消息
+     *
+     * @return
+     */
+    @RequestMapping("/selectMessage")
+    @ResponseBody
+    public Map<String,Object> getAllNotification(@RequestParam(value = "examId") Integer examId) {
 
+        List<TNotification> tNotificationList = notificationService.showAllNotification(examId);
+        if(tNotificationList == null){
+            resultMap.put("notifies",tNotificationList);
+            resultMap.put("message","当前没有考试通知");
+        }else{
+            resultMap.put("notifies",tNotificationList);
+        }
+        return resultMap;
+    }
 }

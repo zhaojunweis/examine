@@ -213,4 +213,8 @@
     <select id="selectAllExamLimit" parameterType="Map" resultMap="examMapForLimit">
         select * from t_exam  limit #{startNum},#{pageSize}
     </select>
+    <!--根据examname查询examID-->
+    <select id="selectExamIdByExamName" parameterType="String" resultType="Integer">
+        select id from t_exam where exam_name = #{examName}
+    </select>
 </mapper>
