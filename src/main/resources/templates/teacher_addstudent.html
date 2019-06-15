@@ -38,7 +38,7 @@ body {
 				<ul class="nav navbar-nav">
 					<li><a href="/teacher_main"><i class="icon-home icon-white"></i>首页</a></li>
 					<li><a th:href="@{/teacher_exam_before?t_name={name}(name = ${session.tName})}" ><i class="icon-cog icon-white"></i>考前操作</a></li>
-					<li class="dropdown"><a class="dropdown-toggle" role="button"
+					<li class="dropdown"><a style="cursor: pointer"  class="dropdown-toggle" role="button"
 											aria-expanded="false" aria-haspopup="true"
 											data-toggle="dropdown"><i class="icon-time icon-white"></i>考中管理<span class="caret"></span></a>
 						<ul class="dropdown-menu">

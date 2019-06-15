@@ -673,19 +673,17 @@ public class TeacherController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/selectAllMessage")
+    @RequestMapping("/selectMessage")
     @ResponseBody
     public Map<String,Object> getAllNotification(@RequestParam(value = "examId") Integer examId) {
 
-        Map<String,Object> map = new HashMap<>();
         List<TNotification> tNotificationList = notificationService.showAllNotification(examId);
-
         if(tNotificationList == null){
-            map.put("notifies",tNotificationList);
-            map.put("message","当前没有考试通知");
+            resultMap.put("notifies",tNotificationList);
+            resultMap.put("message","当前没有考试通知");
         }else{
-            map.put("notifies",tNotificationList);
+            resultMap.put("notifies",tNotificationList);
         }
-        return map;
+        return resultMap;
     }
 }

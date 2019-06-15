@@ -61,6 +61,7 @@ public class SystemRealmConfig {
         filterChainDefinitionMap.put("/student_main","perms[/student_main]");
         filterChainDefinitionMap.put("/studentListdir","perms[/studentListdir]");
         filterChainDefinitionMap.put("/student_exam_upload","perms[/student_exam_upload]");
+        filterChainDefinitionMap.put("/studentNotifyMessage","perms[/studentNotifyMessage]");
        // filterChainDefinitionMap.put("/studentsubmit","perms[/studentsubmit]");
         filterChainDefinitionMap.put("/studentdoloadpage","perms[/studentdoloadpage]");
         filterChainDefinitionMap.put("/downloadPaper","perms[/downloadPaper]");
