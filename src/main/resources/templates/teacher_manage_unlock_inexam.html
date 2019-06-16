@@ -168,7 +168,7 @@ body {
                                 $("tbody").empty();
                                 $(".notfindinfo").empty();
                                 $("tbody").append("<tr>\n" +
-                                    "\t\t\t\t\t\t<th class=\"span3\">"+studentinfo.sSno+"</th>\n" +
+                                    "\t\t\t\t\t\t<th class=\"span3 sSno\">"+studentinfo.sSno+"</th>\n" +
                                     "\t\t\t\t\t\t<th class=\"span2\">"+studentinfo.sName+"</th>\n" +
                                     "\t\t\t\t\t\t<th class=\"span3\">"+studentinfo.sClassId+"</th>\n" +
                                     "\t\t\t\t\t\t<th class='span3 ipaddress'>"+IpAddress+"</th>\n" +
@@ -259,7 +259,9 @@ body {
                             skin:'layer-ext-moon',
                         })
 					}else {
-						var sSno =  $(this).parent().parent().children(".sSno").text();
+						//var sSno =  $(this).parent().parent().children(".sSno").eq(0).text();
+						var sSno = $(this).parent().parent().children(".sSno").text();
+						alert(sSno);
 						$.ajax({
 							type:'post',
 							url:"/doUnbinding",
@@ -287,7 +289,6 @@ body {
                                 })
                             }
 						});
-
 					}
                 });
         });

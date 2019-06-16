@@ -90,7 +90,6 @@ public class TeacherController extends BaseController {
         for (Map exam : exams) {
             /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
             if ((int) exam.get("isexam") == 1 && (int) exam.get("isfinished") == 0) {
-
                 sScoreName = (String) exam.get("examname");
                 break;
             }
@@ -99,7 +98,9 @@ public class TeacherController extends BaseController {
             mv.setViewName("/teacher_manage_summary");
         } else {
             Map<String, Integer> examinfo = studentService.studentCountOneExam(sScoreName);
+
             mv.addObject("examinfo", examinfo);
+
             mv.setViewName("/teacher_manage_summary_inexam");
         }
 
@@ -121,11 +122,13 @@ public class TeacherController extends BaseController {
         String tname = (String) session.getAttribute("tName");
         List<Map> exams = commonController.getExamineInfo(tname,2);
         String sScoreName = null;
+        Long scoreId = 0L;
         for (Map exam : exams) {
             /*当通过后台代码查询isexam=1,isfinished=0时有考试正在进行,返回该场考试的名称，并且跳出循环*/
             if ((int) exam.get("isexam") == 1 && (int) exam.get("isfinished") == 0) {
 
                 sScoreName = (String) exam.get("examname");
+                scoreId = (Long) exam.get("examId");
                 break;
             }
         }
@@ -134,6 +137,7 @@ public class TeacherController extends BaseController {
         } else {
           /*  Map<String, Integer> examinfo = studentService.studentCountOneExam(sScoreName);
             mv.addObject("examinfo", examinfo);*/
+            mv.addObject("Id",scoreId);
             mv.setViewName("/teacher_manage_student_inexam");
         }
 
@@ -378,14 +382,23 @@ public class TeacherController extends BaseController {
     @RequestMapping("/saveStudent")
     @ResponseBody
     public Map<String, Object> saveStudent(TStudent student,@RequestParam("examId") Integer examId) {
-        student.setScoreId(examId);
-        boolean flag = studentService.insertStudent(student);
-        if (!flag) {
-            resultMap.put("status", 500);
-            resultMap.put("message", "学生添加失败");
+        //首先通过学生信息查询
+        TStudent judgeStudent = studentService.selectStudentEntityByUsername(student.getsSno());
+        System.out.println(examId);
+        if(examId.equals(judgeStudent.getScoreId())){
+            resultMap.put("status", 403);
+            resultMap.put("message", "此学生已经存在");
+        }else{
+            student.setScoreId(examId);
+            boolean flag = studentService.insertStudent(student);
+            if (!flag) {
+                resultMap.put("status", 500);
+                resultMap.put("message", "学生添加失败");
+            }else {
+                resultMap.put("status", 200);
+                resultMap.put("message", "学生添加成功");
+            }
         }
-        resultMap.put("status", 200);
-        resultMap.put("message", "学生添加成功");
         return resultMap;
     }
 

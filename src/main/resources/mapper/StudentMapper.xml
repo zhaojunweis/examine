@@ -87,11 +87,11 @@
 
     <!--修改，需要查出IP地址-->
     <select id="selectStudentEntityByUsername" parameterType="String" resultMap="studentBaseMapWithIp">
-        select * from t_student where s_sno = #{sSno}
+        select * from t_student where s_sno = #{sSno} and s_is_delete = 0
     </select>
     <!-- 级联t_submit表查出ip-->
     <select id="selectIpByStudentId" parameterType="String" resultMap="submitBaseMap">
-      select * from t_submit where s_sno = #{sSno}
+      select * from t_submit where s_sno = #{sSno} and s_is_delete = 0
     </select>
 
     <!--通过IP查找学号姓名班级ip地址-->
@@ -106,6 +106,8 @@
           t_submit as t2
         where
           t1.s_sno = t2.s_sno
+        and
+          t2.s_is_delete = 0
         and
           t2.s_login_address = #{ip}
     </select>
@@ -131,17 +133,52 @@
 
     <!--考试人数-->
     <select id="examineesCount" resultType="Integer" parameterType="String">
-        select count(*) from t_student where s_is_delete = 0 and s_score_Id = #{sScoreName}
+        select
+          count(*)
+        from
+          t_student,
+          t_exam
+        where
+          t_student.s_is_delete = 0
+        and
+           t_exam.id = t_student.s_score_Id
+        and
+          t_exam.exam_name = #{sScoreName}
+
     </select>
 
     <!--登陆人数-->
     <select id="examineesWhoHasLoginCount" resultType="Integer" parameterType="String">
-        select count(*) from t_submit where  s_is_delete = 0 and s_login_address IS NOT NULL and  exam_Id = #{sScoreName}
+        select
+           count(*)
+        from
+          t_submit,
+          t_exam
+        where
+          t_submit.s_is_delete = 0
+        and
+          t_submit.s_login_address IS NOT NULL
+        and
+          t_submit.exam_Id = t_exam.id
+        and
+          t_exam.exam_name = #{sScoreName}
     </select>
 
     <!--提交人数-->
     <select id="examineesWhoSubmitCount" resultType="Integer" parameterType="String">
-        select count(*) from t_submit where s_is_submit = 1 and s_is_delete = 0 and  exam_Id = #{sScoreName}
+        select
+          count(*)
+        from
+          t_submit,
+          t_exam
+        where
+          t_submit.s_is_submit = 1
+        and
+          t_submit.s_is_delete = 0
+        and
+          t_submit.exam_Id = t_exam.id
+        and
+          t_exam.exam_name = #{sScoreName}
     </select>
 
     <!--未登录人数-->
@@ -150,22 +187,31 @@
       (
         select
           count(*)
-           from t_student
+        from
+          t_student,
+          t_exam
         where
-          s_is_delete = 0
-           and
-          s_score_Id = #{sScoreName})
+          t_student.s_is_delete = 0
+        and
+           t_exam.id = t_student.s_score_Id
+        and
+          t_exam.exam_name = #{sScoreName}
+      )
       -
       (
         select
-          count(*)
-            from t_submit
-         where
-          s_is_delete = 0
-            and
-          s_login_address IS NOT NULL
-            and
-          exam_Id =  #{sScoreName}
+           count(*)
+        from
+          t_submit,
+          t_exam
+        where
+          t_submit.s_is_delete = 0
+        and
+          t_submit.s_login_address IS NOT NULL
+        and
+          t_submit.exam_Id = t_exam.id
+        and
+          t_exam.exam_name = #{sScoreName}
       );
     </select>
 
