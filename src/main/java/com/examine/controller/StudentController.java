@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,18 +94,27 @@ public class StudentController extends BaseController {
         map.put("sno",sno);
         map.put("examId",examId);
         listsubmits = submitService.selectSubmitResult(map);
-        for (TSubmit submit : listsubmits){
-            Map map1 = new HashMap();
-            //时间置换
-            SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            map1.put("submitTime",sd.format(submit.getCreateTime()));
-            //获取filesize
-            map1.put("submitFileSize",submit.getsFileSize()+"KB");
-            //获取文件名
-            String filepath = submit.getExamPaper();
-            String filename = filepath.substring(filepath.lastIndexOf("\\")+1,filepath.length());
-            map1.put("fileName",filename);
-            maplist.add(map1);
+        if(listsubmits!=null){
+            for (TSubmit submit : listsubmits){
+                Map map1 = new HashMap();
+                //时间置换
+                SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                map1.put("submitTime",sd.format(submit.getCreateTime()));
+                //获取filesize
+                map1.put("submitFileSize",submit.getsFileSize()+"KB");
+                //获取文件名
+                String filepath = submit.getExamPaper();
+                String filename = "";
+                if(filepath != null){
+                    filename  = filepath.substring(filepath.lastIndexOf("\\")+1,filepath.length());
+                }else {
+                    maplist = null;
+                    break;
+                }
+
+                map1.put("fileName",filename);
+                maplist.add(map1);
+            }
         }
         mv.addObject("maplist",maplist);
         mv.setViewName("/student_exam_listdir");
@@ -119,14 +129,14 @@ public class StudentController extends BaseController {
      */
     @RequestMapping(value = "/submitStudentLogin", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> submitLogin(TStudent student, HttpSession session) {
+    public Map<String, Object> submitLogin(TStudent student, HttpSession session, HttpServletRequest request) {
         String sno = student.getsSno();
         String sname = "";
         TStudent tStudent;
         tStudent = studentService.selectStudentEntityByUsername(sno);
         logger.info(student.getsSno() + " " + student.getsName());
         String loginIp = studentService.selectIpAddressByUsername(student.getsSno());
-        String ip = IpUtil.getLocalIp();
+        String ip = IpUtil.getLocalIp1(request);
         if (tStudent != null) {
             if (!student.getsName().equals(tStudent.getsName())) {
                 resultMap.put("status", 500);
