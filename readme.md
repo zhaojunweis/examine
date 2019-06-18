@@ -1,10 +1,15 @@
-#上机考试系统
+# 上机考试系统
 
 ### 服务器访问URL
 
 http://47.94.234.145:8080/examine-0.0.1-SNAPSHOT/
 
 ### 仓库结构
+![image](https://github.com/wencaixu/examine/blob/master/src/main/resources/static/img/%E4%BB%93%E5%BA%93%E7%BB%93%E6%9E%84.jpg)
+
+
+### 仓库代码说明
+
 
 ### 系统结构
 | 分层        |   描述  |  作用 |
