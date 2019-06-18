@@ -4,6 +4,9 @@
 ### 仓库结构
 ![image](https://github.com/wencaixu/examine/blob/master/src/main/resources/static/img/%E4%BB%93%E5%BA%93%E7%BB%93%E6%9E%84.jpg)
 
+### 数据库文件
+
+examine.sql
 
 ### 系统使用技术和软硬件支持
 * MySQL
