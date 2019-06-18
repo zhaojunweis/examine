@@ -1,15 +1,15 @@
 # 上机考试系统
 
-### 服务器访问URL
+### 服务器
 
-http://47.94.234.145:8080/examine-0.0.1-SNAPSHOT/
+* 访问URL： http://47.94.234.145:8080/examine-0.0.1-SNAPSHOT/
+* 访问流程：数据库初始化仅仅包括admin,admin用户，操作时请先登陆admin用户，创建教师，然后再创建考试导入学生名单等操作后，可进行学生登陆
 
 ### 仓库结构
 ![image](https://github.com/wencaixu/examine/blob/master/src/main/resources/static/img/%E4%BB%93%E5%BA%93%E7%BB%93%E6%9E%84.jpg)
 
-
 ### 仓库代码说明
-
+仓库代码是我们开发过程中本地测试的一个版本，[发布的版本](https://github.com/wencaixu/examine/blob/master/%E6%96%87%E6%A1%A3%E6%96%87%E4%BB%B6/%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AEwar%E5%8C%85/examine-0.0.1-SNAPSHOT.war)
 
 ### 系统结构
 | 分层        |   描述  |  作用 |
