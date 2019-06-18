@@ -9,6 +9,8 @@
 * JavaScript
 * Jquery
 * HTML/CSS
+* 阿里云服务器（CentOS）
+* IntelliJ IDEA
 
 ### 浏览器访问
 
