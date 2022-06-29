@@ -23,7 +23,7 @@
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
         <log4j.version>1.2.17</log4j.version>
-        <poi.version>3.14</poi.version>
+        <poi.version>4.1.1</poi.version>
         <docx4j-export-fo.version>3.3.0</docx4j-export-fo.version>
         <docx4j.version>2.7.1</docx4j.version>
         <javaee-api.version>7.0</javaee-api.version>
