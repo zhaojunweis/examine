@@ -21,7 +21,7 @@
         <junit.version>4.12</junit.version>
         <commons-io.version>1.3.2</commons-io.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
-        <commons-net.version>3.3</commons-net.version>
+        <commons-net.version>3.9.0</commons-net.version>
         <log4j.version>1.2.17</log4j.version>
         <poi.version>3.14</poi.version>
         <docx4j-export-fo.version>3.3.0</docx4j-export-fo.version>
